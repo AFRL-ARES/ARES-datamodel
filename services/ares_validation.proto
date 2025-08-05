@@ -1,0 +1,23 @@
+﻿syntax = "proto3";
+
+package ares.services;
+
+import "templates/campaign_template.proto";
+import "google/protobuf/empty.proto";
+import "templates/experiment_template.proto";
+
+service AresValidation {
+	rpc ValidateFullCampaign(data_model.templates.CampaignTemplate) returns (ValidationResponse);
+	rpc ValidateAnalyzerSelection(AnalyzerValidationRequest) returns (ValidationResponse);
+	rpc ValidateRegisteredDevices(google.protobuf.Empty) returns (ValidationResponse);
+}
+
+message AnalyzerValidationRequest {
+	string analyzer_id = 1;
+	data_model.templates.ExperimentTemplate experiment_template = 2;
+}
+
+message ValidationResponse {
+	bool success = 1;
+	repeated string messages = 2;
+}

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package ares.data_model.analyzing;
+
+import "ares_struct.proto";
+
+message AnalyzerSettings {
+	string analyzer_id = 1; // The id of the analyzer that these settings are for
+	AresStruct settings = 2; // The actual setting values
+}

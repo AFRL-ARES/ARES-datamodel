@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+
+package ares.services;
+
+import "ares_notification.proto";
+
+service AresEvent {
+	rpc GetAllNotifications(NotificationRequest) returns (NotificationResponse);
+	rpc GetNotificationStream(NotificationRequest) returns (stream AresNotification);
+}
+
+message NotificationRequest {
+
+}
+
+message NotificationResponse {
+	repeated AresNotification notifications = 1;
+}

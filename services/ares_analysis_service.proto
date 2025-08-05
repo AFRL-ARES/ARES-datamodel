@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package ares.services;
+
+import "validation_result.proto";
+import "analyzing/analysis.proto";
+import "ares_struct.proto";
+import "ares_data_schema.proto";
+
+service AresAnalysisService {
+	rpc ValidateInputs(InputValidationRequest) returns (data_model.ValidationResult);
+	rpc Analyze(AnalysisRequest) returns (data_model.analyzing.Analysis);
+
+	rpc GetAnalyzerParameters(AnalyzerParametersRequest) returns (AnalyzerParametersResponse);
+}
+
+message AnalysisRequest {
+	string analyzer_id = 1;
+	data_model.AresStruct inputs = 2;
+	data_model.AresStruct settings = 3;
+}
+
+message InputValidationRequest {
+	string analyzer_id = 1;
+	data_model.AresDataSchemaSimplified input_schema = 2;
+}
+
+message AnalyzerParametersRequest {
+	string analyzer_id = 1;
+}
+
+message AnalyzerParametersResponse {
+	data_model.AresDataSchema analysis_schema = 1;
+}

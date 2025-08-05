@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ares.messaging;
+package ares.data_model;
 
 import "google/protobuf/wrappers.proto";
 

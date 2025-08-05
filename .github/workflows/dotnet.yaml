@@ -45,7 +45,7 @@ jobs:
     - name: Pack the project
       working-directory: src/ARES.Datamodel
       run: |
-        dotnet pack --configuration Release --output ./nupkg /p:Version=${{ github.event.release.tag_name }}
+        dotnet pack --configuration Release --output ./nupkg
     - name: Publish to NuGet
       run: |
         dotnet nuget push "./src/ARES.Datamodel/nupkg/*.nupkg" \

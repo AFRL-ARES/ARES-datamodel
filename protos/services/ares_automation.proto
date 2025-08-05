@@ -6,7 +6,7 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 import "templates/campaign_template.proto";
-import "Project.proto";
+import "project.proto";
 import "execution_status_messages.proto";
 import "execution_summary_messages.proto";
 import "ares_campaign_tag.proto";

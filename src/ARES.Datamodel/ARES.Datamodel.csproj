@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>ARES.Datamodel</PackageId>
+    <Authors>DCS</Authors>
+    <Company>DCS</Company>
+    <Description>Generated Protobuf and gRPC C# classes for the ARES datamodel.</Description>
+    <RepositoryUrl>https://github.com/${{ github.repository }}</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/${{ github.repository }}</PackageProjectUrl>
+    <PackageTags>protobuf;grpc;csharp;generated</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.31.1" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.71.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.72.0" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115" PrivateAssets="all" />
+  </ItemGroup>
+
+
+  <PropertyGroup>
+    <RepoRoot>$(MSBuildProjectDirectory)\..\..</RepoRoot>
+    <ProtoPaths>$(RepoRoot)\protos\data_model;$(RepoRoot)\protos\services</ProtoPaths>
+  </PropertyGroup>
+
+  <ItemGroup Label="Protobuf Compile">
+    <_Asset Include="$(RepoRoot)\protos\data_model\**\*.proto" />
+    <Protobuf Include="@(_Asset)" Visible="True" GrpcServices="None"
+      AdditionalImportDirs="$(ProtoPaths)" />
+  </ItemGroup>
+
+  <ItemGroup Label="Protobuf Compile">
+    <_Asset Include="$(RepoRoot)\protos\services\**\*.proto" />
+    <Protobuf Include="@(_Asset)" Visible="True" GrpcServices="Both"
+      AdditionalImportDirs="$(ProtoPaths)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf
+      Update="$(RepoRoot)\protos\data_model\analyzing\remote\ares_remote_analyzer_service.proto"
+      GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
+    <Protobuf Update="$(RepoRoot)\protos\data_model\planning\ares_planner.proto"
+      GrpcServices="Client" AdditionalImportDirs="$(ProtoPaths)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="**/*.cs" Exclude="obj/**;bin/**" />
+  </ItemGroup>
+
+</Project>

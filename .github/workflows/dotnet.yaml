@@ -42,6 +42,9 @@ jobs:
     - name: Restore dependencies
       working-directory: src/ARES.Datamodel
       run: dotnet restore
+    - name: Build
+      working-directory: src/ARES.Datamodel
+      run: dotnet build --no-restore --configuration Release
     - name: Pack the project
       working-directory: src/ARES.Datamodel
       run: |

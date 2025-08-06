@@ -46,8 +46,4 @@
       GrpcServices="Client" AdditionalImportDirs="$(ProtoPaths)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="**/*.cs" Exclude="obj/**;bin/**" />
-  </ItemGroup>
-
 </Project>

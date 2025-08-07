@@ -24,6 +24,13 @@
     <ProtoPaths>$(RepoRoot)\protos\data_model;$(RepoRoot)\protos\services</ProtoPaths>
   </PropertyGroup>
 
+  <!-- Included the proto files themselves in case there's a need to include them in further
+      custom messages -->
+  <ItemGroup Label="Nuget Packaging">
+    <_Asset PackagePath="\Proto\" Include="$(RepoRoot)\protos\**\*.proto" />
+    <None Include="@(_Asset)" Pack="true" Visible="False" />
+  </ItemGroup>
+
   <ItemGroup Label="Protobuf Compile">
     <_Asset Include="$(RepoRoot)\protos\data_model\**\*.proto" />
     <Protobuf Include="@(_Asset)" Visible="True" GrpcServices="None"
@@ -42,12 +49,5 @@
       GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
     <Protobuf Update="$(RepoRoot)\protos\data_model\planning\ares_planner.proto"
       GrpcServices="Client" AdditionalImportDirs="$(ProtoPaths)" />
-  </ItemGroup>
-
-  <!-- Included the proto files themselves in case there's a need to include them in further
-      custom messages -->
-  <ItemGroup Label="Nuget Packaging">
-    <_Asset PackagePath="\Proto\" Include="$(RepoRoot)\protos\**\*.proto" />
-    <None Include="@(_Asset)" Pack="true" Visible="False" />
   </ItemGroup>
 </Project>

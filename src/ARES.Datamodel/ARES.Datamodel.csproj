@@ -48,6 +48,6 @@
       Update="$(RepoRoot)\protos\datamodel\analyzing\remote\ares_remote_analyzer_service.proto"
       GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
     <Protobuf Update="$(RepoRoot)\protos\datamodel\planning\ares_planner.proto"
-      GrpcServices="Client" AdditionalImportDirs="$(ProtoPaths)" />
+      GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
   </ItemGroup>
 </Project>

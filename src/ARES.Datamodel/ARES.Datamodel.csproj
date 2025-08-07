@@ -3,13 +3,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>ARES.Datamodel</PackageId>
     <Authors>DCS</Authors>
     <Company>DCS</Company>
     <Description>Generated Protobuf and gRPC C# classes for the ARES datamodel.</Description>
-    <RepositoryUrl>https://github.com/${{ github.repository }}</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/${{ github.repository }}</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AFRL-ARES/ARES-datamodel</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/AFRL-ARES/ARES-datamodel</PackageProjectUrl>
     <PackageTags>protobuf;grpc;csharp;generated</PackageTags>
   </PropertyGroup>
 
@@ -17,7 +16,6 @@
     <PackageReference Include="Google.Protobuf" Version="3.31.1" />
     <PackageReference Include="Grpc.Net.Client" Version="2.71.0" />
     <PackageReference Include="Grpc.Tools" Version="2.72.0" PrivateAssets="all" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115" PrivateAssets="all" />
   </ItemGroup>
 
 
@@ -46,4 +44,10 @@
       GrpcServices="Client" AdditionalImportDirs="$(ProtoPaths)" />
   </ItemGroup>
 
+  <!-- Included the proto files themselves in case there's a need to include them in further
+      custom messages -->
+  <ItemGroup Label="Nuget Packaging">
+    <_Asset PackagePath="\Proto\" Include="$(RepoRoot)\protos\**\*.proto" />
+    <None Include="@(_Asset)" Pack="true" Visible="False" />
+  </ItemGroup>
 </Project>

@@ -18,7 +18,8 @@ jobs:
         run: dotnet pack --configuration Release /p:Version=${VERSION} --output .
         working-directory: src
       - name: Push
-        run: dotnet nuget push Ares.Datamodel.${VERSION}.nupkg \
+        run: |
+          dotnet nuget push Ares.Datamodel.${VERSION}.nupkg \
           --api-key ${NUGET_TOKEN} \
           --source https://api.nuget.org/v3/index.json \
           --skip-duplicate

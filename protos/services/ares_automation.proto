@@ -14,18 +14,18 @@ import "ares_campaign_tag.proto";
 service AresAutomation {
 	// Campaigns
 	rpc GetAllCampaigns(GetAllCampaignsRequest) returns (CampaignsResponse);
-	rpc GetSingleCampaign(CampaignRequest) returns (data_model.templates.CampaignTemplate);
+	rpc GetSingleCampaign(CampaignRequest) returns (datamodel.templates.CampaignTemplate);
 	rpc RemoveCampaign(CampaignRequest) returns (google.protobuf.Empty);
 	rpc CampaignExists(CampaignRequest) returns (google.protobuf.BoolValue);
 	rpc AddCampaign(AddOrUpdateCampaignRequest) returns (google.protobuf.Empty);
-	rpc UpdateCampaign(AddOrUpdateCampaignRequest) returns (data_model.templates.CampaignTemplate);
+	rpc UpdateCampaign(AddOrUpdateCampaignRequest) returns (datamodel.templates.CampaignTemplate);
 	rpc CheckExecutionEligibility(google.protobuf.Empty) returns (CheckExecutionEligibilityResponse);
 
 	// Projects
 	rpc GetAllProjects(google.protobuf.Empty) returns (ProjectsResponse); 
-	rpc GetProject(ProjectRequest) returns (data_model.Project);
+	rpc GetProject(ProjectRequest) returns (datamodel.Project);
 	rpc RemoveProject(ProjectRequest) returns (google.protobuf.Empty);
-	rpc AddProject(data_model.Project) returns (google.protobuf.Empty);
+	rpc AddProject(datamodel.Project) returns (google.protobuf.Empty);
 
 	//Tags
 	rpc GetAllTags(google.protobuf.Empty) returns (TagsResponse);
@@ -33,7 +33,7 @@ service AresAutomation {
 	rpc RemoveTag(TagRequest) returns (TagsResponse);
 
 	// Execution
-	rpc SetCampaignForExecution(CampaignRequest) returns (data_model.templates.CampaignTemplate);
+	rpc SetCampaignForExecution(CampaignRequest) returns (datamodel.templates.CampaignTemplate);
 	rpc GetCurrentlySelectedCampaign(google.protobuf.Empty) returns (CampaignResponse);
 
 	rpc StartExecution(StartCampaignRequest) returns (google.protobuf.Empty);
@@ -43,7 +43,7 @@ service AresAutomation {
 	rpc GetAssignedStopConditions(google.protobuf.Empty) returns (StartStopConditionsResponse);
 	rpc GetReplanRate(google.protobuf.Empty) returns (GetReplanRateResponse);
 	rpc GetFailedStartConditions(google.protobuf.Empty) returns (StartStopConditionsResponse);
-	rpc GetPreliminaryFailedStartConditions(data_model.templates.CampaignTemplate) returns (StartStopConditionsResponse);
+	rpc GetPreliminaryFailedStartConditions(datamodel.templates.CampaignTemplate) returns (StartStopConditionsResponse);
 	rpc SetNumExperimentsStopCondition(NumExperimentsCondition) returns (google.protobuf.Empty);
 	rpc SetReplanRate(ReplanRate) returns (google.protobuf.Empty);
 	rpc SetAnalysisResultStopCondition(AnalysisResultCondition) returns (google.protobuf.Empty);
@@ -51,29 +51,29 @@ service AresAutomation {
 	rpc RemoveStopCondition(StartStopCondition) returns (google.protobuf.Empty);
 	// Gets a stream of experiment execution statuses that can be observed in real time as experiment is running
 	// Works best after grabbing all the execution statuses which then lets you know how many experiments have been run
-	rpc GetExecutionStatusStream(google.protobuf.Empty) returns (stream data_model.ExperimentExecutionStatus);
-	rpc GetStartupExecutionStatusStream(google.protobuf.Empty) returns (stream data_model.CampaignStartupStatus);
-	rpc GetCloseoutExecutionStatusStream(google.protobuf.Empty) returns (stream data_model.CampaignCloseoutStatus);
+	rpc GetExecutionStatusStream(google.protobuf.Empty) returns (stream datamodel.ExperimentExecutionStatus);
+	rpc GetStartupExecutionStatusStream(google.protobuf.Empty) returns (stream datamodel.CampaignStartupStatus);
+	rpc GetCloseoutExecutionStatusStream(google.protobuf.Empty) returns (stream datamodel.CampaignCloseoutStatus);
 	// Gets the current status of a campaign execution assuming one is running
 	rpc GetCampaignExecutionStatus(google.protobuf.Empty) returns (CampaignExecutionStatusResponse);
-	rpc GetCampaignExecutionStateStream(google.protobuf.Empty) returns (stream data_model.CampaignExecutionState);
+	rpc GetCampaignExecutionStateStream(google.protobuf.Empty) returns (stream datamodel.CampaignExecutionState);
 	
 
 	// Summaries
 	rpc GetAvailableCampaignExecutionSummaries(google.protobuf.Empty) returns (AvailableCampaignExecutionSummariesResponse);
-	rpc GetCampaignSummary(CampaignExecutionSummaryRequest) returns (data_model.CampaignExecutionSummary);
+	rpc GetCampaignSummary(CampaignExecutionSummaryRequest) returns (datamodel.CampaignExecutionSummary);
 }
 
 message TagRequest {
-	data_model.AresCampaignTag tag = 1;
+	datamodel.AresCampaignTag tag = 1;
 }
 
 message TagsResponse {
-	repeated data_model.AresCampaignTag available_tags = 1;
+	repeated datamodel.AresCampaignTag available_tags = 1;
 }
 
 message AddOrUpdateCampaignRequest {
-	data_model.templates.CampaignTemplate template = 1;
+	datamodel.templates.CampaignTemplate template = 1;
 }
 
 message RequestById {
@@ -93,17 +93,17 @@ message GetAllCampaignsRequest {
 }
 
 message CampaignsResponse {
-	repeated data_model.templates.CampaignTemplate campaign_templates = 1; // list of campaign templates for a requested campaign name
+	repeated datamodel.templates.CampaignTemplate campaign_templates = 1; // list of campaign templates for a requested campaign name
 }
 
 message CampaignResponse {
 	bool has_value = 1;
-	data_model.templates.CampaignTemplate value = 2;
+	datamodel.templates.CampaignTemplate value = 2;
 }
 
 message StartCampaignRequest {
 	string user_notes = 1;
-	repeated data_model.AresCampaignTag campaign_tags = 2;
+	repeated datamodel.AresCampaignTag campaign_tags = 2;
 }
 
 message ProjectRequest {
@@ -111,12 +111,12 @@ message ProjectRequest {
 }
 
 message ProjectsResponse {
-	repeated data_model.Project projects = 1; // list of available projects
+	repeated datamodel.Project projects = 1; // list of available projects
 }
 
 // separate response so that the status can be null
 message CampaignExecutionStatusResponse {
-	data_model.CampaignExecutionStatus status = 1;
+	datamodel.CampaignExecutionStatus status = 1;
 }
 
 message StartStopConditionsResponse {

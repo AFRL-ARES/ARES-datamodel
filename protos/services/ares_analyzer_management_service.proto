@@ -17,12 +17,12 @@ service AresAnalyzerManagementService {
 	rpc RemoveRemoteAnalyzer(RemoveRemoteAnalyzerRequest) returns (google.protobuf.Empty);
 	rpc GetState(AnalyzerStateRequest) returns (AnalyzerStateResponse);
 	rpc GetInfo(AnalyzerInfoRequest) returns (AnalyzerInfoResponse);
-	rpc SetAnalyzerSettings(data_model.analyzing.AnalyzerSettings) returns (google.protobuf.Empty);
-	rpc GetAnalyzerSettings(AnalyzerSettingsRequest) returns (data_model.AresStruct);
+	rpc SetAnalyzerSettings(datamodel.analyzing.AnalyzerSettings) returns (google.protobuf.Empty);
+	rpc GetAnalyzerSettings(AnalyzerSettingsRequest) returns (datamodel.AresStruct);
 }
 
 message GetAllAnalyzersResponse {
-	repeated data_model.analyzing.AnalyzerInfo analyzers = 1; // gets all currently registered analyzers
+	repeated datamodel.analyzing.AnalyzerInfo analyzers = 1; // gets all currently registered analyzers
 }
 
 message AddRemoteAnalyzerRequest {
@@ -60,7 +60,7 @@ message AnalyzerStateRequest {
 }
 
 message AnalyzerStateResponse {
-	data_model.analyzing.AnalyzerState state = 1;
+	datamodel.analyzing.AnalyzerState state = 1;
 	string state_message = 2;
 }
 
@@ -69,7 +69,7 @@ message AnalyzerInfoRequest {
 }
 
 message AnalyzerInfoResponse {
-	data_model.analyzing.AnalyzerInfo info = 1;
+	datamodel.analyzing.AnalyzerInfo info = 1;
 }
 
 message AnalyzerSettingsRequest {

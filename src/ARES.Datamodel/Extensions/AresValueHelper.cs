@@ -1,5 +1,4 @@
-﻿using Ares.DataModel;
-using Google.Protobuf;
+﻿using Google.Protobuf;
 
 namespace Ares.Datamodel.Extensions;
 

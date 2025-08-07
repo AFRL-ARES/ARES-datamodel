@@ -1,6 +1,4 @@
-﻿using Ares.DataModel;
-
-namespace Ares.Datamodel.Extensions;
+﻿namespace Ares.Datamodel.Extensions;
 
 public static class AresStructHelper
 {

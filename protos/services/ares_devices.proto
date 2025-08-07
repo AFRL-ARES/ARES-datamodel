@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ares.messaging.device;
+package ares.services.device;
 
 import "google/protobuf/empty.proto";
 import "templates/command_metadata.proto";
@@ -12,9 +12,9 @@ import "device/device_config.proto";
 service AresDevices {
 	rpc ListAresDevices(google.protobuf.Empty) returns (ListAresDevicesResponse);
 	rpc GetServerSerialPorts(google.protobuf.Empty) returns (ListServerSerialPortsResponse);
-	rpc GetDeviceStatus(DeviceStatusRequest) returns (data_model.device.DeviceStatus);
+	rpc GetDeviceStatus(DeviceStatusRequest) returns (datamodel.device.DeviceStatus);
 	rpc GetCommandMetadatas(CommandMetadatasRequest) returns (CommandMetadatasResponse);
-	rpc ExecuteCommand(data_model.templates.CommandTemplate) returns (data_model.DeviceCommandResult);
+	rpc ExecuteCommand(datamodel.templates.CommandTemplate) returns (datamodel.DeviceCommandResult);
 	rpc GetAllDeviceConfigs(DeviceConfigRequest) returns (DeviceConfigResponse);
 	rpc Activate(DeviceActivateRequest) returns (google.protobuf.Empty);
 }
@@ -39,7 +39,7 @@ message CommandMetadatasRequest {
 }
 
 message CommandMetadatasResponse {
-	repeated data_model.templates.CommandMetadata metadatas = 1;  // list of command information supported by the requested device
+	repeated datamodel.templates.CommandMetadata metadatas = 1;  // list of command information supported by the requested device
 }
 
 message DeviceStatusRequest
@@ -57,5 +57,5 @@ message DeviceConfigRequest {
 }
 
 message DeviceConfigResponse {
-	repeated data_model.device.DeviceConfig configs = 1;
+	repeated datamodel.device.DeviceConfig configs = 1;
 }

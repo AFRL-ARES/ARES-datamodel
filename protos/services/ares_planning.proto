@@ -14,11 +14,11 @@ service AresPlanning {
 	rpc GetAllPlanners(google.protobuf.Empty) returns (GetAllPlannersResponse);
 	rpc GetPlannerCapabilities(CapabilitiesRequest) returns (CapabilitiesResponse);
 	rpc GetPlannerSettings(PlannerSettingsRequest) returns (PlannerSettingsResponse);
-	rpc GetPlannerStatus(PlannerStatusRequest) returns (data_model.planning.PlannerStatus);
+	rpc GetPlannerStatus(PlannerStatusRequest) returns (datamodel.planning.PlannerStatus);
 	rpc ActivatePlanner(PlannerActivationRequest) returns (google.protobuf.Empty);
 
-	rpc SeedManualPlanner(data_model.planning.ManualPlannerSeed) returns (google.protobuf.Empty);
-	rpc GetManualPlannerSeed(google.protobuf.Empty) returns (data_model.planning.ManualPlannerSetCollection);
+	rpc SeedManualPlanner(datamodel.planning.ManualPlannerSeed) returns (google.protobuf.Empty);
+	rpc GetManualPlannerSeed(google.protobuf.Empty) returns (datamodel.planning.ManualPlannerSetCollection);
 	rpc ResetManualPlanner(google.protobuf.Empty) returns (google.protobuf.Empty);
 
 	rpc AddPlanner(GenericPlanner) returns (google.protobuf.Empty);
@@ -27,7 +27,7 @@ service AresPlanning {
 }
 
 message GetAllPlannersResponse {
-	repeated data_model.PlannerAdapterInfo planners = 1; // gets all currently registered planners
+	repeated datamodel.PlannerAdapterInfo planners = 1; // gets all currently registered planners
 }
 
 message CapabilitiesRequest {
@@ -48,7 +48,7 @@ message PlannerSettingsRequest {
 }
 
 message PlannerSettingsResponse {
-	repeated data_model.planning.PlannerSetting settings = 1;
+	repeated datamodel.planning.PlannerSetting settings = 1;
 }
 
 message CapabilitiesResponse {

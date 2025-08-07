@@ -21,7 +21,7 @@
 
   <PropertyGroup>
     <RepoRoot>$(MSBuildProjectDirectory)\..\..</RepoRoot>
-    <ProtoPaths>$(RepoRoot)\protos\data_model;$(RepoRoot)\protos\services</ProtoPaths>
+    <ProtoPaths>$(RepoRoot)\protos\datamodel;$(RepoRoot)\protos\services</ProtoPaths>
   </PropertyGroup>
 
   <!-- Included the proto files themselves in case there's a need to include them in further
@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup Label="Protobuf Compile">
-    <_Asset Include="$(RepoRoot)\protos\data_model\**\*.proto" />
+    <_Asset Include="$(RepoRoot)\protos\datamodel\**\*.proto" />
     <Protobuf Include="@(_Asset)" Visible="True" GrpcServices="None"
       AdditionalImportDirs="$(ProtoPaths)" />
   </ItemGroup>
@@ -45,9 +45,9 @@
 
   <ItemGroup>
     <Protobuf
-      Update="$(RepoRoot)\protos\data_model\analyzing\remote\ares_remote_analyzer_service.proto"
+      Update="$(RepoRoot)\protos\datamodel\analyzing\remote\ares_remote_analyzer_service.proto"
       GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
-    <Protobuf Update="$(RepoRoot)\protos\data_model\planning\ares_planner.proto"
+    <Protobuf Update="$(RepoRoot)\protos\datamodel\planning\ares_planner.proto"
       GrpcServices="Client" AdditionalImportDirs="$(ProtoPaths)" />
   </ItemGroup>
 </Project>

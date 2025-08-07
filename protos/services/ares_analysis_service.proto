@@ -8,21 +8,21 @@ import "ares_struct.proto";
 import "ares_data_schema.proto";
 
 service AresAnalysisService {
-	rpc ValidateInputs(InputValidationRequest) returns (data_model.ValidationResult);
-	rpc Analyze(AnalysisRequest) returns (data_model.analyzing.Analysis);
+	rpc ValidateInputs(InputValidationRequest) returns (datamodel.ValidationResult);
+	rpc Analyze(AnalysisRequest) returns (datamodel.analyzing.Analysis);
 
 	rpc GetAnalyzerParameters(AnalyzerParametersRequest) returns (AnalyzerParametersResponse);
 }
 
 message AnalysisRequest {
 	string analyzer_id = 1;
-	data_model.AresStruct inputs = 2;
-	data_model.AresStruct settings = 3;
+	datamodel.AresStruct inputs = 2;
+	datamodel.AresStruct settings = 3;
 }
 
 message InputValidationRequest {
 	string analyzer_id = 1;
-	data_model.AresDataSchemaSimplified input_schema = 2;
+	datamodel.AresDataSchemaSimplified input_schema = 2;
 }
 
 message AnalyzerParametersRequest {
@@ -30,5 +30,5 @@ message AnalyzerParametersRequest {
 }
 
 message AnalyzerParametersResponse {
-	data_model.AresDataSchema analysis_schema = 1;
+	datamodel.AresDataSchema analysis_schema = 1;
 }

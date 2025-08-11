@@ -3,3 +3,4 @@ gen
 bin
 obj
 nupkg
+.vs/

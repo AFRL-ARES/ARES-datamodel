@@ -1,0 +1,32 @@
+[build-system]
+requires = [
+  "hatchling",
+  "grpcio-tools",
+  #"protobuf>=6.31.1",
+  "googleapis-common-protos",
+  "protoletariat",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "ares_datamodel"
+authors = [{ name = "DCS", email = "ababeckis@dcscorp.com" }]
+description = "Datamodel/messaging for ARES communications"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
+license = { file = "License.md" }
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/AFRL-ARES/ARES-datamodel"
+Issues = "https://github.com/AFRL-ARES/ARES-datamodel/issues"
+
+[tool.hatch.version]
+source = "env"
+variable = "ARES_DM_PACKAGE_VERSION"
+
+[tool.hatch.build.hooks.custom]

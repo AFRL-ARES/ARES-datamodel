@@ -1,0 +1,86 @@
+# Byte-compiled / optimized / compressed files and directories
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+
+# Generated proto files
+*_pb2*.py
+
+# C extensions
+*.c
+*.h
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST.in
+
+# Environments
+.env
+venv/
+env/
+.venv/
+
+# Virtual environment files
+*.pyc
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*~
+*.log
+
+# Windows
+thumbs.db
+ehthumbs.db
+desktop.ini
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+__MACOSX
+
+# Unit test / coverage reports
+.coverage
+.tox/
+.pytest_cache/
+
+# Sphinx documentation
+docs/_build/
+
+# Jupyter notebooks
+.ipynb_checkpoints
+
+# MyPy
+.mypy_cache/
+
+# Pyinstaller
+*.spec
+build/
+dist/
+
+# Pip cache files
+pip-log.txt
+pip-delete-this-directory.txt
+
+# AWS S3
+*.s3sync
+
+# Misc
+.bash_history
+.local/
+.python_history

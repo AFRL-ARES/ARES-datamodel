@@ -20,8 +20,12 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.9"
+      - name: Set ARES_DM_PACKAGE_VERSION variable from tag
+        run: echo "ARES_DM_PACKAGE_VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
       - name: Build package
-        run: python -m build
+        run: |
+          python -m pip install build
+          python -m build
       - name: Upload distributions
         uses: actions/upload-artifact@v4
         with:

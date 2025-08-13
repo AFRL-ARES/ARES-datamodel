@@ -10,7 +10,6 @@ import "ares_data_schema.proto";
 service AresAnalysisService {
 	rpc ValidateInputs(InputValidationRequest) returns (datamodel.ValidationResult);
 	rpc Analyze(AnalysisRequest) returns (datamodel.analyzing.Analysis);
-
 	rpc GetAnalyzerParameters(AnalyzerParametersRequest) returns (AnalyzerParametersResponse);
 }
 

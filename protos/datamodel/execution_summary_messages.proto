@@ -4,7 +4,7 @@ package ares.datamodel;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
-import "completed_experiment.proto";
+import "experiment_overview.proto";
 import "device_command_result.proto";
 
 message ExecutionInfo {
@@ -23,6 +23,8 @@ message CampaignExecutionSummary {
   string campaign_name = 5;
   string campaign_tags = 6;
   string campaign_notes = 7;
+  ExperimentExecutionSummary startup_execution_summary = 8;
+  ExperimentExecutionSummary closeout_execution_summary = 9;
 }
 
 message ExperimentExecutionSummary {
@@ -30,7 +32,7 @@ message ExperimentExecutionSummary {
   string experiment_id = 2;
   repeated StepExecutionSummary step_summaries = 3;
   ExecutionInfo execution_info = 4;
-  CompletedExperiment completed_experiment = 5;
+  ExperimentOverview experiment_overview = 5;
   string result_output_path = 6;
 }
 

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package ares.services;
+
+service AresSafetyService {
+    rpc RequestEmergencyStop(EmergencyStopRequest) returns (EmergencyStopResponse); 
+}
+
+message EmergencyStopRequest {
+}
+
+message EmergencyStopResponse {
+    string status_message = 1;
+    EmergencyStopStatus status = 2;
+}
+
+enum EmergencyStopStatus {
+    UNSPECIFIED = 0;
+    SUCCESS = 1;
+    ERROR = 2;
+}
+

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -33,21 +33,16 @@
 
   <ItemGroup Label="Protobuf Compile">
     <_Asset Include="$(RepoRoot)\protos\datamodel\**\*.proto" />
-    <Protobuf Include="@(_Asset)" Visible="True" GrpcServices="None"
-      AdditionalImportDirs="$(ProtoPaths)" />
+    <Protobuf Include="@(_Asset)" Visible="True" GrpcServices="None" AdditionalImportDirs="$(ProtoPaths)" />
   </ItemGroup>
 
   <ItemGroup Label="Protobuf Compile">
     <_Asset Include="$(RepoRoot)\protos\services\**\*.proto" />
-    <Protobuf Include="@(_Asset)" Visible="True" GrpcServices="Both"
-      AdditionalImportDirs="$(ProtoPaths)" />
+    <Protobuf Include="@(_Asset)" Visible="True" GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf
-      Update="$(RepoRoot)\protos\datamodel\analyzing\remote\ares_remote_analyzer_service.proto"
-      GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
-    <Protobuf Update="$(RepoRoot)\protos\datamodel\planning\ares_planner.proto"
-      GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
+    <Protobuf Update="$(RepoRoot)\protos\datamodel\analyzing\remote\ares_remote_analyzer_service.proto" GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
+    <Protobuf Update="$(RepoRoot)\protos\datamodel\planning\ares_planner.proto" GrpcServices="Both" AdditionalImportDirs="$(ProtoPaths)" />
   </ItemGroup>
 </Project>

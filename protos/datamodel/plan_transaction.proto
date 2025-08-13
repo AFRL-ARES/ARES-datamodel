@@ -2,24 +2,23 @@ syntax = "proto3";
 
 package ares.datamodel;
 
-import "templates/parameter_metadata.proto";
-import "templates/parameter.proto";
 import "planner_adapter_info.proto";
 import "google/protobuf/wrappers.proto";
+import "planning/ares_planner.proto";
+import "templates/parameter_metadata.proto";
+import "ares_struct.proto";
 
 message PlannerTransaction {
 	google.protobuf.StringValue unique_id = 1; // A unique id for this transaction
-	PlannerRequest request = 2; // Request sent to the planner
-	PlannerResponse response = 3; // Response received for a given request
+	planning.PlanRequest request = 2; // Request sent to the planner
+	repeated PlanResult response = 3; // Response received for a given request
 	PlannerAdapterInfo planner_info = 4; // Information about the planner with which the transaction took place
+	bool success = 5; //A boolean value that determines whether the transaction was completed successfully
+	google.protobuf.StringValue error = 6; //An optional string for holding error messages associated with planning failures
 }
 
-message PlannerRequest {
-	google.protobuf.StringValue unique_id = 1; // A unique id for this request
-	repeated templates.ParameterMetadata parameter_metas = 2; // Collection of metadata constraining suggested values
-}
-
-message PlannerResponse {
-	google.protobuf.StringValue unique_id = 1; // A unique id for this response
-	repeated templates.Parameter planned_parameters = 2; // Resolved parameters with values constrained according to metadata from request
+message PlanResult {
+	google.protobuf.StringValue unique_id = 1;
+	AresValue value = 2;
+	templates.ParameterMetadata parameter_metadata = 3; 
 }

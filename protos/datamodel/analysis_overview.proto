@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel;
+
+import "analyzing/analyzer_info.proto";
+import "google/protobuf/wrappers.proto";
+
+message AnalysisOverview {
+    google.protobuf.StringValue unique_id = 1;
+    google.protobuf.StringValue experiment_overview_id = 2;
+    double result = 3;
+    analyzing.AnalyzerInfo analyzer_info = 4;
+}

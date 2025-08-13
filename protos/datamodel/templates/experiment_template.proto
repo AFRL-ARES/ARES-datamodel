@@ -6,7 +6,7 @@ import "templates/step_template.proto";
 import "google/protobuf/wrappers.proto";
 
 message ExperimentTemplate {
-  google.protobuf.StringValue unique_id = 1; // A unique id for this template
+  	google.protobuf.StringValue unique_id = 1; // A unique id for this template
 	repeated StepTemplate step_templates = 2; // Collection of step templates used to generate executable steps
 	string name = 3; // Name of the experiment, most likely automatically generated relative to the campaign name
 	google.protobuf.StringValue analyzer_id = 4; // the analyzer assigned to this template

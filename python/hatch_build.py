@@ -1,16 +1,19 @@
+import sys
 from os import path
+
+# needed for the "renaming" package
+sys.path.append(path.dirname(__file__))
 from pathlib import Path
 import tempfile
 from typing import Iterator
-from protoletariat.fdsetgen import FileDescriptorSetGenerator
 import grpc_tools.protoc
+from renaming.fdsetgen import CustomProtoc
 
 from hatchling.builders.hooks.plugin.interface import BuildHookInterface
 
 _SCRIPT_PATH = Path(__file__).absolute()
 PROJECT_PATH = path.join(_SCRIPT_PATH.parent, "src", "ares_datamodel")
 PROTO_DIR = path.join(_SCRIPT_PATH.parent.parent, "protos")
-
 DATAMODEL_PATH = path.join(PROTO_DIR, "datamodel")
 SERVICES_PATH = path.join(PROTO_DIR, "services")
 
@@ -44,7 +47,7 @@ class CustomBuildHook(BuildHookInterface):
               # We need to fix the imports as the standard protoc compiler
               # does not do well with relative paths
               generator = CustomProtoc(descriptor_path)
-              generator.fix_imports(python_out=Path(PROJECT_PATH), create_package=False, overwrite_callback=overwrite_callback, module_suffixes=["_pb2.py", "_pb2_grpc.py"], exclude_imports_glob=["google.protobuf"])
+              generator.fix_imports(python_out=Path(PROJECT_PATH), create_package=False, overwrite_callback=overwrite_callback, module_suffixes=["_pb2.py", "_pb2_grpc.py"], exclude_imports_glob=["google/protobuf/*"])
 
               if result == 0:
                   print(f"Generated proto from: {proto_path_str}")
@@ -58,25 +61,10 @@ def grab_protos(dir: str) -> Iterator[Path]:
     for file_path in search_path.rglob("*.proto"):
         yield file_path
 
-# Custom generator that works with protoletariat
-class CustomProtoc(FileDescriptorSetGenerator):
-    def __init__(
-        self,
-        descriptor_path: Path
-    ) -> None:
-        self.descriptor_path = descriptor_path
-
-    def generate_file_descriptor_set_bytes(self) -> bytes:
-        return self.descriptor_path.read_bytes()
 
 def overwrite_callback(python_file: Path, new_code: str):
     try:
-        with open(python_file, 'r+') as file:
-            print("PREVIOUS~~~~~~~~~~~~")
-            print(file.readlines())
-            print("MODIFIED~~~~~~~~~~~~")
-            print(new_code)
-            print("END~~~~~~~~~~~~~~~~~")
+        with open(python_file, 'w') as file:
             file.write(new_code)
 
         print(f"File {python_file} updated")

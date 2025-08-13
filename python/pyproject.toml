@@ -1,11 +1,10 @@
 [build-system]
 requires = [
-  "hatchling",
-  "grpcio-tools",
-  #"protobuf>=6.31.1",
-  "googleapis-common-protos",
-  "protoletariat",
+  "hatchling>=1.27.0",
+  "grpcio-tools>=1.74.0",
+  "googleapis-common-protos>=1.70.0",
 ]
+
 build-backend = "hatchling.build"
 
 [project]
@@ -30,3 +29,9 @@ source = "env"
 variable = "ARES_DM_PACKAGE_VERSION"
 
 [tool.hatch.build.hooks.custom]
+
+[tool.hatch.build.targets.wheel]
+artifacts = ["src/ares_datamodel/**"]
+
+[tool.hatch.build.targets.sdist]
+artifacts = ["src/ares_datamodel/**"]

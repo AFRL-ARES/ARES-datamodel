@@ -32,6 +32,7 @@ class CustomBuildHook(BuildHookInterface):
             f"--proto_path={SERVICES_PATH}",
             f"--proto_path={proto_include_dir}",
             f"--python_out={PROJECT_PATH}",
+            f"--pyi_out={PROJECT_PATH}",
             f"--grpc_python_out={PROJECT_PATH}",
         ]
 

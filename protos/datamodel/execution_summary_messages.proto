@@ -5,7 +5,7 @@ package ares.datamodel;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "experiment_overview.proto";
-import "device_command_result.proto";
+import "device/device_execution_result.proto";
 
 message ExecutionInfo {
   google.protobuf.StringValue unique_id = 1;
@@ -47,7 +47,7 @@ message CommandExecutionSummary {
   google.protobuf.StringValue unique_id = 1;
   string command_id = 2;
   ExecutionInfo execution_info = 3;
-  DeviceCommandResult result = 4;
+  device.DeviceExecutionResult result = 4;
   string command_name = 5;
   string command_description = 6;
 }

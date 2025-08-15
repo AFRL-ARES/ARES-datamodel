@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package ares.datamodel.device.remote;
+
+import "ares_struct.proto";
+import "device/device_status.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "ares_data_schema.proto";
+import "device/device_command_descriptor.proto";
+import "device/device_execution_result.proto";
+
+// defines a contract for ares to use in order to talk to a remote analyzer
+// designed to be similar to the internal ARES analyzer implementation
+service AresRemoteDeviceService {
+	rpc GetOperationalStatus(google.protobuf.Empty) returns (DeviceOperationalStatus);
+  rpc GetInfo(google.protobuf.Empty) returns (DeviceInfoResponse);
+
+  rpc GetCommands(google.protobuf.Empty) returns (CommandsResponse);
+  rpc ExecuteCommand(ExecuteCommandRequest) returns (DeviceExecutionResult);
+  
+  rpc GetSettingsSchema(google.protobuf.Empty) returns (SettingsSchemaResponse);
+  rpc GetCurrentSettings(google.protobuf.Empty) returns (CurrentSettingsResponse);
+  rpc SetSettings(SetSettingsRequest) returns (google.protobuf.Empty);
+
+  rpc GetStateSchema(google.protobuf.Empty) returns (StateSchemaResponse);
+  rpc GetState(google.protobuf.Empty) returns (DeviceStateResponse);
+  rpc GetStateStream(DeviceStateStreamRequest) returns (stream DeviceStateResponse);
+}
+
+message DeviceInfoResponse {
+	string name = 1;
+	string version = 2;
+	google.protobuf.StringValue description = 3;
+}
+
+message SettingsSchemaResponse {
+  AresDataSchema schema = 1;
+}
+
+message CurrentSettingsResponse {
+  AresStruct settings = 1;
+}
+
+message SetSettingsRequest {
+  AresStruct settings = 1;
+}
+
+message CommandsResponse {
+  repeated DeviceCommandDescriptor commands = 1; // the supported commands by the device
+}
+
+message DeviceStateStreamRequest {
+  uint32 interval_ms = 1; // interval for data responses in milliseconds
+}
+
+message StateSchemaResponse {
+  AresDataSchema schema = 1;
+}
+
+message DeviceStateResponse {
+  AresStruct state = 1;
+}
+
+message ExecuteCommandRequest {
+  string command_name = 1;
+  map<string, AresValue> arguments = 2;
+}

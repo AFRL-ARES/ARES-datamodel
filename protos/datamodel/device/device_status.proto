@@ -2,15 +2,16 @@
 
 package ares.datamodel.device;
 
-message DeviceStatus
+message DeviceOperationalStatus
 {
-	DeviceState device_state = 1; // the current state of the device
+	OperationalState operational_state = 1; // indicates whether or not the device is in a usable state
 	string message = 2; // if the used needs to be clarified for why the state is the way it is, this message field can be used
 }
 
-enum DeviceState
+enum OperationalState
 {
-	INACTIVE = 0; // device cannot be used as it's not connected/turned on/etc.
-	ACTIVE = 1; // device is ready for action
-	ERROR = 2; // device is in some error state, currently more of a placeholder until functionality is created to handle the errored devices
+  UNSPECIFIED = 0;
+	INACTIVE = 1; // device cannot be used as it's not connected/turned on/etc.
+	ACTIVE = 2; // device is ready for action
+	ERROR = 3; // device is in some error state, currently more of a placeholder until functionality is created to handle the errored devices
 }

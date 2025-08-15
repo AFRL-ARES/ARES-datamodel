@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package ares.datamodel.analyzing;
+
+import "google/protobuf/wrappers.proto";
+
+
+message RemoteDeviceConfig {
+	google.protobuf.StringValue unique_id = 1; // A unique id for this device
+	string name = 2; // name of the device
+	string url = 3; // the connection url of the device
+}

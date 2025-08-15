@@ -21,7 +21,7 @@ message AnalysisRequest {
 
 message InputValidationRequest {
 	string analyzer_id = 1;
-	datamodel.AresDataSchemaSimplified input_schema = 2;
+	datamodel.AresDataSchema input_schema = 2;
 }
 
 message AnalyzerParametersRequest {

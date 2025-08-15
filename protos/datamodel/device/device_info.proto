@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+import "google/protobuf/wrappers.proto";
+
+
+message DeviceInfo {
+	string unique_id = 1; // A unique id for this device
+	string name = 2; // name of the device
+	string type = 3; // the type name of the device
+	google.protobuf.StringValue description = 4;
+	string version = 5;
+	google.protobuf.StringValue url = 6; // the remote address of the device if it's a remote device
+}

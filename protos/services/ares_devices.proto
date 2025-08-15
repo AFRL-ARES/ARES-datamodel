@@ -5,16 +5,16 @@ package ares.services.device;
 import "google/protobuf/empty.proto";
 import "templates/command_metadata.proto";
 import "templates/command_template.proto";
-import "device_command_result.proto";
+import "device/device_execution_result.proto";
 import "device/device_status.proto";
 import "device/device_config.proto";
 
 service AresDevices {
 	rpc ListAresDevices(google.protobuf.Empty) returns (ListAresDevicesResponse);
 	rpc GetServerSerialPorts(google.protobuf.Empty) returns (ListServerSerialPortsResponse);
-	rpc GetDeviceStatus(DeviceStatusRequest) returns (datamodel.device.DeviceStatus);
+	rpc GetDeviceStatus(DeviceStatusRequest) returns (datamodel.device.DeviceOperationalStatus);
 	rpc GetCommandMetadatas(CommandMetadatasRequest) returns (CommandMetadatasResponse);
-	rpc ExecuteCommand(datamodel.templates.CommandTemplate) returns (datamodel.DeviceCommandResult);
+	rpc ExecuteCommand(datamodel.templates.CommandTemplate) returns (datamodel.device.DeviceExecutionResult);
 	rpc GetAllDeviceConfigs(DeviceConfigRequest) returns (DeviceConfigResponse);
 	rpc Activate(DeviceActivateRequest) returns (google.protobuf.Empty);
 }

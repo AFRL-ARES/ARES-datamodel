@@ -5,7 +5,7 @@ package ares.datamodel.templates;
 import "google/protobuf/wrappers.proto";
 
 message VariableAllocation {
-	google.protobuf.StringValue unqiue_id = 1; // a unique id for this entity
+	string unqiue_id = 1; // a unique id for this entity
 	VariableType variable_type = 2; // the assigned variable type 
 	string parameter_name = 3; // the paraeter to be assigned this environment variable
 }

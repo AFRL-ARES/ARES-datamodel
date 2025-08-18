@@ -9,7 +9,7 @@ import "ares_struct.proto";
 import "analysis_overview.proto";
 
 message ExperimentOverview {
-	google.protobuf.StringValue unique_id = 1; // A unique id for this experiment
+	string unique_id = 1; // A unique id for this experiment
 	templates.ExperimentTemplate template = 2; // Template used to generate the executable experiment providing the results
 	AresStruct result = 3; // Result of the experiment
 	repeated templates.Parameter parameters = 4; // Parameters used in the completed experiment

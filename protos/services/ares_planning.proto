@@ -57,7 +57,7 @@ message CapabilitiesResponse {
 
 message GenericPlanner {
 	string name = 1;
-	google.protobuf.StringValue address = 2;
+	optional string address = 2;
 }
 
 message PlannerOption {

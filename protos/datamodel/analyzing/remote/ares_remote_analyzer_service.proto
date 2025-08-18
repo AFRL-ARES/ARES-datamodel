@@ -6,7 +6,6 @@ import "analyzing/analysis.proto";
 import "ares_struct.proto";
 import "analyzing/analyzer_state.proto";
 import "google/protobuf/empty.proto";
-import "google/protobuf/wrappers.proto";
 import "analyzing/analyzer_capabilities.proto";
 import "ares_data_schema.proto";
 
@@ -61,5 +60,5 @@ message AnalyzerStateResponse {
 message InfoResponse {
 	string name = 1;
 	string version = 2;
-	google.protobuf.StringValue description = 3;
+	optional string description = 3;
 }

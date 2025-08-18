@@ -9,16 +9,16 @@ import "templates/parameter_metadata.proto";
 import "ares_struct.proto";
 
 message PlannerTransaction {
-	google.protobuf.StringValue unique_id = 1; // A unique id for this transaction
+	string unique_id = 1; // A unique id for this transaction
 	planning.PlanRequest request = 2; // Request sent to the planner
 	repeated PlanResult response = 3; // Response received for a given request
 	PlannerAdapterInfo planner_info = 4; // Information about the planner with which the transaction took place
 	bool success = 5; //A boolean value that determines whether the transaction was completed successfully
-	google.protobuf.StringValue error = 6; //An optional string for holding error messages associated with planning failures
+	optional string error = 6; //An optional string for holding error messages associated with planning failures
 }
 
 message PlanResult {
-	google.protobuf.StringValue unique_id = 1;
+	string unique_id = 1;
 	AresValue value = 2;
 	templates.ParameterMetadata parameter_metadata = 3; 
 }

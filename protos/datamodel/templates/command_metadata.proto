@@ -4,10 +4,9 @@ package ares.datamodel.templates;
 
 import "templates/parameter_metadata.proto";
 import "templates/output_metadata.proto";
-import "google/protobuf/wrappers.proto";
 
 message CommandMetadata {
-	google.protobuf.StringValue unique_id = 1; // A unique id for this metadata
+	string unique_id = 1; // A unique id for this metadata
 	string name = 2; // Name of the command, registered by a device
 	string description = 3; // Helpful text describing the command
 	string device_name = 4; // Name of the device to lookup for execution/generation of the command

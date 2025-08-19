@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ares.datamodel.analyzing;
+package ares.datamodel.device;
 
 import "google/protobuf/wrappers.proto";
 

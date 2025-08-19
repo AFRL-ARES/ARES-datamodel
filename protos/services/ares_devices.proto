@@ -6,17 +6,23 @@ import "google/protobuf/empty.proto";
 import "templates/command_metadata.proto";
 import "templates/command_template.proto";
 import "device/device_execution_result.proto";
+import "device/remote_device_config.proto";
 import "device/device_status.proto";
+import "device/device_info.proto";
 import "device/device_config.proto";
 
 service AresDevices {
 	rpc ListAresDevices(google.protobuf.Empty) returns (ListAresDevicesResponse);
+  rpc ListRemoteAresDevices(google.protobuf.Empty) returns (ListAresRemoteDevicesResponse);
 	rpc GetServerSerialPorts(google.protobuf.Empty) returns (ListServerSerialPortsResponse);
 	rpc GetDeviceStatus(DeviceStatusRequest) returns (datamodel.device.DeviceOperationalStatus);
 	rpc GetCommandMetadatas(CommandMetadatasRequest) returns (CommandMetadatasResponse);
 	rpc ExecuteCommand(datamodel.templates.CommandTemplate) returns (datamodel.device.DeviceExecutionResult);
 	rpc GetAllDeviceConfigs(DeviceConfigRequest) returns (DeviceConfigResponse);
+  rpc GetAllRemoteDevicesConfigs(google.protobuf.Empty) returns (RemoteDeviceConfigResponse);
 	rpc Activate(DeviceActivateRequest) returns (google.protobuf.Empty);
+	rpc UpdateRemoteDevice(UpdateRemoteDeviceRequest) returns (UpdateRemoteDeviceResponse);
+	rpc RemoveRemoteDevice(RemoveRemoteDeviceRequest) returns (RemoveRemoteDeviceResponse);
 }
 
 message AresDeviceInfo {
@@ -27,6 +33,11 @@ message AresDeviceInfo {
 message ListAresDevicesResponse
 {
 	repeated AresDeviceInfo ares_devices = 1; // collection of ares_device objects, used when all the ares devices are needed
+}
+
+message ListAresRemoteDevicesResponse
+{
+  repeated datamodel.device.DeviceInfo devices = 1;
 }
 
 message ListServerSerialPortsResponse
@@ -58,4 +69,41 @@ message DeviceConfigRequest {
 
 message DeviceConfigResponse {
 	repeated datamodel.device.DeviceConfig configs = 1;
+}
+
+message RemoteDeviceConfigResponse {
+	repeated datamodel.device.RemoteDeviceConfig configs = 1;
+}
+
+message AddRemoteDeviceRequest {
+	string name = 1;
+	string url = 2;
+}
+
+message AddRemoteDeviceResponse {
+	string device_id = 1;
+	bool success = 2;
+	optional string error_message = 3;
+}
+
+message UpdateRemoteDeviceRequest {
+	// the id of the device to be updated
+	string device_id = 1;
+	// the following values are the optional new values for the device
+	optional string name = 2;
+	optional string url = 3;
+}
+
+message UpdateRemoteDeviceResponse {
+	bool success = 1;
+	optional string error_message = 2;
+}
+
+message RemoveRemoteDeviceRequest {
+	string device_id = 1;
+}
+
+message RemoveRemoteDeviceResponse {
+	bool success = 1;
+	optional string error_message = 2;
 }

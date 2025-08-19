@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ares.datamodel.device;
 
-import "google/protobuf/wrappers.proto";
-
 
 message DeviceInfo {
 	string unique_id = 1; // A unique id for this device

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+import "ares_struct.proto";
+
+message DeviceSettings {
+	string device_id = 1; // The id of the device that these settings are for
+	AresStruct settings = 2; // The actual setting values
+}

@@ -7,5 +7,6 @@ import "ares_data_schema.proto";
 message DeviceCommandDescriptor {
   string name = 1; // the name for the command
   string description = 2; // what does this command do
-  AresDataSchema output_schema = 3; // can be set if the command provides an output
+  AresDataSchema input_schema = 5; // what does this command need
+  AresDataSchema output_schema = 4; // can be set if the command provides an output
 }

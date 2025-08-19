@@ -18,7 +18,8 @@ service AresRemoteDeviceService {
 
   rpc GetCommands(google.protobuf.Empty) returns (CommandsResponse);
   rpc ExecuteCommand(ExecuteCommandRequest) returns (DeviceExecutionResult);
-  
+  rpc EnterSafeMode(google.protobuf.Empty) returns (google.protobuf.Empty);
+
   rpc GetSettingsSchema(google.protobuf.Empty) returns (SettingsSchemaResponse);
   rpc GetCurrentSettings(google.protobuf.Empty) returns (CurrentSettingsResponse);
   rpc SetSettings(SetSettingsRequest) returns (google.protobuf.Empty);

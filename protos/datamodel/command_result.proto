@@ -5,7 +5,7 @@ package ares.datamodel;
 import "google/protobuf/wrappers.proto";
 import "ares_struct.proto";
 
-message DeviceCommandResult {
+message CommandResult {
 	google.protobuf.StringValue unique_id = 1;
 	AresStruct result = 2;
 	bool success = 3; // Whether or not the execution was successful

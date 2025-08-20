@@ -7,7 +7,7 @@ import "experiment_overview.proto";
 import "device_command_result.proto";
 
 message ExecutionInfo {
-  string unique_id = 1;
+  optional string unique_id = 1;
   google.protobuf.Timestamp time_started = 2;
   google.protobuf.Timestamp time_finished = 3;
   string timezone = 4;
@@ -15,7 +15,7 @@ message ExecutionInfo {
 }
 
 message CampaignExecutionSummary {
-  string unique_id = 1;
+  optional string unique_id = 1;
   string campaign_id = 2;
   repeated ExperimentExecutionSummary experiment_summaries = 3;
   ExecutionInfo execution_info = 4;
@@ -27,7 +27,7 @@ message CampaignExecutionSummary {
 }
 
 message ExperimentExecutionSummary {
-  string unique_id = 1;
+  optional string unique_id = 1;
   string experiment_id = 2;
   repeated StepExecutionSummary step_summaries = 3;
   ExecutionInfo execution_info = 4;
@@ -36,14 +36,14 @@ message ExperimentExecutionSummary {
 }
 
 message StepExecutionSummary {
-  string unique_id = 1;
+  optional string unique_id = 1;
   string step_id = 2;
   repeated CommandExecutionSummary command_summaries = 3;
   ExecutionInfo execution_info = 4;
 }
 
 message CommandExecutionSummary {
-  string unique_id = 1;
+  optional string unique_id = 1;
   string command_id = 2;
   ExecutionInfo execution_info = 3;
   DeviceCommandResult result = 4;

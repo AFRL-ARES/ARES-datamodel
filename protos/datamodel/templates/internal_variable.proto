@@ -5,7 +5,7 @@ package ares.datamodel.templates;
 import "google/protobuf/wrappers.proto";
 
 message InternalVariableAllocation {
-    string unique_id = 1;
+    optional string unique_id = 1;
     InternalVariableType internal_variable_type = 2;
     string value = 3;
 }

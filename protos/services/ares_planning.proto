@@ -6,8 +6,6 @@ import "planner_adapter_info.proto";
 import "planning/manual_planner.proto";
 import "planning/ares_planner.proto";
 import "planning/planner_status.proto";
-
-import "google/protobuf/wrappers.proto";
 import "google/protobuf/empty.proto";
 
 service AresPlanning {

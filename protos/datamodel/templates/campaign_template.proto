@@ -7,7 +7,7 @@ import "templates/parameter_metadata.proto";
 import "templates/planner_allocation.proto";
 
 message CampaignTemplate {
-	string unique_id = 1; // A unique id for this template
+	optional string unique_id = 1; // A unique id for this template
 	ExperimentTemplate startup_template = 2; // An experiment template that defines a startup script for the campaign
 	ExperimentTemplate experiment_template = 3; // An experiment template that defines the core logic of the campaign
 	ExperimentTemplate closeout_template = 4; // An experiment template that defines a closeout script for the campaign

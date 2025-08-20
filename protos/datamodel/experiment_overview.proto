@@ -4,12 +4,11 @@ package ares.datamodel;
 
 import "templates/experiment_template.proto";
 import "templates/parameter.proto";
-import "google/protobuf/wrappers.proto";
 import "ares_struct.proto";
 import "analysis_overview.proto";
 
 message ExperimentOverview {
-	string unique_id = 1; // A unique id for this experiment
+	optional string unique_id = 1; // A unique id for this experiment
 	templates.ExperimentTemplate template = 2; // Template used to generate the executable experiment providing the results
 	AresStruct result = 3; // Result of the experiment
 	repeated templates.Parameter parameters = 4; // Parameters used in the completed experiment

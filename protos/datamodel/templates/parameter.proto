@@ -4,11 +4,10 @@ package ares.datamodel.templates;
 
 import "templates/parameter_metadata.proto";
 import "templates/variable_allocation.proto";
-import "google/protobuf/wrappers.proto";
 import "ares_struct.proto";
 
 message Parameter {
-	string unique_id = 1; // A unique id for this parameter
+	optional string unique_id = 1; // A unique id for this parameter
 	ParameterMetadata metadata = 2; // Non-volatile information about the command argument/parameter
 	AresValue value = 3; // Value of the argument/parameter used for execution
 	bool planned = 4; // Indicated whether or not the parameter needs to be planned for

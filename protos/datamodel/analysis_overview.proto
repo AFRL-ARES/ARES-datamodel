@@ -5,7 +5,7 @@ package ares.datamodel;
 import "analyzing/analyzer_info.proto";
 
 message AnalysisOverview {
-    string unique_id = 1;
+    optional string unique_id = 1;
     string experiment_overview_id = 2;
     double result = 3;
     analyzing.AnalyzerInfo analyzer_info = 4;

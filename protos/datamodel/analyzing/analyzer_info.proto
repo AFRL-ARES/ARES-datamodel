@@ -5,7 +5,7 @@ package ares.datamodel.analyzing;
 import "analyzing/analyzer_capabilities.proto";
 
 message AnalyzerInfo {
-	string unique_id = 1; // A unique id for this analyzer
+	optional string unique_id = 1; // A unique id for this analyzer
 	string name = 2; // name of the analyzer
 	string type = 3; // the type name of the analyzer
 	optional string description = 4; // Optional descriptions of the analyzer

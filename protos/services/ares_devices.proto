@@ -28,6 +28,7 @@ service AresDevices {
 message AresDeviceInfo {
 	string name = 1; // Name of the device
 	string type = 2; // Type of the device
+  string id = 3; // The ID of the device
 }
 
 message ListAresDevicesResponse
@@ -46,7 +47,7 @@ message ListServerSerialPortsResponse
 }
 
 message CommandMetadatasRequest {
-	string device_name = 1; // device name of the device for which the commands need to be known
+	string device_id = 1; // device name of the device for which the commands need to be known
 }
 
 message CommandMetadatasResponse {
@@ -55,12 +56,12 @@ message CommandMetadatasResponse {
 
 message DeviceStatusRequest
 {
-	string device_name = 1; // device name of the device for which the status needs to be known
+	string device_id = 1; // device name of the device for which the status needs to be known
 }
 
 message DeviceActivateRequest
 {
-	string device_name = 1; // name of the device to be activated/reactivated
+	string device_id = 1; // name of the device to be activated/reactivated
 }
 
 message DeviceConfigRequest {

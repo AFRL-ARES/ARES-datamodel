@@ -10,30 +10,31 @@ import "device/remote_device_config.proto";
 import "device/device_status.proto";
 import "device/device_info.proto";
 import "device/device_config.proto";
+import "device/device_settings.proto";
+import "ares_struct.proto";
 
 service AresDevices {
 	rpc ListAresDevices(google.protobuf.Empty) returns (ListAresDevicesResponse);
-  rpc ListRemoteAresDevices(google.protobuf.Empty) returns (ListAresRemoteDevicesResponse);
+	rpc GetDeviceInfo(DeviceInfoRequest) returns (datamodel.device.DeviceInfo);
 	rpc GetServerSerialPorts(google.protobuf.Empty) returns (ListServerSerialPortsResponse);
 	rpc GetDeviceStatus(DeviceStatusRequest) returns (datamodel.device.DeviceOperationalStatus);
 	rpc GetCommandMetadatas(CommandMetadatasRequest) returns (CommandMetadatasResponse);
 	rpc ExecuteCommand(datamodel.templates.CommandTemplate) returns (datamodel.device.DeviceExecutionResult);
 	rpc GetAllDeviceConfigs(DeviceConfigRequest) returns (DeviceConfigResponse);
-  rpc GetAllRemoteDevicesConfigs(google.protobuf.Empty) returns (RemoteDeviceConfigResponse);
 	rpc Activate(DeviceActivateRequest) returns (google.protobuf.Empty);
-	rpc UpdateRemoteDevice(UpdateRemoteDeviceRequest) returns (UpdateRemoteDeviceResponse);
+	rpc SetDeviceSettings(datamodel.device.DeviceSettings) returns (google.protobuf.Empty);
+	rpc GetDeviceSettings(DeviceSettingsRequest) returns (datamodel.AresStruct);
+  	
+	rpc ListRemoteAresDevices(google.protobuf.Empty) returns (ListAresRemoteDevicesResponse);
+	rpc AddRemoteDevice(AddRemoteDeviceRequest) returns (AddRemoteDeviceResponse);
 	rpc RemoveRemoteDevice(RemoveRemoteDeviceRequest) returns (RemoveRemoteDeviceResponse);
-}
-
-message AresDeviceInfo {
-	string name = 1; // Name of the device
-	string type = 2; // Type of the device
-  string id = 3; // The ID of the device
+	rpc UpdateRemoteDevice(UpdateRemoteDeviceRequest) returns (UpdateRemoteDeviceResponse);
+  	rpc GetAllRemoteDevicesConfigs(google.protobuf.Empty) returns (RemoteDeviceConfigResponse);
 }
 
 message ListAresDevicesResponse
 {
-	repeated AresDeviceInfo ares_devices = 1; // collection of ares_device objects, used when all the ares devices are needed
+	repeated datamodel.device.DeviceInfo ares_devices = 1; // collection of ares_device objects, used when all the ares devices are needed
 }
 
 message ListAresRemoteDevicesResponse
@@ -54,7 +55,15 @@ message CommandMetadatasResponse {
 	repeated datamodel.templates.CommandMetadata metadatas = 1;  // list of command information supported by the requested device
 }
 
-message DeviceStatusRequest
+message DeviceStatusRequest {
+	string device_id = 1; // device name of the device for which the status needs to be known
+}
+
+message DeviceInfoRequest {
+	string device_id = 1; // device name of the device for which the status needs to be known
+}
+
+message DeviceSettingsRequest
 {
 	string device_id = 1; // device name of the device for which the status needs to be known
 }

@@ -71,6 +71,22 @@ public static class AresStructHelper
     return aresStruct;
   }
 
+  /// <summary>
+  /// Updates an existing struct with the values from the new one.
+  /// Adds the values that don't exist yet and removes the values from the original
+  /// that are not present in the new struct
+  /// </summary>
+  public static AresStruct UpdateStruct(this AresStruct aresStruct, AresStruct newStruct)
+  {
+    var removedKeys = aresStruct.Fields.Where(f => !newStruct.Fields.ContainsKey(f.Key)).Select(f => f.Key).ToArray();
+    foreach (var key in removedKeys)
+    {
+      aresStruct.Fields.Remove(key);
+    }
+
+    return aresStruct.AppendStruct(newStruct);
+  }
+
   public static void AddBytes(this AresStruct aresStruct, string key, byte[] value)
   {
     aresStruct.Fields[key] = AresValueHelper.CreateBytes(value);

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package ares.datamodel.planning;
+
+message PlannerConfig {
+	optional string unique_id = 1; // A unique id for this planner
+	string name = 2; // name of the planner
+	string url = 3; // the connection url of the planner
+}

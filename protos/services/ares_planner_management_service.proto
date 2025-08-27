@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package ares.services;
+
+import "planning/planner_service_info.proto";
+import "planning/planner_settings.proto";
+import "planning/manual_planner.proto";
+import "connection/connection_state.proto";
+import "ares_struct.proto";
+import "google/protobuf/empty.proto";
+
+service AresPlannerManagementService {
+  rpc GetState(datamodel.connection.StateRequest) returns (datamodel.connection.StateResponse);
+  rpc GetInfo(PlannerInfoRequest) returns (PlannerInfoResponse);
+  rpc SetPlannerSettings(datamodel.planning.PlannerSettings) returns (google.protobuf.Empty);
+  rpc GetPlannerSettings(PlannerSettingsRequest) returns (datamodel.AresStruct);
+
+  rpc SeedManualPlanner(datamodel.planning.ManualPlannerSeed) returns (google.protobuf.Empty);
+	rpc GetManualPlannerSeed(google.protobuf.Empty) returns (datamodel.planning.ManualPlannerSetCollection);
+	rpc ResetManualPlanner(google.protobuf.Empty) returns (google.protobuf.Empty);
+
+  rpc GetAllPlanners(google.protobuf.Empty) returns (GetAllPlannersResponse);
+  rpc AddPlanner(AddPlannerRequest) returns (AddPlannerResponse);
+  rpc UpdatePlanner(UpdatePlannerRequest) returns (UpdatePlannerResponse);
+	rpc RemovePlanner(RemovePlannerRequest) returns (google.protobuf.Empty);
+}
+
+message PlannerInfoRequest {
+  string planner_id = 1;
+}
+
+message PlannerInfoResponse { 
+  datamodel.planning.PlannerServiceInfo info = 1;
+}
+
+message PlannerSettingsRequest {
+  string planner_id = 1;
+}
+
+message GetAllPlannersResponse {
+	repeated datamodel.planning.PlannerServiceInfo planners = 1; // gets all currently registered planners
+}
+
+message AddPlannerRequest {
+  string name = 1;
+  optional string address = 2;
+}
+
+message AddPlannerResponse {
+  bool success = 1;
+  optional string error_message = 2;
+}
+
+message UpdatePlannerRequest {
+  string planner_id = 1;
+  optional string name = 2;
+  optional string url = 3;
+}
+
+message UpdatePlannerResponse {
+  bool success = 1;
+  optional string error_message = 2;
+}
+
+message RemovePlannerRequest {
+  string planner_id = 1;
+}

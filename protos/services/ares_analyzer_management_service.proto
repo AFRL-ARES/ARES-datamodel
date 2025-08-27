@@ -3,21 +3,22 @@
 package ares.services;
 
 import "analyzing/analyzer_info.proto";
-import "analyzing/analyzer_state.proto";
+import "connection/connection_state.proto";
 import "analyzing/analyzer_settings.proto";
 import "ares_struct.proto";
 
 import "google/protobuf/empty.proto";
 
 service AresAnalyzerManagementService {
+	rpc GetState(datamodel.connection.StateRequest) returns (datamodel.connection.StateResponse);
+	rpc GetInfo(AnalyzerInfoRequest) returns (AnalyzerInfoResponse);
+	rpc SetAnalyzerSettings(datamodel.analyzing.AnalyzerSettings) returns (google.protobuf.Empty);
+	rpc GetAnalyzerSettings(AnalyzerSettingsRequest) returns (datamodel.AresStruct);
+
 	rpc GetAllAnalyzers(google.protobuf.Empty) returns (GetAllAnalyzersResponse);
 	rpc AddRemoteAnalyzer(AddRemoteAnalyzerRequest) returns (AddRemoteAnalyzerResponse);
 	rpc UpdateRemoteAnalyzer(UpdateRemoteAnalyzerRequest) returns (UpdateRemoteAnalyzerResponse);
 	rpc RemoveRemoteAnalyzer(RemoveRemoteAnalyzerRequest) returns (google.protobuf.Empty);
-	rpc GetState(AnalyzerStateRequest) returns (AnalyzerStateResponse);
-	rpc GetInfo(AnalyzerInfoRequest) returns (AnalyzerInfoResponse);
-	rpc SetAnalyzerSettings(datamodel.analyzing.AnalyzerSettings) returns (google.protobuf.Empty);
-	rpc GetAnalyzerSettings(AnalyzerSettingsRequest) returns (datamodel.AresStruct);
 }
 
 message GetAllAnalyzersResponse {
@@ -52,15 +53,6 @@ message RemoveRemoteAnalyzerRequest {
 	string analyzer_id = 1;
 	bool success = 2;
 	optional string error_message = 3;
-}
-
-message AnalyzerStateRequest {
-	string analyzer_id = 1;
-}
-
-message AnalyzerStateResponse {
-	datamodel.analyzing.AnalyzerState state = 1;
-	string state_message = 2;
 }
 
 message AnalyzerInfoRequest {

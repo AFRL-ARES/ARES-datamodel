@@ -2,9 +2,6 @@ syntax = "proto3";
 
 package ares.datamodel.analyzing;
 
-import "google/protobuf/wrappers.proto";
-
-
 message AnalyzerConfig {
 	optional string unique_id = 1; // A unique id for this analyzer
 	string name = 2; // name of the analyzer

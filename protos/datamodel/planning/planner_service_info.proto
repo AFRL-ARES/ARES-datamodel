@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "planning/planner_service_capabilities.proto";
+
+package ares.datamodel.planning;
+
+message PlannerServiceInfo {
+	optional string unique_id = 1; // A unique id for this planner
+	string name = 2; // name of the planner adapter
+	string type = 3; // type name of the planner
+	string version = 4; // version of the planner
+	string address = 5; // address for communicating with the planner
+	optional string description = 6; //Optional description for the planning service
+	PlannerServiceCapabilities capabilities = 7; // any info that might describe what the planner needs or is capable of
+}

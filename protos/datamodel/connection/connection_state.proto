@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package ares.datamodel.connection;
+
+message StateRequest {
+	string id = 1;
+}
+
+message StateResponse {
+  State state = 1;
+  string state_message = 2;
+}
+
+enum State {
+	UNSPECIFIED_STATE = 0;
+	ACTIVE = 1;
+	INACTIVE = 2;
+	ERROR = 3;
+}

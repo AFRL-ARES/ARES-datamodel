@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ares.datamodel.connection;
+
+message ConnectionStatusRequest {
+	string name = 1;
+}
+
+message ConnectionStatus {
+  AresStatus status = 1;
+  string info = 2;
+}
+
+enum AresStatus {
+	UNKNOWN_CONNECTION_STATUS = 0;
+	CONNECTED = 1;
+	DISCONNECTED = 2;
+}

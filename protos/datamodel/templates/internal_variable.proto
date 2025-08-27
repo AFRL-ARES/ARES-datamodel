@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ares.datamodel.templates;
 
-import "google/protobuf/wrappers.proto";
-
 message InternalVariableAllocation {
     optional string unique_id = 1;
     InternalVariableType internal_variable_type = 2;

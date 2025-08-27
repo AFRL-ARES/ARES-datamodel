@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package ares.datamodel.connection;
+
+message InfoResponse {
+	string name = 1;
+	string version = 2;
+	optional string description = 3;
+}

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package ares.datamodel.planning;
+
+import "ares_struct.proto";
+import "ares_data_type.proto";
+
+//A collection of messages relevant to the planning process
+message PlanningRequest {
+  repeated planning.PlanningParameter planning_parameters = 1; // The parameters ARES is requesting the service to plan for
+  AresStruct adapter_settings = 2; // The settings associated with this plan request
+}
+
+message PlanningResponse {
+    repeated planning.PlannedParameter planned_parameters = 1; // Parameters that have received planning values from the planning service
+}
+
+message PlanningParameter {
+  string parameter_name = 1; // Name descriptor of the parameter
+  optional double minimum_value = 2; // The minimum value that can be associated with the parameter
+  optional double maximum_value = 3; // The maximum value that can be associated with the parameter
+  optional double minimum_precision = 4; // The minimum precision associated with the parameter
+  repeated AresValue parameter_history = 5; // Previous values used for the parameter
+  AresDataType data_type = 6; // The data type of the paramere
+  PlannerMetadata metadata = 7; // Metadata associated with the parameter
+  bool is_planned = 8; // Set based on whether the parameter should be planned for
+  bool is_result = 9; // Set based on whether the parameter is designed as the result of the experiment
+  string planner_name = 10; // The planner requested to plan for the parameter
+}
+
+message PlannedParameter {
+  string parameter_name = 1; // Name descriptor of the parameter
+  AresValue parameter_value = 2; // Value of the planned parameter
+  PlannerMetadata metadata = 3; // Metadata associated with the planned parameter
+}
+
+//This is sort of a place holder for now, until we (or atleast I) understand our needs better
+message PlannerMetadata {
+    string metadata_name = 1;
+}

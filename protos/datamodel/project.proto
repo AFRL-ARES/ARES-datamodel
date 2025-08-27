@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ares.datamodel;
 
-import "google/protobuf/wrappers.proto";
-
 message Project {
 	optional string unique_id = 1; // A unique id for this project
 	string name = 2; // The name of the project

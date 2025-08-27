@@ -4,7 +4,7 @@ package ares.datamodel.templates;
 
 import "templates/experiment_template.proto";
 import "templates/parameter_metadata.proto";
-import "templates/planner_allocation.proto";
+import "planning/planner_allocation.proto";
 
 message CampaignTemplate {
 	optional string unique_id = 1; // A unique id for this template
@@ -13,5 +13,5 @@ message CampaignTemplate {
 	ExperimentTemplate closeout_template = 4; // An experiment template that defines a closeout script for the campaign
 	string name = 5; // Name of the campaign. Doesn't have to be descriptive, and is used for lookup
 	repeated ParameterMetadata plannable_parameters = 6; // The plannable parameters or variables available to commands within experiments
-	repeated PlannerAllocation planner_allocations = 7; // Collection of planner-to-parameter allocations for planning purposes
+	repeated planning.PlannerAllocation planner_allocations = 7; // Collection of planner-to-parameter allocations for planning purposes
 }

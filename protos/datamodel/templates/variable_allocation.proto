@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ares.datamodel.templates;
 
-import "google/protobuf/wrappers.proto";
-
 message VariableAllocation {
 	string unqiue_id = 1; // a unique id for this entity
 	VariableType variable_type = 2; // the assigned variable type 

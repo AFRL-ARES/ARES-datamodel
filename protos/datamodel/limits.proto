@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 package ares.datamodel;
-import "google/protobuf/wrappers.proto";
 
 message Limits {
 	optional string unique_id = 1; // A unique id for this limit

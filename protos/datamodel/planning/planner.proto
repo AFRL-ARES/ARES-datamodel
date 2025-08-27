@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package ares.datamodel.planning;
+
+message Planner {
+  optional string unique_id = 1;
+  string planner_name = 2; // Name descriptor of the planner
+  string description = 3; // A brief description of this planner
+  string version = 4; // Version descriptor of the planner
+}

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "planning/plan.proto";
+import "planning/planner_service_capabilities.proto";
+import "connection/connection_state.proto";
+import "connection/connection_status.proto";
+import "connection/connection_info.proto";
+
+package ares.datamodel.planning.remote;
+
+service AresRemotePlannerService {
+  rpc Plan(planning.PlanningRequest) returns (planning.PlanningResponse);
+  rpc GetPlannerServiceCapabilities(google.protobuf.Empty) returns (PlannerServiceCapabilities);
+
+  rpc GetState(google.protobuf.Empty) returns (connection.StateResponse);
+  rpc GetConnectionStatus(google.protobuf.Empty) returns (connection.ConnectionStatus);
+  rpc GetInfo(google.protobuf.Empty) returns (connection.InfoResponse);
+}

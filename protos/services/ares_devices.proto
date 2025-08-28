@@ -24,12 +24,13 @@ service AresDevices {
 	rpc Activate(DeviceActivateRequest) returns (google.protobuf.Empty);
 	rpc SetDeviceSettings(datamodel.device.DeviceSettings) returns (google.protobuf.Empty);
 	rpc GetDeviceSettings(DeviceSettingsRequest) returns (datamodel.AresStruct);
-  	
+  rpc GetDeviceState(DeviceStateRequest) returns (DeviceStateResponse);
+
 	rpc ListRemoteAresDevices(google.protobuf.Empty) returns (ListAresRemoteDevicesResponse);
 	rpc AddRemoteDevice(AddRemoteDeviceRequest) returns (AddRemoteDeviceResponse);
 	rpc RemoveRemoteDevice(RemoveRemoteDeviceRequest) returns (RemoveRemoteDeviceResponse);
 	rpc UpdateRemoteDevice(UpdateRemoteDeviceRequest) returns (UpdateRemoteDeviceResponse);
-  	rpc GetAllRemoteDevicesConfigs(google.protobuf.Empty) returns (RemoteDeviceConfigResponse);
+	rpc GetAllRemoteDevicesConfigs(google.protobuf.Empty) returns (RemoteDeviceConfigResponse);
 }
 
 message ListAresDevicesResponse
@@ -57,6 +58,14 @@ message CommandMetadatasResponse {
 
 message DeviceStatusRequest {
 	string device_id = 1; // device name of the device for which the status needs to be known
+}
+
+message DeviceStateRequest {
+	string device_id = 1;
+}
+
+message DeviceStateResponse {
+	datamodel.AresStruct state = 1;
 }
 
 message DeviceInfoRequest {

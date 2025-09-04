@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+import "ares_struct.proto";
+
+message DeviceExecutionResult {
+	AresStruct result = 1;
+	bool success = 2; // Whether or not the execution was successful
+	string error = 3; // Error message assuming the success is false
+}

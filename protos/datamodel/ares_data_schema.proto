@@ -11,14 +11,11 @@ message AresDataSchema {
 	map<string, SchemaEntry> fields = 1;
 }
 
-// This is an simpler schema without the need of any extra metadata. Just simple key and type
-message AresDataSchemaSimplified {
-	map<string, AresDataType> fields = 1;
-}
-
 message SchemaEntry {
 	AresDataType type = 1; // the type of data
 	bool optional = 2; // is the data optional
+  string description = 3; // describe the purpose of this particular piece of data
+  string unit = 4; // can be set if this schema entry corresponds with a data type with potential units (Temperature: DegreesCelsius)
 	// an optional list of either available string or number choices in case the input needs to be constrained.
 	// the list of choices should match the specified type
 	oneof available_choices {

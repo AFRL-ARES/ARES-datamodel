@@ -4,7 +4,7 @@ package ares.datamodel;
 
 import "ares_struct.proto";
 
-message DeviceCommandResult {
+message CommandResult {
 	optional string unique_id = 1;
 	AresStruct result = 2;
 	bool success = 3; // Whether or not the execution was successful

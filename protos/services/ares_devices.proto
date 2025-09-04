@@ -5,28 +5,47 @@ package ares.services.device;
 import "google/protobuf/empty.proto";
 import "templates/command_metadata.proto";
 import "templates/command_template.proto";
-import "device_command_result.proto";
+import "device/device_execution_result.proto";
+import "device/remote_device_config.proto";
 import "device/device_status.proto";
+import "device/device_info.proto";
 import "device/device_config.proto";
+import "device/device_settings.proto";
+import "device/device_polling_settings.proto";
+import "ares_struct.proto";
+import "ares_data_schema.proto";
 
 service AresDevices {
 	rpc ListAresDevices(google.protobuf.Empty) returns (ListAresDevicesResponse);
+	rpc GetDeviceInfo(DeviceInfoRequest) returns (datamodel.device.DeviceInfo);
 	rpc GetServerSerialPorts(google.protobuf.Empty) returns (ListServerSerialPortsResponse);
-	rpc GetDeviceStatus(DeviceStatusRequest) returns (datamodel.device.DeviceStatus);
+	rpc GetDeviceStatus(DeviceStatusRequest) returns (datamodel.device.DeviceOperationalStatus);
 	rpc GetCommandMetadatas(CommandMetadatasRequest) returns (CommandMetadatasResponse);
-	rpc ExecuteCommand(datamodel.templates.CommandTemplate) returns (datamodel.DeviceCommandResult);
+	rpc ExecuteCommand(datamodel.templates.CommandTemplate) returns (datamodel.device.DeviceExecutionResult);
 	rpc GetAllDeviceConfigs(DeviceConfigRequest) returns (DeviceConfigResponse);
 	rpc Activate(DeviceActivateRequest) returns (google.protobuf.Empty);
-}
+	rpc SetDeviceSettings(datamodel.device.DeviceSettings) returns (google.protobuf.Empty);
+	rpc GetDeviceSettings(DeviceSettingsRequest) returns (datamodel.AresStruct);
+  rpc GetDeviceState(DeviceStateRequest) returns (DeviceStateResponse);
+  rpc GetDeviceStateStream(DeviceStateStreamRequest) returns (stream DeviceStateResponse);
+  rpc GetDeviceStateSchema(DeviceStateSchemaRequest) returns (DeviceStateSchemaResponse);
 
-message AresDeviceInfo {
-	string name = 1; // Name of the device
-	string type = 2; // Type of the device
+
+	rpc ListRemoteAresDevices(google.protobuf.Empty) returns (ListAresRemoteDevicesResponse);
+	rpc AddRemoteDevice(AddRemoteDeviceRequest) returns (AddRemoteDeviceResponse);
+	rpc RemoveRemoteDevice(RemoveRemoteDeviceRequest) returns (RemoveRemoteDeviceResponse);
+	rpc UpdateRemoteDevice(UpdateRemoteDeviceRequest) returns (UpdateRemoteDeviceResponse);
+	rpc GetAllRemoteDevicesConfigs(google.protobuf.Empty) returns (RemoteDeviceConfigResponse);
 }
 
 message ListAresDevicesResponse
 {
-	repeated AresDeviceInfo ares_devices = 1; // collection of ares_device objects, used when all the ares devices are needed
+	repeated datamodel.device.DeviceInfo ares_devices = 1; // collection of ares_device objects, used when all the ares devices are needed
+}
+
+message ListAresRemoteDevicesResponse
+{
+  repeated datamodel.device.DeviceInfo devices = 1;
 }
 
 message ListServerSerialPortsResponse
@@ -35,21 +54,50 @@ message ListServerSerialPortsResponse
 }
 
 message CommandMetadatasRequest {
-	string device_name = 1; // device name of the device for which the commands need to be known
+	string device_id = 1; // device name of the device for which the commands need to be known
 }
 
 message CommandMetadatasResponse {
 	repeated datamodel.templates.CommandMetadata metadatas = 1;  // list of command information supported by the requested device
 }
 
-message DeviceStatusRequest
+message DeviceStatusRequest {
+	string device_id = 1; // device name of the device for which the status needs to be known
+}
+
+message DeviceStateStreamRequest {
+  string device_id = 1;
+  datamodel.device.DevicePollingSettings polling_settings = 2;
+}
+
+message DeviceStateRequest {
+	string device_id = 1;
+}
+
+message DeviceStateResponse {
+	datamodel.AresStruct state = 1;
+}
+
+message DeviceStateSchemaRequest {
+	string device_id = 1;
+}
+
+message DeviceStateSchemaResponse {
+	datamodel.AresDataSchema schema = 1;
+}
+
+message DeviceInfoRequest {
+	string device_id = 1; // device name of the device for which the status needs to be known
+}
+
+message DeviceSettingsRequest
 {
-	string device_name = 1; // device name of the device for which the status needs to be known
+	string device_id = 1; // device name of the device for which the status needs to be known
 }
 
 message DeviceActivateRequest
 {
-	string device_name = 1; // name of the device to be activated/reactivated
+	string device_id = 1; // name of the device to be activated/reactivated
 }
 
 message DeviceConfigRequest {
@@ -58,4 +106,41 @@ message DeviceConfigRequest {
 
 message DeviceConfigResponse {
 	repeated datamodel.device.DeviceConfig configs = 1;
+}
+
+message RemoteDeviceConfigResponse {
+	repeated datamodel.device.RemoteDeviceConfig configs = 1;
+}
+
+message AddRemoteDeviceRequest {
+	string name = 1;
+	string url = 2;
+}
+
+message AddRemoteDeviceResponse {
+	string device_id = 1;
+	bool success = 2;
+	optional string error_message = 3;
+}
+
+message UpdateRemoteDeviceRequest {
+	// the id of the device to be updated
+	string device_id = 1;
+	// the following values are the optional new values for the device
+	optional string name = 2;
+	optional string url = 3;
+}
+
+message UpdateRemoteDeviceResponse {
+	bool success = 1;
+	optional string error_message = 2;
+}
+
+message RemoveRemoteDeviceRequest {
+	string device_id = 1;
+}
+
+message RemoveRemoteDeviceResponse {
+	bool success = 1;
+	optional string error_message = 2;
 }

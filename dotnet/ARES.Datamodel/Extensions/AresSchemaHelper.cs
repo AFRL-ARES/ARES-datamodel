@@ -52,16 +52,18 @@ public static class AresSchemaHelper
     return schema;
   }
 
-  public static AresDataSchemaSimplified CreateSchema(string name, AresDataType type)
+  public static AresDataSchema CreateSchema(string name, AresDataType type)
   {
-    var schema = new AresDataSchemaSimplified();
+    var schema = new AresDataSchema();
     schema.AddEntry(name, type);
     return schema;
   }
 
-  public static AresDataSchemaSimplified AddEntry(this AresDataSchemaSimplified schema, string name, AresDataType type)
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type)
   {
-    schema.Fields[name] = type;
+    var schemaEntry = new SchemaEntry();
+    schemaEntry.Type = type;
+    schema.Fields[name] = schemaEntry;
 
     return schema;
   }

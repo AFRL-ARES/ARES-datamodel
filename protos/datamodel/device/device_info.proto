@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+import "ares_data_schema.proto";
+import "device/device_command_descriptor.proto";
+
+message DeviceInfo {
+	string unique_id = 1; // A unique id for this device
+	string name = 2; // name of the device
+	string type = 3; // the type name of the device
+	optional string description = 4;
+	string version = 5;
+	optional string url = 6; // the remote address of the device if it's a remote device
+	optional datamodel.AresDataSchema settings_schema = 7; // Schema for the device settings
+	repeated DeviceCommandDescriptor commands = 8; // The supported commands for the device
+}

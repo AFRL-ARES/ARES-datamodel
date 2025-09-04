@@ -2,9 +2,6 @@ syntax = "proto3";
 
 package ares.datamodel.device;
 
-import "google/protobuf/wrappers.proto";
-
-
 message RemoteDeviceConfig {
 	optional string unique_id = 1; // A unique id for this device
 	string name = 2; // name of the device

@@ -9,6 +9,7 @@ import "google/protobuf/wrappers.proto";
 import "ares_data_schema.proto";
 import "device/device_command_descriptor.proto";
 import "device/device_execution_result.proto";
+import "device/device_polling_settings.proto";
 
 // defines a contract for ares to use in order to talk to a remote analyzer
 // designed to be similar to the internal ARES analyzer implementation
@@ -52,7 +53,7 @@ message CommandsResponse {
 }
 
 message DeviceStateStreamRequest {
-  uint32 interval_ms = 1; // interval for data responses in milliseconds
+  DevicePollingSettings polling_settings = 1;
 }
 
 message StateSchemaResponse {

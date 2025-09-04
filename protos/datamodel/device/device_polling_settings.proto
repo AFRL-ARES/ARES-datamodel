@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+
+package ares.datamodel.device;
+
+message DevicePollingSettings {
+  PollingType polling_type = 1;
+  // how often to poll in milliseconds
+  // When polling type is INTERVAL, the polling will happen every interval
+  // If ON_CHANGE is used, the interval will be used as a minimum interval. 
+  // (ex.: state changes every second, but if the interval is set to 2 seconds, we'll still get update state every 2 seconds.)
+  sint64 interval_ms = 2; 
+}
+
+enum PollingType {
+  NONE = 0; // no need to stream state data from this device
+  INTERVAL = 1; // stream state data at a given interval
+  ON_CHANGE = 2; // stream state data when it's changed
+}

@@ -11,7 +11,9 @@ import "device/device_status.proto";
 import "device/device_info.proto";
 import "device/device_config.proto";
 import "device/device_settings.proto";
+import "device/device_polling_settings.proto";
 import "ares_struct.proto";
+import "ares_data_schema.proto";
 
 service AresDevices {
 	rpc ListAresDevices(google.protobuf.Empty) returns (ListAresDevicesResponse);
@@ -26,6 +28,8 @@ service AresDevices {
 	rpc GetDeviceSettings(DeviceSettingsRequest) returns (datamodel.AresStruct);
   rpc GetDeviceState(DeviceStateRequest) returns (DeviceStateResponse);
   rpc GetDeviceStateStream(DeviceStateStreamRequest) returns (stream DeviceStateResponse);
+  rpc GetDeviceStateSchema(DeviceStateSchemaRequest) returns (DeviceStateSchemaResponse);
+
 
 	rpc ListRemoteAresDevices(google.protobuf.Empty) returns (ListAresRemoteDevicesResponse);
 	rpc AddRemoteDevice(AddRemoteDeviceRequest) returns (AddRemoteDeviceResponse);
@@ -63,7 +67,7 @@ message DeviceStatusRequest {
 
 message DeviceStateStreamRequest {
   string device_id = 1;
-  sint64 interval_ms = 2; // interval in milliseconds
+  datamodel.device.DevicePollingSettings polling_settings = 2;
 }
 
 message DeviceStateRequest {
@@ -72,6 +76,14 @@ message DeviceStateRequest {
 
 message DeviceStateResponse {
 	datamodel.AresStruct state = 1;
+}
+
+message DeviceStateSchemaRequest {
+	string device_id = 1;
+}
+
+message DeviceStateSchemaResponse {
+	datamodel.AresDataSchema schema = 1;
 }
 
 message DeviceInfoRequest {

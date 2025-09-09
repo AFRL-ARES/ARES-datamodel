@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package ares.services;
+
+import "device/device_state_request_filter.proto";
+
+service DeviceStateExportService {
+	// This returns a byte array that is ready to be saved as a specified format
+	// ex.: This could return a byte string that represents a zip file
+	rpc GetStateExport(DeviceStateRequest) returns (DeviceStateResponse);
+}
+
+message DeviceStateRequest {
+	datamodel.device.DeviceStateRequestFilter filter = 1;
+	ExportType export_type = 2;
+}
+
+enum ExportType {
+	UNSPECIFIED = 0;
+	COMBINED = 1;
+	ZIPPED = 2;
+}
+
+message DeviceStateResponse {
+	bytes data = 1;
+}

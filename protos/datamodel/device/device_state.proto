@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+import "google/protobuf/timestamp.proto";
+import "ares_struct.proto";
+
+message DeviceState
+{
+	string device_id = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  AresStruct data = 3;
+}

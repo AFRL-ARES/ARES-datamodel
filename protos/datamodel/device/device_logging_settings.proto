@@ -8,10 +8,11 @@ message DeviceLoggingSettings {
     INTERVAL = 1; // log the device state every given interval in milliseconds
     ON_CHANGE = 2; // only log device state when changed
   }
-  LoggingType logging_type = 1;
+  string device_id = 1; // the device that these settings apply to
+  LoggingType logging_type = 2;
   // how often to log in milliseconds
   // When logging type is INTERVAL, the logging will happen every interval
   // If ON_CHANGE is used, the interval will be used as a minimum interval. 
   // (ex.: state changes every second, but if the interval is set to 2 seconds, we'll still get update state every 2 seconds.)
-  sint64 interval_ms = 2; 
+  sint64 interval_ms = 3; 
 }

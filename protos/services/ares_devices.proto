@@ -30,7 +30,9 @@ service AresDevices {
   rpc GetDeviceState(DeviceStateRequest) returns (DeviceStateResponse);
   rpc GetDeviceStateStream(DeviceStateStreamRequest) returns (stream DeviceStateResponse);
   rpc GetDeviceStateSchema(DeviceStateSchemaRequest) returns (DeviceStateSchemaResponse);
-  rpc SetDeviceLoggingSettings(DeviceLoggingSettingRequest) returns (google.protobuf.Empty);
+  rpc SetDeviceLoggerSettings(datamodel.device.DeviceLoggingSettings) returns (google.protobuf.Empty);
+  rpc GetDeviceLoggerSettings(DeviceLoggerSettingsRequest) returns (datamodel.device.DeviceLoggingSettings);
+  rpc GetDeviceLoggers(google.protobuf.Empty) returns (DeviceLoggersResponse);
 
 
 	rpc ListRemoteAresDevices(google.protobuf.Empty) returns (ListAresRemoteDevicesResponse);
@@ -88,9 +90,12 @@ message DeviceStateSchemaResponse {
 	datamodel.AresDataSchema schema = 1;
 }
 
-message DeviceLoggingSettingRequest {
+message DeviceLoggerSettingsRequest {
   string device_id = 1;
-  datamodel.device.DeviceLoggingSettings settings = 2;
+}
+
+message DeviceLoggersResponse {
+  repeated datamodel.device.DeviceLoggingSettings loggers = 1;
 }
 
 message DeviceInfoRequest {

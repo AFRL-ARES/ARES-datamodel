@@ -15,11 +15,5 @@ message DeviceLoggingSettings {
   // If ON_CHANGE is used, the interval will be used as a minimum interval. 
   // (ex.: state changes every second, but if the interval is set to 2 seconds, we'll still get update state every 2 seconds.)
   sint64 interval_ms = 3;
-  repeated DeviceLoggingDelta deltas = 4;
-}
-
-message DeviceLoggingDelta {
-  string key = 1;
-  // values <= 0 should be ignored
-  double delta = 2;
+  map<string, double> deltas = 4;
 }

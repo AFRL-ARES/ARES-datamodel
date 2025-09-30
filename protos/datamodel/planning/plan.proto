@@ -9,6 +9,7 @@ import "ares_data_type.proto";
 message PlanningRequest {
   repeated planning.PlanningParameter planning_parameters = 1; // The parameters ARES is requesting the service to plan for
   AresStruct adapter_settings = 2; // The settings associated with this plan request
+  repeated double analysis_results = 3; // A collection of analysis results produced by an analyzer
 }
 
 message PlanningResponse {
@@ -21,12 +22,11 @@ message PlanningParameter {
   optional double maximum_value = 3; // The maximum value that can be associated with the parameter
   optional double minimum_precision = 4; // The minimum precision associated with the parameter
   repeated ParameterHistoryInfo parameter_history = 5; // Previous values used for the parameter
-  repeated double analysis_results = 6; // A collection of analysis results produced by an analyzer
-  AresDataType data_type = 7; // The data type of the parameter
-  PlannerMetadata metadata = 8; // Metadata associated with the parameter
-  bool is_planned = 9; // Set based on whether the parameter should be planned for
-  bool is_result = 10; // Set based on whether the parameter is designed as the result of the experiment
-  string planner_name = 11; // The planner requested to plan for the parameter
+  AresDataType data_type = 6; // The data type of the parameter
+  PlannerMetadata metadata = 7; // Metadata associated with the parameter
+  bool is_planned = 8; // Set based on whether the parameter should be planned for
+  bool is_result = 9; // Set based on whether the parameter is designed as the result of the experiment
+  string planner_name = 10; // The planner requested to plan for the parameter
 }
 
 message ParameterHistoryInfo {

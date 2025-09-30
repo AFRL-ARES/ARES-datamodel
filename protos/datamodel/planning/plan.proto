@@ -20,14 +20,18 @@ message PlanningParameter {
   optional double minimum_value = 2; // The minimum value that can be associated with the parameter
   optional double maximum_value = 3; // The maximum value that can be associated with the parameter
   optional double minimum_precision = 4; // The minimum precision associated with the parameter
-  repeated AresValue parameter_history = 5; // Previous values used for the parameter
-  repeated AresValue parameter_output_history = 6; // An optional list of values that have been achieved for this parameter
-  repeated double analysis_results = 7; // A collection of analysis results produced by an analyzer
-  AresDataType data_type = 8; // The data type of the parameter
-  PlannerMetadata metadata = 9; // Metadata associated with the parameter
-  bool is_planned = 10; // Set based on whether the parameter should be planned for
-  bool is_result = 11; // Set based on whether the parameter is designed as the result of the experiment
-  string planner_name = 12; // The planner requested to plan for the parameter
+  repeated ParameterHistoryInfo parameter_history = 5; // Previous values used for the parameter
+  repeated double analysis_results = 6; // A collection of analysis results produced by an analyzer
+  AresDataType data_type = 7; // The data type of the parameter
+  PlannerMetadata metadata = 8; // Metadata associated with the parameter
+  bool is_planned = 9; // Set based on whether the parameter should be planned for
+  bool is_result = 10; // Set based on whether the parameter is designed as the result of the experiment
+  string planner_name = 11; // The planner requested to plan for the parameter
+}
+
+message ParameterHistoryInfo {
+  AresValue planned_value = 1; // the value that was planned
+  optional AresValue achieved_value = 2; // optionally the value that was achieved for the planned value
 }
 
 message PlannedParameter {

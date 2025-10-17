@@ -13,7 +13,7 @@ import "ares_campaign_tag.proto";
 
 service AresAutomation {
 	// Campaigns
-	rpc GetAllCampaigns(GetAllCampaignsRequest) returns (CampaignsResponse);
+	rpc GetAllCampaigns(GetAllCampaignsRequest) returns (GetAllCampaignsResponse);
 	rpc GetSingleCampaign(CampaignRequest) returns (datamodel.templates.CampaignTemplate);
 	rpc RemoveCampaign(CampaignRequest) returns (google.protobuf.Empty);
 	rpc CampaignExists(CampaignRequest) returns (google.protobuf.BoolValue);
@@ -92,8 +92,13 @@ message GetAllCampaignsRequest {
 	string file_path = 1;
 }
 
-message CampaignsResponse {
-	repeated datamodel.templates.CampaignTemplate campaign_templates = 1; // list of campaign templates for a requested campaign name
+message GetAllCampaignsResponse {
+	repeated CampaignTemplateSummary campaigns = 1;
+}
+
+message CampaignTemplateSummary {
+	string unique_id = 1;
+	string campaign_name = 2;
 }
 
 message CampaignResponse {

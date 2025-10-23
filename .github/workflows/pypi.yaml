@@ -15,9 +15,9 @@ jobs:
       run:
         working-directory: ./python
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.9"
       - name: Set ARES_DM_PACKAGE_VERSION variable from tag
@@ -45,7 +45,7 @@ jobs:
 
     steps:
       - name: Retrieve release distributions
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: ares-dm-release-dists
           path: dist/

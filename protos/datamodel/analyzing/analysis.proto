@@ -2,8 +2,10 @@ syntax = "proto3";
 
 package ares.datamodel.analyzing;
 
+import "ares_outcome_enum.proto";
+
 message Analysis {
 	float result = 1; // Result of the analysis performed on the given inputs
-	bool success = 2; // Whether or not the analysis was successful
+	Outcome analysis_outcome = 2; // Whether or not the analysis was successful
 	optional string error_string = 3; // A string that should be populated when the analysis was not successful
 }

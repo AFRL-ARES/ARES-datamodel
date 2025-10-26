@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ares.datamodel;
+
+enum Outcome {
+    UNSPECIFIED_OUTCOME = 0;
+    SUCCESS = 1;
+    FAILURE = 2;
+    WARNING = 3;
+    CANCELED = 4;
+}

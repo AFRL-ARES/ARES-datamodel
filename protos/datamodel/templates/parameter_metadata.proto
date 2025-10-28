@@ -5,6 +5,7 @@ package ares.datamodel.templates;
 import "limits.proto";
 import "google/protobuf/any.proto";
 import "ares_data_schema.proto";
+import "ares_struct.proto";
 
 message ParameterMetadata {
 	optional string unique_id = 1; // A unique id for this metadata
@@ -18,5 +19,6 @@ message ParameterMetadata {
 	optional SchemaEntry schema = 9; // The schema describing the type of this parameter
 	string planner_name = 10; // Name descriptor of the planner used to plan for this parameter 
 	string planner_description = 11; // Descriptor of the planner used
-	google.protobuf.Any extra_info = 12; //It's a pain
+	optional AresValue initial_value = 12; // Optional initial value, specifically intended for planner utilization
+	google.protobuf.Any extra_info = 13; // It's a pain
 	}

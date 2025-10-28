@@ -4,6 +4,7 @@ package ares.datamodel.planning;
 
 import "ares_struct.proto";
 import "ares_data_type.proto";
+import "ares_outcome_enum.proto";
 
 //A collection of messages relevant to the planning process
 message PlanningRequest {
@@ -15,6 +16,8 @@ message PlanningRequest {
 
 message PlanningResponse {
   repeated planning.PlannedParameter planned_parameters = 1; // Parameters that have received planning values from the planning service
+  Outcome planning_outcome = 2; // Whether or not the planning proccess was successful 
+  optional string error_string = 3; // Optional string for defining errors in the planning process
 }
 
 message PlanningParameter {

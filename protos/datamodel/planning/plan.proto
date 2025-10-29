@@ -31,6 +31,7 @@ message PlanningParameter {
   bool is_planned = 8; // Set based on whether the parameter should be planned for
   bool is_result = 9; // Set based on whether the parameter is designed as the result of the experiment
   string planner_name = 10; // The planner requested to plan for the parameter
+  optional AresValue initial_value = 11; // An optional initial value for the planner to use for this parameter 
 }
 
 message ParameterHistoryInfo {

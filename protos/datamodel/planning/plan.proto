@@ -5,13 +5,14 @@ package ares.datamodel.planning;
 import "ares_struct.proto";
 import "ares_data_type.proto";
 import "ares_outcome_enum.proto";
+import "request_metadata.proto";
 
 //A collection of messages relevant to the planning process
 message PlanningRequest {
   repeated planning.PlanningParameter planning_parameters = 1; // The parameters ARES is requesting the service to plan for
   AresStruct adapter_settings = 2; // The settings associated with this plan request
   repeated double analysis_results = 3; // A collection of analysis results produced by an analyzer
-  string session_id = 4; // A Unique ID that represents the on-going ARES session
+  RequestMetadata metadata = 4; // Metadata providing additional context from ARES
 }
 
 message PlanningResponse {

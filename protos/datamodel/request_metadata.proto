@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package ares.datamodel;
+
+message RequestMetadata {
+  string system_name = 1;
+  string campaign_name = 2;
+  string campaign_id = 3;
+  string experiment_id = 4;
+}

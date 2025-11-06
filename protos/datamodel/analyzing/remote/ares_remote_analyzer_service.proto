@@ -4,6 +4,7 @@ package ares.datamodel.analyzing.remote;
 
 import "analyzing/analysis.proto";
 import "ares_struct.proto";
+import "request_metadata.proto";
 import "google/protobuf/empty.proto";
 import "analyzing/analyzer_capabilities.proto";
 import "ares_data_schema.proto";
@@ -36,6 +37,7 @@ message ParameterValidationResult {
 message AnalysisRequest {
 	AresStruct inputs = 1;
 	AresStruct settings = 2;
+	RequestMetadata metadata = 3;
 }
 
 message AnalysisParametersResponse {

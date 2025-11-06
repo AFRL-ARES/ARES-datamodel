@@ -27,7 +27,7 @@ jobs:
           python -m pip install build
           python -m build
       - name: Upload distributions
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ares-dm-release-dists
           path: python/dist/
@@ -45,7 +45,7 @@ jobs:
 
     steps:
       - name: Retrieve release distributions
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: ares-dm-release-dists
           path: dist/

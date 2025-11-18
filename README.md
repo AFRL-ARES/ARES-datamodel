@@ -1,6 +1,11 @@
 # ARES-datamodel
 
 **Generated Protobuf and gRPC C# classes for the ARES Datamodel**
+<!-- License -->
+[![License](https://img.shields.io/github/license/AFRL-ARES/ARES-datamodel)](LICENSE)
+
+<!-- Latest Release -->
+[![GitHub release](https://img.shields.io/github/v/release/AFRL-ARES/ARES-datamodel)](https://github.com/AFRL-ARES/ARES-datamodel/releases)
 
 ---
 
@@ -135,3 +140,4 @@ This project, as well as the rest of the ARES software, is licensed under the MI
 <a id="contact"></a>
 ## 📬 Contact
 For questions, bug reports, or schema proposals please open an issue in this repository with a detailed description of your problem, and how to reproduce it if applicable.
+

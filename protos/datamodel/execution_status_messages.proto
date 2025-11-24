@@ -6,11 +6,15 @@ message CampaignExecutionStatus {
   string campaign_id = 1;
   ExecutionState state = 2;
   repeated ExperimentExecutionStatus experiment_execution_statuses = 3;
+  AnalysisState analysis_state = 4;
+  PlannerState planner_state = 5;
 }
 
 message CampaignExecutionState {
   string campaign_id = 1;
   ExecutionState state = 2;
+  AnalysisState analysis_state = 3;
+  PlannerState planner_state = 4;
 }
 
 message ExperimentExecutionStatus {
@@ -58,4 +62,20 @@ enum ExecutionState {
   RUNNING = 4;
   PAUSED = 5;
   FAILED = 6;
+}
+
+enum AnalysisState {
+  NO_ANALYSIS_REQUIRED = 0;
+  ANALYSIS_INCOMPLETE = 1;
+  ANALYSIS_IN_PROGRESS = 2;
+  ANALYSIS_COMPLETE = 3;
+  ANALYSIS_ERROR = 4;
+}
+
+enum PlannerState {
+  NO_PLANNING_REQUIRED = 0;
+  PLANNING_INCOMPLETE = 1;
+  PLANNING_IN_PROGRESS = 2;
+  PLANNING_COMPLETE = 3;
+  PLANNING_ERROR = 4;
 }

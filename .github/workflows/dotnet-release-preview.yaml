@@ -12,13 +12,13 @@ jobs:
         run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
       - name: Pack
         run: dotnet pack --configuration Release /p:Version=${VERSION} --output .
-        working-directory: dotnet
+        working-directory: dotnet/ARES.Datamodel
       - name: Push
         run: |
           dotnet nuget push Ares.Datamodel.${VERSION}.nupkg \
           --api-key ${NUGET_TOKEN} \
           --source https://api.nuget.org/v3/index.json \
           --skip-duplicate
-        working-directory: dotnet
+        working-directory: dotnet/ARES.Datamodel
         env:
           NUGET_TOKEN: ${{ secrets.NUGET_API_KEY }}

@@ -135,9 +135,11 @@ Please maintain consistent naming and field numbering to preserve backward compa
 
 <a id="license"></a>
 ## ⚖️ License
-This project, as well as the rest of the ARES software, is licensed under the MIT License.
+This project, as well as the rest of the ARES software, is licensed under the MIT License. <br></br>
+The ARES Datamodel has been cleared for release under clearance number AFRL-2025-5329.
 
 <a id="contact"></a>
 ## 📬 Contact
 For questions, bug reports, or schema proposals please open an issue in this repository with a detailed description of your problem, and how to reproduce it if applicable.
+
 

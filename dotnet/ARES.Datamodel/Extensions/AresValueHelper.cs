@@ -113,4 +113,31 @@ public static class AresValueHelper
       _ => CreateDefault(dataType)
     };
   }
+
+  public static bool IsPrimitveType(AresValue value)
+  {
+    switch(value.KindCase)
+    {
+      case AresValue.KindOneofCase.None:
+        return true;
+      case AresValue.KindOneofCase.NullValue:
+        return true;
+      case AresValue.KindOneofCase.BoolValue:
+        return true;
+      case AresValue.KindOneofCase.StringValue:
+        return true;
+      case AresValue.KindOneofCase.NumberValue:
+        return true;
+      case AresValue.KindOneofCase.StringArrayValue:
+        return false;
+      case AresValue.KindOneofCase.NumberArrayValue:
+        return false;
+      case AresValue.KindOneofCase.BytesValue:
+        return false;
+      case AresValue.KindOneofCase.BoolArrayValue:
+        return false;
+      default:
+        return false;
+    }
+  }
 }

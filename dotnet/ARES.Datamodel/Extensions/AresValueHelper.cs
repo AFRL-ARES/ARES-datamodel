@@ -61,6 +61,11 @@ public static class AresValueHelper
     return new AresValue { NullValue = NullValue.NullValue };
   }
 
+  public static AresValue CreateUnit()
+  {
+    return new AresValue { UnitValue = new Unit() };
+  }
+
   public static AresValue CreateBool(bool value)
   {
     return new AresValue { BoolValue = value };
@@ -136,6 +141,8 @@ public static class AresValueHelper
         return false;
       case AresValue.KindOneofCase.BoolArrayValue:
         return false;
+      case AresValue.KindOneofCase.UnitValue:
+        return true;
       default:
         return false;
     }

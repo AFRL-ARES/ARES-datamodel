@@ -19,12 +19,15 @@ message AresValue {
 		NumberArray number_array_value = 6;
 		bytes bytes_value = 7;
 		BoolArray bool_array_value = 8;
+		Unit unit_value = 9;
 	}
 }
 
 enum NullValue {
 	NULL_VALUE = 0;
 }
+
+message Unit {}
 
 message StringArray {
 	repeated string strings = 1;

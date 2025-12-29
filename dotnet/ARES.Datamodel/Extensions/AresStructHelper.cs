@@ -32,6 +32,12 @@ public static class AresStructHelper
     return aresStruct;
   }
 
+  public static AresStruct AddUnit(this AresStruct aresStruct, string key)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateUnit();
+    return aresStruct;
+  }
+
   public static AresStruct AddStringArray(this AresStruct aresStruct, string key, IEnumerable<string> values)
   {
     aresStruct.Fields[key] = AresValueHelper.CreateStringArray(values);
@@ -124,6 +130,13 @@ public static class AresStructHelper
   {
     AresStruct newStruct = new();
     newStruct.Fields[key] = AresValueHelper.CreateNull();
+    return newStruct;
+  }
+
+  public static AresStruct CreateUnitStruct(string key)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateUnit();
     return newStruct;
   }
 

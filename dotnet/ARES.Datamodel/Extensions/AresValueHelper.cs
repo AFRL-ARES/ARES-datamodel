@@ -56,6 +56,18 @@ public static class AresValueHelper
     return val;
   }
 
+  public static AresValue CreateStruct(AresStruct value)
+  {
+    return new AresValue { StructValue = value };
+  }
+
+  public static AresValue CreateList(IEnumerable<AresValue> values)
+  {
+    var list = new AresValueList();
+    list.Values.AddRange(values);
+    return new AresValue { ListValue = list };
+  }
+
   public static AresValue CreateNull()
   {
     return new AresValue { NullValue = NullValue.NullValue };
@@ -63,7 +75,12 @@ public static class AresValueHelper
 
   public static AresValue CreateUnit()
   {
-    return new AresValue { UnitValue = new Unit() };
+    return new AresValue { UnitValue = UnitValue.UnitValue };
+  }
+
+  public static AresValue CreateFunction(string id)
+  {
+    return new AresValue { FunctionValue = new FunctionValue { FunctionId = id } };
   }
 
   public static AresValue CreateBool(bool value)
@@ -76,12 +93,14 @@ public static class AresValueHelper
     return new AresValue { BytesValue = ByteString.CopyFrom(bytes) };
   }
 
-  public static AresValue CreateBoolArray(IEnumerable<bool> values)
+  public static AresValue CreateStruct()
   {
-    var val = new AresValue { BoolArrayValue = new BoolArray() };
-    val.BoolArrayValue.Bools.AddRange(values);
+    return new AresValue { StructValue = new AresStruct() };
+  }
 
-    return val;
+  public static AresValue CreateList()
+  {
+    return new AresValue { ListValue = new AresValueList() };
   }
 
   public static AresValue CreateDefault(AresDataType dataType)
@@ -96,7 +115,8 @@ public static class AresValueHelper
       AresDataType.StringArray => CreateStringArray(Array.Empty<string>()),
       AresDataType.NumberArray => CreateNumberArray(Array.Empty<double>()),
       AresDataType.ByteArray => CreateBytes(Array.Empty<byte>()),
-      AresDataType.BoolArray => CreateBoolArray(Array.Empty<bool>()),
+      AresDataType.Struct => CreateStruct(),
+      AresDataType.List => CreateList(),
       _ => CreateNull()
     };
   }
@@ -119,9 +139,9 @@ public static class AresValueHelper
     };
   }
 
-  public static bool IsPrimitveType(AresValue value)
+  public static bool IsPrimitiveType(AresValue value)
   {
-    switch(value.KindCase)
+    switch (value.KindCase)
     {
       case AresValue.KindOneofCase.None:
         return true;
@@ -139,10 +159,14 @@ public static class AresValueHelper
         return false;
       case AresValue.KindOneofCase.BytesValue:
         return false;
-      case AresValue.KindOneofCase.BoolArrayValue:
+      case AresValue.KindOneofCase.StructValue:
+        return false;
+      case AresValue.KindOneofCase.ListValue:
         return false;
       case AresValue.KindOneofCase.UnitValue:
         return true;
+      case AresValue.KindOneofCase.FunctionValue:
+        return false;
       default:
         return false;
     }

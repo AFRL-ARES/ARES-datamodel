@@ -2,24 +2,46 @@ syntax = "proto3";
 
 package ares.datamodel;
 
+// Import the Enums
 import "ares_data_type.proto";
-import "ares_struct.proto";
+// Import AresStruct, StringArray, NumberArray, etc.
+import "ares_struct.proto"; 
 
 // This is a key value pair that should be used when data is requested in order to describe the data.
 // ex.: {"TemperatureValue": AresDataType.NUMBER, "TestPhoto": AresDataType.BYTE_ARRAY}
 message AresDataSchema {
-	map<string, SchemaEntry> fields = 1;
+  map<string, SchemaEntry> fields = 1;
 }
 
 message SchemaEntry {
-	AresDataType type = 1; // the type of data
-	bool optional = 2; // is the data optional
-  string description = 3; // describe the purpose of this particular piece of data
-  string unit = 4; // can be set if this schema entry corresponds with a data type with potential units (Temperature: DegreesCelsius)
-	// an optional list of either available string or number choices in case the input needs to be constrained.
-	// the list of choices should match the specified type
-	oneof available_choices {
-		StringArray string_choices = 5;
-		NumberArray number_choices = 6;
-	}
+  // The high-level data type (NULL, BOOLEAN, STRUCT, LIST, etc.)
+  AresDataType type = 1; 
+
+  // Is the data optional?
+  bool optional = 2; 
+
+  // Describe the purpose of this particular piece of data
+  string description = 3; 
+
+  // Metadata for units (e.g. "DegreesCelsius", "Meters", "Seconds").
+  // This applies primarily when type is NUMBER or NUMBER_ARRAY.
+  string unit = 4; 
+
+  // Constraints: An optional list of allowed choices.
+  // Note: These types (StringArray, NumberArray) are now imported from ares_struct.proto
+  oneof available_choices {
+    StringArray string_choices = 5;
+    NumberArray number_choices = 6;
+  }
+
+  // RECURSIVE DEFINITIONS:
+
+  // If type == STRUCT, use this to define the internal fields of that struct.
+  // This maps to the 'AresStruct struct_value' in your AresValue message.
+  AresDataSchema struct_schema = 7;
+
+  // If type == LIST, use this to define what a single element in the list looks like.
+  // This maps to the 'AresValueList list_value' in your AresValue message.
+  // Note: Since AresValueList contains AresValues, this schema entry describes the type of those values.
+  SchemaEntry list_element_schema = 8;
 }

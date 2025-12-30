@@ -2,124 +2,145 @@
 
 public static class AresSchemaHelper
 {
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional)
-  {
-    var entry = new SchemaEntry() { Type = type, Optional = optional };
-    schema.Fields[name] = entry;
+  // ------------------------------------------------------------------------
+  // BASIC ENTRIES (Primitives)
+  // ------------------------------------------------------------------------
 
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, string description = "", string unit = "")
+  {
+    var entry = new SchemaEntry
+    {
+      Type = type,
+      Optional = optional,
+      Description = description,
+      Unit = unit
+    };
+    schema.Fields[name] = entry;
     return schema;
   }
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<string> stringOptions)
+  // ------------------------------------------------------------------------
+  // CONSTRAINED ENTRIES (Strings with Choices)
+  // ------------------------------------------------------------------------
+
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<string> stringOptions, string description = "")
   {
-    var entry = new SchemaEntry() { Type = type, Optional = optional };
     if (type != AresDataType.String && type != AresDataType.StringArray)
     {
       throw new InvalidOperationException($"Cannot provide string options to a datatype that is {type}");
     }
-    entry.StringChoices = new StringArray();
+
+    var entry = new SchemaEntry
+    {
+      Type = type,
+      Optional = optional,
+      Description = description,
+      StringChoices = new StringArray()
+    };
+
+    // Note: 'Strings' comes from 'repeated string strings = 1' in ares_struct.proto
     entry.StringChoices.Strings.AddRange(stringOptions);
     schema.Fields[name] = entry;
 
     return schema;
   }
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions)
+  // ------------------------------------------------------------------------
+  // CONSTRAINED ENTRIES (Numbers with Choices)
+  // ------------------------------------------------------------------------
+
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions, string description = "", string unit = "")
   {
-    var entry = new SchemaEntry() { Type = type, Optional = optional };
     if (type != AresDataType.Number && type != AresDataType.NumberArray)
     {
       throw new InvalidOperationException($"Cannot provide number options to a datatype that is {type}");
     }
-    entry.NumberChoices = new NumberArray();
+
+    var entry = new SchemaEntry
+    {
+      Type = type,
+      Optional = optional,
+      Description = description,
+      Unit = unit,
+      NumberChoices = new NumberArray()
+    };
+
+    // Note: 'Numbers' comes from 'repeated double numbers = 2' in ares_struct.proto
     entry.NumberChoices.Numbers.AddRange(numOptions);
     schema.Fields[name] = entry;
 
     return schema;
   }
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<int> numOptions)
+  // Overload for Int options
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<int> numOptions, string description = "", string unit = "")
   {
-    schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n));
+    return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, unit);
+  }
+
+  // Overload for Float options
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<float> numOptions, string description = "", string unit = "")
+  {
+    return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, unit);
+  }
+
+  // ------------------------------------------------------------------------
+  // RECURSIVE ENTRIES (Structs and Lists)
+  // ------------------------------------------------------------------------
+
+  /// <summary>
+  /// Adds a nested Struct schema.
+  /// </summary>
+  public static AresDataSchema AddStructEntry(this AresDataSchema schema, string name, bool optional, AresDataSchema innerStructSchema, string description = "")
+  {
+    var entry = new SchemaEntry
+    {
+      Type = AresDataType.Struct,
+      Optional = optional,
+      Description = description,
+      StructSchema = innerStructSchema // Populates the recursive schema field
+    };
+    schema.Fields[name] = entry;
 
     return schema;
   }
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<float> numOptions)
+  /// <summary>
+  /// Adds a List schema. You must define what a single element of the list looks like.
+  /// </summary>
+  public static AresDataSchema AddListEntry(this AresDataSchema schema, string name, bool optional, SchemaEntry listElementSchema, string description = "")
   {
-    schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n));
+    var entry = new SchemaEntry
+    {
+      Type = AresDataType.List,
+      Optional = optional,
+      Description = description,
+      ListElementSchema = listElementSchema // Populates the recursive element definition
+    };
+    schema.Fields[name] = entry;
 
     return schema;
   }
+
+  // ------------------------------------------------------------------------
+  // FACTORY METHODS
+  // ------------------------------------------------------------------------
 
   public static AresDataSchema CreateSchema(string name, AresDataType type)
   {
     var schema = new AresDataSchema();
-    schema.AddEntry(name, type);
+    schema.AddEntry(name, type, false); // Defaulting optional to false for root creation
     return schema;
   }
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type)
+  public static SchemaEntry CreateSchemaEntry(AresDataType dataType, bool optional, string description = "", string unit = "")
   {
-    var schemaEntry = new SchemaEntry();
-    schemaEntry.Type = type;
-    schema.Fields[name] = schemaEntry;
-
-    return schema;
-  }
-
-  public static SchemaEntry CreateSchemaEntry(AresDataType dataType, bool optional)
-  {
-    return new SchemaEntry() { Type = dataType, Optional = optional };
-  }
-
-  public static SchemaEntry CreateSchemaEntry(AresDataType dataType, bool optional, IEnumerable<string> stringChoices)
-  {
-    if (dataType != AresDataType.String && dataType != AresDataType.StringArray)
-    {
-      throw new InvalidOperationException($"String choices were provided, but the data type was of type {dataType}");
-    }
-
-    var entry = new SchemaEntry
+    return new SchemaEntry
     {
       Type = dataType,
       Optional = optional,
-      StringChoices = new StringArray()
+      Description = description,
+      Unit = unit
     };
-    entry.StringChoices.Strings.AddRange(stringChoices);
-
-    return entry;
-  }
-
-  public static SchemaEntry CreateSchemaEntry(AresDataType dataType, bool optional, IEnumerable<double> numberChoices)
-  {
-    if (dataType != AresDataType.Number && dataType != AresDataType.NumberArray)
-    {
-      throw new InvalidOperationException($"Number choices were provided, but the data type was of type {dataType}");
-    }
-
-    var entry = new SchemaEntry
-    {
-      Type = dataType,
-      Optional = optional,
-      NumberChoices = new NumberArray()
-    };
-    entry.NumberChoices.Numbers.AddRange(numberChoices);
-
-    return entry;
-  }
-
-  public static SchemaEntry CreateSchemaEntry(AresDataType dataType, bool optional, IEnumerable<int> numberChoices)
-  {
-    var doubles = numberChoices.Select(num => (double)num);
-
-    return CreateSchemaEntry(dataType, optional, doubles);
-  }
-
-  public static SchemaEntry CreateSchemaEntry(AresDataType dataType, bool optional, IEnumerable<float> numberChoices)
-  {
-    var doubles = numberChoices.Select(num => (double)num);
-
-    return CreateSchemaEntry(dataType, optional, doubles);
   }
 }

@@ -15,11 +15,13 @@ message AresValue {
 		bool bool_value = 2;
 		string string_value = 3;
 		double number_value = 4;
-		StringArray string_array_value = 5;
-		NumberArray number_array_value = 6;
-		bytes bytes_value = 7;
-		BoolArray bool_array_value = 8;
-		Unit unit_value = 9;
+		bytes bytes_value = 5;
+		StringArray string_array_value = 6;
+		NumberArray number_array_value = 7;
+		AresValueList list_value = 8;
+		AresStruct struct_value = 9;
+		UnitValue unit_value = 10; // AresScript support
+		FunctionValue function_value = 11; // AresScript support
 	}
 }
 
@@ -27,7 +29,13 @@ enum NullValue {
 	NULL_VALUE = 0;
 }
 
-message Unit {}
+enum UnitValue {
+	UNIT_VALUE = 0;
+}
+
+message FunctionValue {
+	string function_id = 1;
+}
 
 message StringArray {
 	repeated string strings = 1;
@@ -37,6 +45,6 @@ message NumberArray {
 	repeated double numbers = 2;
 }
 
-message BoolArray {
-	repeated bool bools = 3;
+message AresValueList {
+	repeated AresValue values = 1;
 }

@@ -2,6 +2,38 @@
 
 public static class AresStructHelper
 {
+  /// <summary>
+  /// Adds a nested Struct to the current AresStruct.
+  /// </summary>
+  public static AresStruct AddStruct(this AresStruct aresStruct, string key, AresStruct nestedStruct)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateStruct(nestedStruct);
+    return aresStruct;
+  }
+
+  /// <summary>
+  /// Creates a new AresStruct containing a nested Struct.
+  /// </summary>
+  public static AresStruct CreateStructStruct(string key, AresStruct nestedStruct)
+  {
+    var newStruct = new AresStruct();
+    newStruct.Fields[key] = AresValueHelper.CreateStruct(nestedStruct);
+    return newStruct;
+  }
+
+  public static AresStruct AddList(this AresStruct aresStruct, string key, IEnumerable<AresValue> values)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateList(values);
+    return aresStruct;
+  }
+
+  public static AresStruct CreateListStruct(string key, IEnumerable<AresValue> values)
+  {
+    var newStruct = new AresStruct();
+    newStruct.Fields[key] = AresValueHelper.CreateList(values);
+    return newStruct;
+  }
+
   public static AresStruct AddString(this AresStruct aresStruct, string key, string value)
   {
     aresStruct.Fields[key] = AresValueHelper.CreateString(value);
@@ -35,6 +67,12 @@ public static class AresStructHelper
   public static AresStruct AddUnit(this AresStruct aresStruct, string key)
   {
     aresStruct.Fields[key] = AresValueHelper.CreateUnit();
+    return aresStruct;
+  }
+
+  public static AresStruct AddFunction(this AresStruct aresStruct, string key, string functionId)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateFunction(functionId);
     return aresStruct;
   }
 
@@ -137,6 +175,13 @@ public static class AresStructHelper
   {
     AresStruct newStruct = new();
     newStruct.Fields[key] = AresValueHelper.CreateUnit();
+    return newStruct;
+  }
+
+  public static AresStruct CreateFunctionStruct(string key, string functionId)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateFunction(functionId);
     return newStruct;
   }
 

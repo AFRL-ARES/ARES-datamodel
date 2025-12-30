@@ -3,8 +3,7 @@ syntax = "proto3";
 package ares.datamodel;
 
 // This is ares simple struct containing keys and values whose type should correspond with and related AresDataSchema
-// This is similar to the built-in protobuf struct, but we do not allow nesting for simplicity and easier adherence
-// to the schema
+// This is similar to the built-in protobuf struct
 message AresStruct {
 	map<string, AresValue> fields = 1;
 }

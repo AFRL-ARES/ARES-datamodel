@@ -133,6 +133,11 @@ public static class AresSchemaHelper
     return schema;
   }
 
+  public static AresDataSchema EmptySchema()
+  {
+    return new AresDataSchema();
+  }
+
   public static SchemaEntry CreateSchemaEntry(AresDataType dataType, bool optional, string description = "", string unit = "")
   {
     return new SchemaEntry

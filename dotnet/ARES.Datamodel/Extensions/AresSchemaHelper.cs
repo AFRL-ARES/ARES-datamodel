@@ -6,7 +6,7 @@ public static class AresSchemaHelper
   // BASIC ENTRIES (Primitives)
   // ------------------------------------------------------------------------
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, string description = "", string unit = "")
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional = true, string description = "", string unit = "")
   {
     var entry = new SchemaEntry
     {

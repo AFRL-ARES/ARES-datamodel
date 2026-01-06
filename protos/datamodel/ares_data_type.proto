@@ -13,4 +13,5 @@ enum AresDataType {
 	LIST = 7;
 	STRUCT = 8;
 	BYTE_ARRAY = 9;
+	ANY = 10;
 }

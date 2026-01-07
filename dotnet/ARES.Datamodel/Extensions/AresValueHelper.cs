@@ -117,6 +117,7 @@ public static class AresValueHelper
       AresDataType.ByteArray => CreateBytes(Array.Empty<byte>()),
       AresDataType.Struct => CreateStruct(),
       AresDataType.List => CreateList(),
+      AresDataType.Unit => CreateUnit(),
       _ => CreateNull()
     };
   }
@@ -170,5 +171,24 @@ public static class AresValueHelper
       default:
         return false;
     }
+  }
+
+  public static string Stringify(this AresValue value)
+  {
+    return value.KindCase switch
+    {
+      AresValue.KindOneofCase.NullValue => "None",
+      AresValue.KindOneofCase.BoolValue => value.BoolValue.ToString(),
+      AresValue.KindOneofCase.StringValue => value.StringValue,
+      AresValue.KindOneofCase.NumberValue => value.NumberValue.ToString(),
+      AresValue.KindOneofCase.BytesValue => BitConverter.ToString(value.BytesValue.ToByteArray()),
+      AresValue.KindOneofCase.StringArrayValue => string.Join(", ", value.StringArrayValue.Strings),
+      AresValue.KindOneofCase.NumberArrayValue => string.Join(", ", value.NumberArrayValue.Numbers),
+      AresValue.KindOneofCase.ListValue => $"[{string.Join(", ", value.ListValue.Values.Select(v => v.KindCase))}]",
+      AresValue.KindOneofCase.StructValue => $"{{{string.Join(", ", value.StructValue.Fields.Select(kv => $"{kv.Key}: {kv.Value.KindCase}"))}}}",
+      AresValue.KindOneofCase.UnitValue => "()",
+      AresValue.KindOneofCase.FunctionValue => $"Function pointer: {value.FunctionValue.FunctionId}",
+      _ => "Unknown value"
+    };
   }
 }

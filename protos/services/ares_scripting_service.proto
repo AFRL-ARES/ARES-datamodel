@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package ares.services;
+
+service AresScriptingService {
+    rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionOutput); 
+}
+
+message ScriptExecutionRequest {
+    string script = 1;
+}
+
+message ScriptExecutionOutput {
+    string output = 1;
+}

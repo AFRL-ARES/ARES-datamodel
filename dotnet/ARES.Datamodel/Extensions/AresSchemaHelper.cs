@@ -121,31 +121,4 @@ public static class AresSchemaHelper
 
     return schema;
   }
-
-  // ------------------------------------------------------------------------
-  // FACTORY METHODS
-  // ------------------------------------------------------------------------
-
-  public static AresDataSchema CreateSchema(string name, AresDataType type)
-  {
-    var schema = new AresDataSchema();
-    schema.AddEntry(name, type, false); // Defaulting optional to false for root creation
-    return schema;
-  }
-
-  public static AresDataSchema EmptySchema()
-  {
-    return new AresDataSchema();
-  }
-
-  public static SchemaEntry CreateSchemaEntry(AresDataType dataType, bool optional, string description = "", string unit = "")
-  {
-    return new SchemaEntry
-    {
-      Type = dataType,
-      Optional = optional,
-      Description = description,
-      Unit = unit
-    };
-  }
 }

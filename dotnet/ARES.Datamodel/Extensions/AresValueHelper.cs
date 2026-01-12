@@ -184,7 +184,7 @@ public static class AresValueHelper
       AresValue.KindOneofCase.BytesValue => BitConverter.ToString(value.BytesValue.ToByteArray()),
       AresValue.KindOneofCase.StringArrayValue => string.Join(", ", value.StringArrayValue.Strings),
       AresValue.KindOneofCase.NumberArrayValue => string.Join(", ", value.NumberArrayValue.Numbers),
-      AresValue.KindOneofCase.ListValue => $"[{string.Join(", ", value.ListValue.Values.Select(v => v.KindCase))}]",
+      AresValue.KindOneofCase.ListValue => $"[{string.Join(", ", value.ListValue.Values.Select(v => v.Stringify()))}]",
       AresValue.KindOneofCase.StructValue => $"{{{string.Join(", ", value.StructValue.Fields.Select(kv => $"{kv.Key}: {kv.Value.KindCase}"))}}}",
       AresValue.KindOneofCase.UnitValue => "()",
       AresValue.KindOneofCase.FunctionValue => $"Function pointer: {value.FunctionValue.FunctionId}",

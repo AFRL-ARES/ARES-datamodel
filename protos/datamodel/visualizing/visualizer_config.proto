@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package ares.datamodel.visualizing;
+
+message VisualizerConfig {
+	optional string unique_id = 1; // A unique id for this visualizer
+	string name = 2; // name of the visualizer
+	string url = 3; // the connection url of the visualizer
+}

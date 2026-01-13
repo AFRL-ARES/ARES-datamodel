@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ares.datamodel.visualizing;
+
+import "visualizing/visualizer_capabilities.proto";
+
+message VisualizerInfo {
+	optional string unique_id = 1; // A unique id for this visualizer
+	string name = 2; // name of the visualizer
+	string type = 3; // the type name of the visualizer
+	optional string description = 4; // Optional descriptions of the visualizer
+	string version = 5;
+	optional string url = 6; // the remote address of the visualizer if it's a remote visualizer
+}

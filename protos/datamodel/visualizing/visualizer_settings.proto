@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package ares.datamodel.analyzing;
+
+import "ares_struct.proto";
+
+message VisualizerSettings {
+	string visualizer_id = 1; // The id of the visualizer that these settings are for
+	AresStruct settings = 2; // The actual setting values
+}

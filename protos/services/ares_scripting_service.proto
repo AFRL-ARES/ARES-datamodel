@@ -2,8 +2,15 @@ syntax = "proto3";
 
 package ares.services;
 
+import "google/protobuf/empty.proto";
+import "ares_data_schema.proto";
+import "ares_struct.proto";
+
 service AresScriptingService {
-    rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionOutput); 
+    rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionOutput);
+    rpc GetAvailableDeviceCommands(google.protobuf.Empty) returns (AvailableDeviceCommandsResponse);
+    rpc GetAutocompleteCatalog(google.protobuf.Empty) returns (AutocompleteCatalogResponse);
+    rpc GetCompletions(CompletionRequest) returns (CompletionResponse);
 }
 
 message ScriptExecutionRequest {
@@ -12,4 +19,101 @@ message ScriptExecutionRequest {
 
 message ScriptExecutionOutput {
     string output = 1;
+}
+
+message AvailableDeviceCommandsResponse {
+    repeated AresFunctionDescription functions = 1;
+}
+
+message AresFunctionDescription {
+    string id = 1;
+    datamodel.AresDataSchema input_schema = 2;
+    datamodel.AresDataSchema output_schema = 3;
+    string description = 4;
+}
+
+message AutocompleteCatalogResponse {
+    // Optional version/hash so the UI can cache and refresh when it changes.
+    string catalog_version = 1;
+    repeated DeviceSymbol devices = 2;
+    // Non-namespaced system functions (e.g., print, sleep).
+    repeated FunctionSymbol global_functions = 3;
+    repeated GlobalVariableSymbol globals = 4;
+}
+
+message DeviceSymbol {
+    // Stable device id (e.g., IAresDevice.UniqueId).
+    string device_id = 1;
+    // Script identifier used in code (sanitized).
+    // kinda like display_name, but no spaces, periods, etc.
+    string identifier = 2;
+    // UI display name (e.g., IAresDevice.Name).
+    string display_name = 3;
+    // Optional device description for tooltips.
+    string description = 4;
+    repeated FunctionSymbol functions = 5;
+}
+
+message FunctionSymbol {
+    // Fully qualified function id (e.g., furnace_SetTemperature).
+    string id = 1;
+    // Short name used after the dot (e.g., SetTemperature).
+    string name = 2;
+    string description = 3;
+    datamodel.AresDataSchema input_schema = 4;
+    datamodel.AresDataSchema output_schema = 5;
+}
+
+message GlobalVariableSymbol {
+    // Script identifier (e.g., default_temperature).
+    string name = 1;
+    // Optional tooltip text.
+    string description = 2;
+    // Variable type schema for hover/help.
+    datamodel.SchemaEntry schema = 3;
+    // Optional preview value for UI display.
+    datamodel.AresValue value = 4;
+}
+
+message CompletionRequest {
+    // Full document text so the server can resolve locals/scope.
+    string script = 1;
+    // 1-based cursor line.
+    int32 cursor_line = 2;
+    // 1-based cursor column.
+    int32 cursor_column = 3;
+}
+
+message CompletionResponse {
+    repeated CompletionItem items = 1;
+}
+
+message CompletionItem {
+    // Displayed text in the list.
+    string label = 1;
+    // Inserted text, if different from label.
+    string insert_text = 2;
+    // Short type/signature summary.
+    string detail = 3;
+    // Longer description or docs.
+    string documentation = 4;
+    // Category for UI icon/grouping.
+    CompletionItemKind kind = 5;
+    // Parent namespace/device identifier when applicable.
+    string parent_identifier = 6;
+    // Function input schema (functions only).
+    datamodel.AresDataSchema input_schema = 7;
+    // Function output schema (functions only).
+    datamodel.AresDataSchema output_schema = 8;
+    // Variable/struct type schema (variables/structs only).
+    datamodel.SchemaEntry schema = 9;
+}
+
+enum CompletionItemKind {
+    COMPLETION_ITEM_KIND_UNSPECIFIED = 0;
+    COMPLETION_ITEM_KIND_DEVICE = 1;
+    COMPLETION_ITEM_KIND_FUNCTION = 2;
+    COMPLETION_ITEM_KIND_VARIABLE = 3;
+    COMPLETION_ITEM_KIND_STRUCT = 4;
+    COMPLETION_ITEM_KIND_KEYWORD = 5;
 }

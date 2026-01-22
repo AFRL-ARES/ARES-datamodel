@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+import "scripting/function_symbol.proto";
+import "scripting/namespace_kind.proto";
+
+message NamespaceSymbol {
+    // Stable namespace id (e.g., Device ID, Planner ID, etc.).
+    string namespace_id = 1;
+    // Script identifier used in code (sanitized).
+    string identifier = 2;
+    string display_name = 3;
+    string description = 4;
+    repeated FunctionSymbol functions = 5;
+    NamespaceKind kind = 6;
+}

@@ -185,10 +185,30 @@ public static class AresValueHelper
       AresValue.KindOneofCase.StringArrayValue => string.Join(", ", value.StringArrayValue.Strings),
       AresValue.KindOneofCase.NumberArrayValue => string.Join(", ", value.NumberArrayValue.Numbers),
       AresValue.KindOneofCase.ListValue => $"[{string.Join(", ", value.ListValue.Values.Select(v => v.Stringify()))}]",
-      AresValue.KindOneofCase.StructValue => $"{{{string.Join(", ", value.StructValue.Fields.Select(kv => $"{kv.Key}: {kv.Value.KindCase}"))}}}",
+      AresValue.KindOneofCase.StructValue => $"{{{string.Join(", ", value.StructValue.Fields.Select(kv => $"{kv.Key}: {kv.Value.Stringify()}"))}}}",
       AresValue.KindOneofCase.UnitValue => "()",
       AresValue.KindOneofCase.FunctionValue => $"Function pointer: {value.FunctionValue.FunctionId}",
       _ => "Unknown value"
+    };
+  }
+
+  public static AresDataType GetAresDataType(this AresValue value)
+  {
+    return value.KindCase switch
+    {
+      AresValue.KindOneofCase.None => AresDataType.UnspecifiedType,
+      AresValue.KindOneofCase.NullValue => AresDataType.Null,
+      AresValue.KindOneofCase.BoolValue => AresDataType.Boolean,
+      AresValue.KindOneofCase.StringValue => AresDataType.String,
+      AresValue.KindOneofCase.NumberValue => AresDataType.Number,
+      AresValue.KindOneofCase.StringArrayValue => AresDataType.StringArray,
+      AresValue.KindOneofCase.NumberArrayValue => AresDataType.NumberArray,
+      AresValue.KindOneofCase.BytesValue => AresDataType.ByteArray,
+      AresValue.KindOneofCase.StructValue => AresDataType.Struct,
+      AresValue.KindOneofCase.ListValue => AresDataType.List,
+      AresValue.KindOneofCase.UnitValue => AresDataType.Unit,
+      AresValue.KindOneofCase.FunctionValue => AresDataType.Function,
+      _ => AresDataType.UnspecifiedType
     };
   }
 }

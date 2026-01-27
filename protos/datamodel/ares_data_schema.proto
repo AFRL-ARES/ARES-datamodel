@@ -28,7 +28,6 @@ message SchemaEntry {
   string unit = 4; 
 
   // Constraints: An optional list of allowed choices.
-  // Note: These types (StringArray, NumberArray) are now imported from ares_struct.proto
   oneof available_choices {
     StringArray string_choices = 5;
     NumberArray number_choices = 6;

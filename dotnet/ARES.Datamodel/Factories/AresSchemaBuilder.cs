@@ -119,5 +119,48 @@ public class EntryBuilder
   public EntryBuilder WithChoices(IEnumerable<int> choices) => WithChoices(choices.Select(Convert.ToDouble).ToArray());
   public EntryBuilder WithChoices(IEnumerable<float> choices) => WithChoices(choices.Select(Convert.ToDouble).ToArray());
 
+  public EntryBuilder WithStructSchema(AresDataSchema schema)
+  {
+    if(_entry.Type != AresDataType.Struct)
+      throw new InvalidOperationException("Cannot add struct schema to a non-struct entry.");
+
+    _entry.StructSchema = schema;
+    return this;
+  }
+
+  public EntryBuilder WithStructSchema(Action<AresDataSchema> configure)
+  {
+    if(configure is null)
+      throw new ArgumentNullException(nameof(configure));
+
+    var schema = new AresDataSchema();
+    configure(schema);
+    return WithStructSchema(schema);
+  }
+
+  public EntryBuilder WithListElementSchema(SchemaEntry elementSchema)
+  {
+    if(_entry.Type != AresDataType.List)
+      throw new InvalidOperationException("Cannot add list element schema to a non-list entry.");
+
+    _entry.ListElementSchema = elementSchema;
+    return this;
+  }
+
+  public EntryBuilder WithListElementSchema(AresDataType elementType)
+  {
+    return WithListElementSchema(AresSchemaBuilder.Entry(elementType).Build());
+  }
+
+  public EntryBuilder WithListElementSchema(Action<EntryBuilder> configure)
+  {
+    if(configure is null)
+      throw new ArgumentNullException(nameof(configure));
+
+    var builder = new EntryBuilder(AresDataType.Any);
+    configure(builder);
+    return WithListElementSchema(builder.Build());
+  }
+
   public SchemaEntry Build() => _entry;
 }

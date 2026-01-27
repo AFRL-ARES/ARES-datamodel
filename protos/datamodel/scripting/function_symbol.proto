@@ -11,5 +11,5 @@ message FunctionSymbol {
     string name = 2;
     string description = 3;
     AresDataSchema input_schema = 4;
-    AresDataSchema output_schema = 5;
+    SchemaEntry output_schema = 5;
 }

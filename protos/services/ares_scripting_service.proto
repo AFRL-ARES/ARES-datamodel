@@ -3,23 +3,22 @@ syntax = "proto3";
 package ares.services;
 
 import "google/protobuf/empty.proto";
-import "ares_data_schema.proto";
-import "scripting/function_symbol.proto";
-import "scripting/global_variable_symbol.proto";
-import "scripting/namespace_symbol.proto";
+import "scripting/autocomplete_catalog.proto";
+import "scripting/completion.proto";
+import "scripting/diagnostic.proto";
 
 service AresScriptingService {
     // Executes a script and streams the output.
     rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionOutput);
     
     // Returns the static definition of the world (Namespaces, Globals, etc).
-    // Used for initial caching on the client side.
+    // Can be used for initial caching on the client side.
     rpc GetAutocompleteCatalog(google.protobuf.Empty) returns (AutocompleteCatalogResponse);
     
     // Dynamic context-aware suggestions based on cursor position.
     rpc GetCompletions(CompletionRequest) returns (CompletionResponse);
 
-    // Checks for syntax errors or invalid variable references without running.
+    // Checks for syntax errors or invalid variable references without running
     rpc ValidateScript(ValidateScriptRequest) returns (ValidateScriptResponse);
 }
 
@@ -40,40 +39,13 @@ message ValidateScriptRequest {
 }
 
 message ValidateScriptResponse {
-    repeated Diagnostic diagnostics = 1;
-}
-
-message Diagnostic {
-    // 1-based line number
-    int32 start_line = 1;
-    // 1-based column number
-    int32 start_column = 2;
-    int32 end_line = 3;
-    int32 end_column = 4;
-    
-    string message = 5;
-    DiagnosticSeverity severity = 6;
-    
-    // Optional code for the error type
-    string code = 7;
-}
-
-enum DiagnosticSeverity {
-    DIAGNOSTIC_SEVERITY_ERROR = 0;
-    DIAGNOSTIC_SEVERITY_WARNING = 1;
-    DIAGNOSTIC_SEVERITY_INFO = 2;
-    DIAGNOSTIC_SEVERITY_HINT = 3;
+    repeated datamodel.scripting.Diagnostic diagnostics = 1;
 }
 
 // --- Catalog Messages ---
 
 message AutocompleteCatalogResponse {
-    // Optional version/hash so the UI can cache and refresh when it changes.
-    string catalog_version = 1;
-    repeated datamodel.scripting.NamespaceSymbol namespaces = 2;
-    // Non-namespaced system functions (e.g., print, sleep).
-    repeated datamodel.scripting.FunctionSymbol global_functions = 3;
-    repeated datamodel.scripting.GlobalVariableSymbol globals = 4;
+    datamodel.scripting.AutocompleteCatalog catalog = 1;
 }
 
 
@@ -86,74 +58,11 @@ message CompletionRequest {
     int32 cursor_line = 2;
     // 1-based cursor column.
     int32 cursor_column = 3;
-    
-    // Helps the server determine what to return.
-    CompletionTriggerKind trigger_kind = 4;
-    // The character that triggered the completion (e.g. ".")
-    string trigger_character = 5;
-}
 
-enum CompletionTriggerKind {
-    // User explicitly requested completion (e.g. Ctrl+Space)
-    COMPLETION_TRIGGER_INVOKED = 0;
-    // Triggered by a trigger character (e.g. ".")
-    COMPLETION_TRIGGER_CHARACTER = 1;
-    // Triggered by a deletion or re-trigger (list incomplete)
-    COMPLETION_TRIGGER_INCOMPLETE = 2;
+    // The character that triggered the completion (e.g. ".")
+    string trigger_character = 4;
 }
 
 message CompletionResponse {
-    repeated CompletionItem items = 1;
-}
-
-message CompletionItem {
-    // Displayed text in the list.
-    string label = 1;
-    
-    // The text to insert into the document.
-    string insert_text = 2;
-    
-    // How the UI should interpret insert_text.
-    InsertTextFormat insert_text_format = 3;
-
-    // A string used to sort this item in the UI. 
-    // Example: Use "a_field" for fields and "b_method" for methods to group them.
-    string sort_text = 4;
-
-    // Short type/signature summary.
-    string detail = 5;
-    
-    // Longer description or docs.
-    string documentation = 6;
-    
-    // Category for UI icon/grouping.
-    CompletionItemKind kind = 7;
-    
-    // Parent namespace/device identifier when applicable.
-    string parent_identifier = 8;
-    
-    // Schema details for hover/documentation panels
-    datamodel.AresDataSchema input_schema = 9;
-    datamodel.AresDataSchema output_schema = 10;
-    datamodel.SchemaEntry schema = 11;
-}
-
-enum InsertTextFormat {
-    // The primary text to be inserted is treated as a plain string.
-    INSERT_TEXT_FORMAT_PLAIN_TEXT = 0;
-    
-    // The primary text to be inserted is treated as a snippet.
-    // Example: "func(${1:arg1}, ${2:arg2})" allows tabbing between args.
-    INSERT_TEXT_FORMAT_SNIPPET = 1;
-}
-
-enum CompletionItemKind {
-    COMPLETION_ITEM_KIND_UNSPECIFIED = 0;
-    COMPLETION_ITEM_KIND_DEVICE = 1;
-    COMPLETION_ITEM_KIND_FUNCTION = 2;
-    COMPLETION_ITEM_KIND_VARIABLE = 3;
-    COMPLETION_ITEM_KIND_STRUCT = 4;
-    COMPLETION_ITEM_KIND_KEYWORD = 5;
-    COMPLETION_ITEM_KIND_PLANNER = 6;
-    COMPLETION_ITEM_KIND_ANALYZER = 7;
+    repeated datamodel.scripting.CompletionItem items = 1;
 }

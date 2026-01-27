@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+message Diagnostic {
+    // 1-based line number
+    int32 start_line = 1;
+    // 1-based column number
+    int32 start_column = 2;
+    int32 end_line = 3;
+    int32 end_column = 4;
+
+    string message = 5;
+    DiagnosticSeverity severity = 6;
+
+    // Optional code for the error type
+    string code = 7;
+}
+
+enum DiagnosticSeverity {
+    DIAGNOSTIC_SEVERITY_ERROR = 0;
+    DIAGNOSTIC_SEVERITY_WARNING = 1;
+    DIAGNOSTIC_SEVERITY_INFO = 2;
+    DIAGNOSTIC_SEVERITY_HINT = 3;
+}

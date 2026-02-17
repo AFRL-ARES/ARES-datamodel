@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+import "scripting/function_invocation_kind.proto";
+
+message ScriptSummaryStep {
+    int32 order = 1;
+    string function_id = 2;
+    string function_name = 3;
+    string expression = 4;
+    int32 line = 5;
+    int32 column = 6;
+    FunctionInvocationKind kind = 7;
+}

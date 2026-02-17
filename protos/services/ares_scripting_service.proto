@@ -6,6 +6,7 @@ import "google/protobuf/empty.proto";
 import "scripting/autocomplete_catalog.proto";
 import "scripting/completion.proto";
 import "scripting/diagnostic.proto";
+import "scripting/script_summary_step.proto";
 
 service AresScriptingService {
     // Executes a script and streams the output.
@@ -20,6 +21,9 @@ service AresScriptingService {
 
     // Checks for syntax errors or invalid variable references without running
     rpc ValidateScript(ValidateScriptRequest) returns (ValidateScriptResponse);
+
+    // Builds an ordered summary of function calls found in the script.
+    rpc GetScriptSummary(ScriptSummaryRequest) returns (ScriptSummaryResponse);
 }
 
 // --- Execution Messages ---
@@ -40,6 +44,17 @@ message ValidateScriptRequest {
 
 message ValidateScriptResponse {
     repeated datamodel.scripting.Diagnostic diagnostics = 1;
+}
+
+message ScriptSummaryRequest {
+    string script = 1;
+    bool include_user_functions = 2;
+    bool include_lambdas = 3;
+}
+
+message ScriptSummaryResponse {
+    repeated datamodel.scripting.ScriptSummaryStep steps = 1;
+    repeated datamodel.scripting.Diagnostic diagnostics = 2;
 }
 
 // --- Catalog Messages ---

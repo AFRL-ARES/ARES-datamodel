@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+enum Parity {
+  PARITY_UNKNOWN = 0;
+  PARITY_NONE = 1;
+  PARITY_EVEN = 2;
+  PARITY_ODD = 3;
+  PARITY_MARK = 4;
+  PARITY_SPACE = 5;
+}

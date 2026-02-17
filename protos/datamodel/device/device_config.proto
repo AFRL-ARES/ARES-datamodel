@@ -2,11 +2,45 @@
 
 package ares.datamodel.device;
 
-import "google/protobuf/any.proto";
+import "device/parity.proto";
+import "ares_struct.proto";
 
 message DeviceConfig {
   optional string unique_id = 1;
   string device_name = 2;
-  string device_type = 3;
-  google.protobuf.Any config_data = 4;
+  string driver_name = 3;
+  string driver_id = 4;
+  bool is_simulated = 5;
+
+  oneof transport {
+    SerialConnection serial = 10;
+    EthernetConnection ethernet = 11;
+    UsbConnection usb = 12;
+  }
+
+  AresStruct driver_settings = 20;
+}
+
+// Standardized definition for Serial connections
+message SerialConnection {
+    string port_name = 1;   // e.g., "COM3", "/dev/ttyUSB0"
+    int32 baud_rate = 2;    // e.g., 9600, 115200
+    int32 data_bits = 3;
+    Parity parity = 4;      // You might want an enum here, but string is safer for generic storage
+    string stop_bits = 5;
+    string handshake = 6;
+}
+
+// Standardized definition for Network connections
+message EthernetConnection {
+    string ip_address = 1;
+    int32 port = 2;
+    bool use_tls = 3;
+}
+
+// Placeholder for raw USB (VID/PID) if needed
+message UsbConnection {
+    string vendor_id = 1;
+    string product_id = 2;
+    string serial_number = 3;
 }

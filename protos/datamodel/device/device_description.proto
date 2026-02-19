@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+message AresDeviceDescription {
+  string device_name = 1;
+  string device_id = 2;
+}

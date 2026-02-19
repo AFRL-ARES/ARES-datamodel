@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ares.services;
+
+import "google/protobuf/empty.proto";
+
+service AresDeviceDriverService {
+  rpc GetAvailableDrivers (google.protobuf.Empty) returns (DriverListResponse);
+  rpc DownloadDriver (DriverRequest) returns (stream FileChunk);
+}
+
+message DriverListResponse {
+  repeated DriverInfo drivers = 1;
+}
+
+message DriverInfo {
+  string driver_id = 1;       
+  string display_name = 2;
+  string version = 3;
+  string checksum = 4;
+  int64 file_size_bytes = 5;
+}
+
+message DriverRequest {
+  string driver_id = 1;
+}
+
+message FileChunk {
+  bytes content = 1;
+  int64 offset = 2; // Useful for resuming or progress tracking
+}

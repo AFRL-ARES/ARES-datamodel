@@ -12,6 +12,7 @@ import "device/device_info.proto";
 import "device/device_config.proto";
 import "device/device_settings.proto";
 import "device/device_polling_settings.proto";
+import "device/device_description.proto";
 import "ares_struct.proto";
 import "ares_data_schema.proto";
 import "device/device_logging_settings.proto";
@@ -44,6 +45,7 @@ service AresDevices {
 	rpc AddAresDevice(AddDeviceRequest) returns (AddDeviceResponse);
 	rpc GetAvailableDeviceDrivers(google.protobuf.Empty) returns (AvailableDeviceDriversResponse);
 	rpc GetDeviceConfig(GetDeviceConfigRequest) returns (DeviceConfigResponse);
+	rpc GetAllAvailableDevices(google.protobuf.Empty) returns (AvailableDevicesResponse);
 }
 
 message ListAresDevicesResponse
@@ -179,4 +181,8 @@ message AvailableDeviceDriversResponse {
 message GetDeviceConfigRequest {
 	string driver_name = 1;
 	string driver_id = 2;
+}
+
+message AvailableDevicesResponse {
+	repeated datamodel.device.AresDeviceDescription devices = 1;
 }

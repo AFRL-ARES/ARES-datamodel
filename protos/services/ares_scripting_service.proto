@@ -4,7 +4,6 @@ package ares.services;
 
 import "google/protobuf/empty.proto";
 import "ares_struct.proto";
-import "scripting/autocomplete_catalog.proto";
 import "scripting/completion.proto";
 import "scripting/diagnostic.proto";
 import "scripting/script_summary_step.proto";
@@ -12,10 +11,6 @@ import "scripting/script_summary_step.proto";
 service AresScriptingService {
     // Executes a script and streams the output.
     rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionEvent);
-    
-    // Returns the static definition of the world (Namespaces, Globals, etc).
-    // Can be used for initial caching on the client side.
-    rpc GetAutocompleteCatalog(google.protobuf.Empty) returns (AutocompleteCatalogResponse);
     
     // Dynamic context-aware suggestions based on cursor position.
     rpc GetCompletions(CompletionRequest) returns (CompletionResponse);
@@ -95,13 +90,6 @@ message ScriptSummaryResponse {
     repeated datamodel.scripting.ScriptFunctionInvocation steps = 1;
     repeated datamodel.scripting.Diagnostic diagnostics = 2;
 }
-
-// --- Catalog Messages ---
-
-message AutocompleteCatalogResponse {
-    datamodel.scripting.AutocompleteCatalog catalog = 1;
-}
-
 
 // --- Autocomplete Messages ---
 

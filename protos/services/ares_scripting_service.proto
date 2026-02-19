@@ -3,6 +3,7 @@ syntax = "proto3";
 package ares.services;
 
 import "google/protobuf/empty.proto";
+import "ares_struct.proto";
 import "scripting/autocomplete_catalog.proto";
 import "scripting/completion.proto";
 import "scripting/diagnostic.proto";
@@ -10,7 +11,7 @@ import "scripting/script_summary_step.proto";
 
 service AresScriptingService {
     // Executes a script and streams the output.
-    rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionOutput);
+    rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionEvent);
     
     // Returns the static definition of the world (Namespaces, Globals, etc).
     // Can be used for initial caching on the client side.
@@ -32,8 +33,46 @@ message ScriptExecutionRequest {
     string script = 1;
 }
 
-message ScriptExecutionOutput {
+message ScriptExecutionEvent {
+    int64 sequence = 1;
+
+    oneof event {
+        ExecutionStarted execution_started = 2;
+        ExecutionCompleted execution_completed = 3;
+        ExecutionFailed execution_failed = 4;
+        ConsoleOutput console_output = 5;
+        FunctionStarted function_started = 6;
+        FunctionCompleted function_completed = 7;
+        FunctionFailed function_failed = 8;
+    }
+}
+
+message ExecutionStarted {}
+
+message ExecutionCompleted {}
+
+message ExecutionFailed {
+    string error = 1;
+}
+
+message ConsoleOutput {
     string output = 1;
+}
+
+message FunctionStarted {
+    string call_id = 1;
+    string parent_call_id = 2;
+    datamodel.scripting.ScriptFunctionInvocation invocation = 3;
+}
+
+message FunctionCompleted {
+    string call_id = 1;
+    datamodel.AresValue result = 2;
+}
+
+message FunctionFailed {
+    string call_id = 1;
+    string error = 2;
 }
 
 // --- Validation Messages ---
@@ -53,7 +92,7 @@ message ScriptSummaryRequest {
 }
 
 message ScriptSummaryResponse {
-    repeated datamodel.scripting.ScriptSummaryStep steps = 1;
+    repeated datamodel.scripting.ScriptFunctionInvocation steps = 1;
     repeated datamodel.scripting.Diagnostic diagnostics = 2;
 }
 

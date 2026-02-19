@@ -4,7 +4,7 @@ package ares.datamodel.scripting;
 
 import "scripting/function_invocation_kind.proto";
 
-message ScriptSummaryStep {
+message ScriptFunctionInvocation {
     int32 order = 1;
     string function_id = 2;
     string function_name = 3;

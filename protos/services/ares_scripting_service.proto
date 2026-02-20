@@ -102,11 +102,16 @@ message SymbolMetadataRequest {
     // 1-based cursor column.
     int32 cursor_column = 3;
     // Optional identifier already resolved by the client at the cursor position.
-    string identifier = 4;
+    optional string identifier = 4;
 }
 
 message SymbolMetadataResponse {
-    datamodel.scripting.ScriptSymbolMetadata metadata = 1;
+    // False when no symbol is found at the requested position.
+    bool found = 1;
+    // Present when found is true. May be absent when found is false.
+    datamodel.scripting.ScriptSymbolMetadata metadata = 2;
+    // Optional warnings/errors from best-effort analysis.
+    repeated datamodel.scripting.Diagnostic diagnostics = 3;
 }
 
 // --- Autocomplete Messages ---

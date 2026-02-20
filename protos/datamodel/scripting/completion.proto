@@ -2,8 +2,7 @@ syntax = "proto3";
 
 package ares.datamodel.scripting;
 
-import "ares_data_schema.proto";
-import "scripting/symbol_kind.proto";
+import "scripting/script_symbol_metadata.proto";
 
 message CompletionItem {
     // Displayed text in the list.
@@ -19,25 +18,8 @@ message CompletionItem {
     // Example: Use "a_field" for fields and "b_method" for methods to group them.
     string sort_text = 4;
 
-    // Short type/signature summary.
-    string detail = 5;
-
-    // Longer description or docs.
-    string documentation = 6;
-
-    // Category for UI icon/grouping.
-    SymbolKind kind = 7;
-
-    // Parent namespace/device identifier when applicable.
-    string parent_identifier = 8;
-
-    // Schema details for hover/documentation panels
-    // Input schema for functions
-    AresDataSchema input_schema = 9;
-    // Output schema for functions
-    SchemaEntry output_schema = 10;
-    // Just a schema for variables and constants
-    SchemaEntry schema = 11;
+    // Canonical symbol metadata payload for UI rendering.
+    ScriptSymbolMetadata metadata = 5;
 }
 
 enum InsertTextFormat {
@@ -48,4 +30,3 @@ enum InsertTextFormat {
     // Example: "func(${1:arg1}, ${2:arg2})" allows tabbing between args.
     INSERT_TEXT_FORMAT_SNIPPET = 1;
 }
-

@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+import "ares_data_schema.proto";
+import "scripting/diagnostic.proto";
+import "scripting/symbol_kind.proto";
+
+message ScriptSymbolMetadata {
+    message ValueShape {
+        SchemaEntry schema = 1;
+    }
+
+    message FunctionShape {
+        AresDataSchema input_schema = 1;
+        SchemaEntry output_schema = 2;
+    }
+
+    // False when no symbol is found at the requested position.
+    bool found = 1;
+
+    // Symbol identity.
+    string identifier = 2;
+    string parent_identifier = 3;
+    string qualified_identifier = 4;
+    repeated string qualifier_path = 5;
+
+    // Symbol category for client rendering/behavior.
+    SymbolKind kind = 6;
+
+    // Optional short/long descriptions for clients to format as needed.
+    string detail = 7;
+    string documentation = 8;
+
+    oneof shape {
+        ValueShape value_shape = 9;
+        FunctionShape function_shape = 10;
+    }
+
+    // Optional warnings/errors from best-effort analysis.
+    repeated Diagnostic diagnostics = 11;
+}

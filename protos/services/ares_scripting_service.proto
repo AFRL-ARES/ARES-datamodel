@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package ares.services;
 
-import "google/protobuf/empty.proto";
 import "ares_struct.proto";
 import "scripting/completion.proto";
 import "scripting/diagnostic.proto";
 import "scripting/script_summary_step.proto";
+import "scripting/script_symbol_metadata.proto";
 
 service AresScriptingService {
     // Executes a script and streams the output.
@@ -20,6 +20,9 @@ service AresScriptingService {
 
     // Builds an ordered summary of function calls found in the script.
     rpc GetScriptSummary(ScriptSummaryRequest) returns (ScriptSummaryResponse);
+
+    // Resolves metadata for the symbol at a cursor location.
+    rpc GetSymbolMetadata(SymbolMetadataRequest) returns (SymbolMetadataResponse);
 }
 
 // --- Execution Messages ---
@@ -89,6 +92,21 @@ message ScriptSummaryRequest {
 message ScriptSummaryResponse {
     repeated datamodel.scripting.ScriptFunctionInvocation steps = 1;
     repeated datamodel.scripting.Diagnostic diagnostics = 2;
+}
+
+message SymbolMetadataRequest {
+    // Full document text so the server can resolve scope/types.
+    string script = 1;
+    // 1-based cursor line.
+    int32 cursor_line = 2;
+    // 1-based cursor column.
+    int32 cursor_column = 3;
+    // Optional identifier already resolved by the client at the cursor position.
+    string identifier = 4;
+}
+
+message SymbolMetadataResponse {
+    datamodel.scripting.ScriptSymbolMetadata metadata = 1;
 }
 
 // --- Autocomplete Messages ---

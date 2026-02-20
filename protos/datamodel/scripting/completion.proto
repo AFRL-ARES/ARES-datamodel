@@ -3,6 +3,7 @@ syntax = "proto3";
 package ares.datamodel.scripting;
 
 import "ares_data_schema.proto";
+import "scripting/symbol_kind.proto";
 
 message CompletionItem {
     // Displayed text in the list.
@@ -25,7 +26,7 @@ message CompletionItem {
     string documentation = 6;
 
     // Category for UI icon/grouping.
-    CompletionItemKind kind = 7;
+    SymbolKind kind = 7;
 
     // Parent namespace/device identifier when applicable.
     string parent_identifier = 8;
@@ -48,16 +49,3 @@ enum InsertTextFormat {
     INSERT_TEXT_FORMAT_SNIPPET = 1;
 }
 
-// Added the device/planner/analyzer in addition to the typical symbols
-// in case we want to add specific icons later on or something
-enum CompletionItemKind {
-    COMPLETION_ITEM_KIND_UNSPECIFIED = 0;
-    COMPLETION_ITEM_KIND_DEVICE = 1;
-    COMPLETION_ITEM_KIND_FUNCTION = 2;
-    COMPLETION_ITEM_KIND_VARIABLE = 3;
-    COMPLETION_ITEM_KIND_STRUCT = 4;
-    COMPLETION_ITEM_KIND_KEYWORD = 5;
-    COMPLETION_ITEM_KIND_PLANNER = 6;
-    COMPLETION_ITEM_KIND_ANALYZER = 7;
-    COMPLETION_ITEM_KIND_TYPE = 8;
-}

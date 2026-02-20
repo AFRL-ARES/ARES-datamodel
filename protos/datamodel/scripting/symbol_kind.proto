@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+// Shared symbol categories used across completions, metadata, and future editor APIs.
+enum SymbolKind {
+    SYMBOL_KIND_UNSPECIFIED = 0;
+    SYMBOL_KIND_DEVICE = 1;
+    SYMBOL_KIND_FUNCTION = 2;
+    SYMBOL_KIND_VARIABLE = 3;
+    SYMBOL_KIND_STRUCT = 4;
+    SYMBOL_KIND_KEYWORD = 5;
+    SYMBOL_KIND_PLANNER = 6;
+    SYMBOL_KIND_ANALYZER = 7;
+    SYMBOL_KIND_TYPE = 8;
+}

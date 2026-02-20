@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+enum SymbolTag {
+    SYMBOL_TAG_UNSPECIFIED = 0;
+    SYMBOL_TAG_DEPRECATED = 1;
+    SYMBOL_TAG_READ_ONLY = 2;
+    SYMBOL_TAG_STATIC = 3;
+    SYMBOL_TAG_EXTENSION = 4;
+    SYMBOL_TAG_USER_DEFINED = 5;
+    SYMBOL_TAG_EXPERIMENTAL = 6;
+}

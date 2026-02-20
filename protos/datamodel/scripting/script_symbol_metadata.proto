@@ -5,6 +5,7 @@ package ares.datamodel.scripting;
 import "ares_data_schema.proto";
 import "ares_struct.proto";
 import "scripting/symbol_kind.proto";
+import "scripting/symbol_tag.proto";
 
 message ScriptSymbolMetadata {
     message ValueShape {
@@ -24,6 +25,7 @@ message ScriptSymbolMetadata {
 
     // Symbol category for client rendering/behavior.
     SymbolKind kind = 3;
+    repeated SymbolTag tags = 8;
 
     // Optional short/long descriptions for clients to format as needed.
     optional string detail = 4;

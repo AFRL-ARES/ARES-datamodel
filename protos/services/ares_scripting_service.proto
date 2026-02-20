@@ -5,8 +5,10 @@ package ares.services;
 import "ares_struct.proto";
 import "scripting/completion.proto";
 import "scripting/diagnostic.proto";
+import "scripting/navigation.proto";
 import "scripting/script_summary_step.proto";
 import "scripting/script_symbol_metadata.proto";
+import "scripting/signature_help.proto";
 
 service AresScriptingService {
     // Executes a script and streams the output.
@@ -23,6 +25,12 @@ service AresScriptingService {
 
     // Resolves metadata for the symbol at a cursor location.
     rpc GetSymbolMetadata(SymbolMetadataRequest) returns (SymbolMetadataResponse);
+
+    // Resolves references for the symbol at a cursor location.
+    rpc GetReferences(ReferencesRequest) returns (ReferencesResponse);
+
+    // Resolves function signatures for call-site help at a cursor location.
+    rpc GetSignatureHelp(SignatureHelpRequest) returns (SignatureHelpResponse);
 }
 
 // --- Execution Messages ---
@@ -112,6 +120,38 @@ message SymbolMetadataResponse {
     datamodel.scripting.ScriptSymbolMetadata metadata = 2;
     // Optional warnings/errors from best-effort analysis.
     repeated datamodel.scripting.Diagnostic diagnostics = 3;
+}
+
+message ReferencesRequest {
+    // Full document text so the server can resolve scope/types.
+    string script = 1;
+    // 1-based cursor line.
+    int32 cursor_line = 2;
+    // 1-based cursor column.
+    int32 cursor_column = 3;
+    // Optional identifier already resolved by the client at the cursor position.
+    optional string identifier = 4;
+    // Include the declaration/definition location when true.
+    bool include_definition = 5;
+}
+
+message ReferencesResponse {
+    repeated datamodel.scripting.SymbolLocation locations = 1;
+    repeated datamodel.scripting.Diagnostic diagnostics = 2;
+}
+
+message SignatureHelpRequest {
+    // Full document text so the server can resolve scope/types.
+    string script = 1;
+    // 1-based cursor line.
+    int32 cursor_line = 2;
+    // 1-based cursor column.
+    int32 cursor_column = 3;
+}
+
+message SignatureHelpResponse {
+    datamodel.scripting.SignatureHelp signature_help = 1;
+    repeated datamodel.scripting.Diagnostic diagnostics = 2;
 }
 
 // --- Autocomplete Messages ---

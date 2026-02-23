@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+import "ares_data_schema.proto";
+
+message CompletionItem {
+    // Displayed text in the list.
+    string label = 1;
+
+    // The text to insert into the document.
+    string insert_text = 2;
+
+    // How the UI should interpret insert_text.
+    InsertTextFormat insert_text_format = 3;
+
+    // A string used to sort this item in the UI.
+    // Example: Use "a_field" for fields and "b_method" for methods to group them.
+    string sort_text = 4;
+
+    // Short type/signature summary.
+    string detail = 5;
+
+    // Longer description or docs.
+    string documentation = 6;
+
+    // Category for UI icon/grouping.
+    CompletionItemKind kind = 7;
+
+    // Parent namespace/device identifier when applicable.
+    string parent_identifier = 8;
+
+    // Schema details for hover/documentation panels
+    // Input schema for functions
+    AresDataSchema input_schema = 9;
+    // Output schema for functions
+    SchemaEntry output_schema = 10;
+    // Just a schema for variables and constants
+    SchemaEntry schema = 11;
+}
+
+enum InsertTextFormat {
+    // The primary text to be inserted is treated as a plain string.
+    INSERT_TEXT_FORMAT_PLAIN_TEXT = 0;
+
+    // The primary text to be inserted is treated as a snippet.
+    // Example: "func(${1:arg1}, ${2:arg2})" allows tabbing between args.
+    INSERT_TEXT_FORMAT_SNIPPET = 1;
+}
+
+// Added the device/planner/analyzer in addition to the typical symbols
+// in case we want to add specific icons later on or something
+enum CompletionItemKind {
+    COMPLETION_ITEM_KIND_UNSPECIFIED = 0;
+    COMPLETION_ITEM_KIND_DEVICE = 1;
+    COMPLETION_ITEM_KIND_FUNCTION = 2;
+    COMPLETION_ITEM_KIND_VARIABLE = 3;
+    COMPLETION_ITEM_KIND_STRUCT = 4;
+    COMPLETION_ITEM_KIND_KEYWORD = 5;
+    COMPLETION_ITEM_KIND_PLANNER = 6;
+    COMPLETION_ITEM_KIND_ANALYZER = 7;
+}

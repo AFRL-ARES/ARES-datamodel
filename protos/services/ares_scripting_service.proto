@@ -2,9 +2,27 @@ syntax = "proto3";
 
 package ares.services;
 
+import "google/protobuf/empty.proto";
+import "scripting/autocomplete_catalog.proto";
+import "scripting/completion.proto";
+import "scripting/diagnostic.proto";
+
 service AresScriptingService {
-    rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionOutput); 
+    // Executes a script and streams the output.
+    rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionOutput);
+    
+    // Returns the static definition of the world (Namespaces, Globals, etc).
+    // Can be used for initial caching on the client side.
+    rpc GetAutocompleteCatalog(google.protobuf.Empty) returns (AutocompleteCatalogResponse);
+    
+    // Dynamic context-aware suggestions based on cursor position.
+    rpc GetCompletions(CompletionRequest) returns (CompletionResponse);
+
+    // Checks for syntax errors or invalid variable references without running
+    rpc ValidateScript(ValidateScriptRequest) returns (ValidateScriptResponse);
 }
+
+// --- Execution Messages ---
 
 message ScriptExecutionRequest {
     string script = 1;
@@ -12,4 +30,39 @@ message ScriptExecutionRequest {
 
 message ScriptExecutionOutput {
     string output = 1;
+}
+
+// --- Validation Messages ---
+
+message ValidateScriptRequest {
+    string script = 1;
+}
+
+message ValidateScriptResponse {
+    repeated datamodel.scripting.Diagnostic diagnostics = 1;
+}
+
+// --- Catalog Messages ---
+
+message AutocompleteCatalogResponse {
+    datamodel.scripting.AutocompleteCatalog catalog = 1;
+}
+
+
+// --- Autocomplete Messages ---
+
+message CompletionRequest {
+    // Full document text so the server can resolve locals/scope.
+    string script = 1;
+    // 1-based cursor line.
+    int32 cursor_line = 2;
+    // 1-based cursor column.
+    int32 cursor_column = 3;
+
+    // The character that triggered the completion (e.g. ".")
+    string trigger_character = 4;
+}
+
+message CompletionResponse {
+    repeated datamodel.scripting.CompletionItem items = 1;
 }

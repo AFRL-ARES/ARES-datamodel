@@ -15,4 +15,5 @@ enum AresDataType {
 	BYTE_ARRAY = 9;
 	ANY = 10;
 	UNIT = 11;
+	FUNCTION = 12;
 }

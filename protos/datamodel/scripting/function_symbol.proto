@@ -10,6 +10,6 @@ message FunctionSymbol {
     // Short name used after the dot (e.g., SetTemperature).
     string name = 2;
     string description = 3;
-    AresDataSchema input_schema = 4;
-    SchemaEntry output_schema = 5;
+    AresStructSchema input_schema = 4;
+    AresValueSchema output_schema = 5;
 }

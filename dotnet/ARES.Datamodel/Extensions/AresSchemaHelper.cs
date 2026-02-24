@@ -6,14 +6,13 @@ public static class AresSchemaHelper
   // BASIC ENTRIES (Primitives)
   // ------------------------------------------------------------------------
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional = true, string description = "", string unit = "")
+  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional = true, string description = "", string unit = "")
   {
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = type,
       Optional = optional,
       Description = description,
-      Unit = unit
     };
     schema.Fields[name] = entry;
     return schema;
@@ -23,14 +22,14 @@ public static class AresSchemaHelper
   // CONSTRAINED ENTRIES (Strings with Choices)
   // ------------------------------------------------------------------------
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<string> stringOptions, string description = "")
+  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<string> stringOptions, string description = "")
   {
     if (type != AresDataType.String && type != AresDataType.StringArray)
     {
       throw new InvalidOperationException($"Cannot provide string options to a datatype that is {type}");
     }
 
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = type,
       Optional = optional,
@@ -49,19 +48,18 @@ public static class AresSchemaHelper
   // CONSTRAINED ENTRIES (Numbers with Choices)
   // ------------------------------------------------------------------------
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions, string description = "", string unit = "")
+  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions, string description = "", string unit = "")
   {
     if (type != AresDataType.Number && type != AresDataType.NumberArray)
     {
       throw new InvalidOperationException($"Cannot provide number options to a datatype that is {type}");
     }
 
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = type,
       Optional = optional,
       Description = description,
-      Unit = unit,
       NumberChoices = new NumberArray()
     };
 
@@ -73,13 +71,13 @@ public static class AresSchemaHelper
   }
 
   // Overload for Int options
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<int> numOptions, string description = "", string unit = "")
+  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<int> numOptions, string description = "", string unit = "")
   {
     return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, unit);
   }
 
   // Overload for Float options
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<float> numOptions, string description = "", string unit = "")
+  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<float> numOptions, string description = "", string unit = "")
   {
     return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, unit);
   }
@@ -91,9 +89,9 @@ public static class AresSchemaHelper
   /// <summary>
   /// Adds a nested Struct schema.
   /// </summary>
-  public static AresDataSchema AddStructEntry(this AresDataSchema schema, string name, bool optional, AresDataSchema innerStructSchema, string description = "")
+  public static AresStructSchema AddStructEntry(this AresStructSchema schema, string name, bool optional, AresStructSchema innerStructSchema, string description = "")
   {
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = AresDataType.Struct,
       Optional = optional,
@@ -108,9 +106,9 @@ public static class AresSchemaHelper
   /// <summary>
   /// Adds a List schema. You must define what a single element of the list looks like.
   /// </summary>
-  public static AresDataSchema AddListEntry(this AresDataSchema schema, string name, bool optional, SchemaEntry listElementSchema, string description = "")
+  public static AresStructSchema AddListEntry(this AresStructSchema schema, string name, bool optional, AresValueSchema listElementSchema, string description = "")
   {
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = AresDataType.List,
       Optional = optional,

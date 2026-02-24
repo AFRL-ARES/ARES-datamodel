@@ -3,8 +3,6 @@ syntax = "proto3";
 package ares.datamodel;
 
 message Limits {
-	optional string unique_id = 1; // A unique id for this limit
-	float minimum = 2; // Lower bound
-	float maximum = 3; // Upper bound
-	int64 index = 4; // Index of the collection in which executed this template
+	double minimum = 1; // Lower bound
+	double maximum = 2; // Upper bound
 }

@@ -14,7 +14,7 @@ public static class AresSchemaBuilder
 
 public class RootSchemaBuilder
 {
-  private readonly AresDataSchema _schema = new();
+  private readonly AresStructSchema _schema = new();
   private readonly string _rootName = "";
   private readonly AresDataType _rootType;
 
@@ -53,13 +53,13 @@ public class RootSchemaBuilder
     return this;
   }
 
-  public RootSchemaBuilder AddEntry(string name, SchemaEntry entry)
+  public RootSchemaBuilder AddEntry(string name, AresValueSchema entry)
   {
     _schema.Fields.Add(name, entry);
     return this;
   }
 
-  public AresDataSchema Build()
+  public AresStructSchema Build()
   {
     if (!string.IsNullOrEmpty(_rootName))
     {
@@ -72,11 +72,11 @@ public class RootSchemaBuilder
 
 public class EntryBuilder
 {
-  private readonly SchemaEntry _entry;
+  private readonly AresValueSchema _entry;
 
   public EntryBuilder(AresDataType type)
   {
-    _entry = new SchemaEntry { Type = type };
+    _entry = new AresValueSchema { Type = type };
   }
 
   public EntryBuilder AsOptional(bool isOptional = true)
@@ -88,12 +88,6 @@ public class EntryBuilder
   public EntryBuilder WithDescription(string description)
   {
     _entry.Description = description;
-    return this;
-  }
-
-  public EntryBuilder WithUnit(string unit)
-  {
-    _entry.Unit = unit;
     return this;
   }
 
@@ -119,7 +113,7 @@ public class EntryBuilder
   public EntryBuilder WithChoices(IEnumerable<int> choices) => WithChoices(choices.Select(Convert.ToDouble).ToArray());
   public EntryBuilder WithChoices(IEnumerable<float> choices) => WithChoices(choices.Select(Convert.ToDouble).ToArray());
 
-  public EntryBuilder WithStructSchema(AresDataSchema schema)
+  public EntryBuilder WithStructSchema(AresStructSchema schema)
   {
     if(_entry.Type != AresDataType.Struct)
       throw new InvalidOperationException("Cannot add struct schema to a non-struct entry.");
@@ -128,17 +122,17 @@ public class EntryBuilder
     return this;
   }
 
-  public EntryBuilder WithStructSchema(Action<AresDataSchema> configure)
+  public EntryBuilder WithStructSchema(Action<AresStructSchema> configure)
   {
     if(configure is null)
       throw new ArgumentNullException(nameof(configure));
 
-    var schema = new AresDataSchema();
+    var schema = new AresStructSchema();
     configure(schema);
     return WithStructSchema(schema);
   }
 
-  public EntryBuilder WithListElementSchema(SchemaEntry elementSchema)
+  public EntryBuilder WithListElementSchema(AresValueSchema elementSchema)
   {
     if(_entry.Type != AresDataType.List)
       throw new InvalidOperationException("Cannot add list element schema to a non-list entry.");
@@ -162,5 +156,5 @@ public class EntryBuilder
     return WithListElementSchema(builder.Build());
   }
 
-  public SchemaEntry Build() => _entry;
+  public AresValueSchema Build() => _entry;
 }

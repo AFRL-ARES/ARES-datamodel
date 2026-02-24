@@ -8,6 +8,6 @@ import "ares_struct.proto";
 message GlobalVariableSymbol {
     string name = 1;
     string description = 2;
-    SchemaEntry schema = 3;
+    AresValueSchema schema = 3;
     AresValue value = 4;
 }

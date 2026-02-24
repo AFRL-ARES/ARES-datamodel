@@ -93,7 +93,7 @@ message DeviceStateSchemaRequest {
 }
 
 message DeviceStateSchemaResponse {
-	datamodel.AresDataSchema schema = 1;
+	datamodel.AresStructSchema schema = 1;
 }
 
 message DeviceLoggerSettingsRequest {

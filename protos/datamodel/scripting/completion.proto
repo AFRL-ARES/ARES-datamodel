@@ -32,11 +32,11 @@ message CompletionItem {
 
     // Schema details for hover/documentation panels
     // Input schema for functions
-    AresDataSchema input_schema = 9;
+    AresStructSchema input_schema = 9;
     // Output schema for functions
-    SchemaEntry output_schema = 10;
+    AresValueSchema output_schema = 10;
     // Just a schema for variables and constants
-    SchemaEntry schema = 11;
+    AresValueSchema schema = 11;
 }
 
 enum InsertTextFormat {

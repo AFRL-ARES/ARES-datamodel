@@ -6,41 +6,33 @@ package ares.datamodel;
 import "ares_data_type.proto";
 // Import AresStruct, StringArray, NumberArray, etc.
 import "ares_struct.proto"; 
+import "limits.proto";
 
 // This is a key value pair that should be used when data is requested in order to describe the data.
 // ex.: {"TemperatureValue": AresDataType.NUMBER, "TestPhoto": AresDataType.BYTE_ARRAY}
-message AresDataSchema {
-  map<string, SchemaEntry> fields = 1;
+message AresStructSchema {
+  map<string, AresValueSchema> fields = 1;
 }
 
-message SchemaEntry {
-  // The high-level data type (NULL, BOOLEAN, STRUCT, LIST, etc.)
-  AresDataType type = 1; 
-
-  // Is the data optional?
-  bool optional = 2; 
-
-  // Describe the purpose of this particular piece of data
-  string description = 3; 
-
-  // Metadata for units (e.g. "DegreesCelsius", "Meters", "Seconds").
-  // This applies primarily when type is NUMBER or NUMBER_ARRAY.
-  string unit = 4; 
-
-  // Constraints: An optional list of allowed choices.
+// This is a description of an Ares Value
+message AresValueSchema {
+  AresDataType type = 1;
+  bool optional = 2;
+  optional string description = 3;
   oneof available_choices {
-    StringArray string_choices = 5;
-    NumberArray number_choices = 6;
+    StringArray string_choices = 4;
+    NumberArray number_choices = 5;
+    Limits limits = 6;
   }
 
   // RECURSIVE DEFINITIONS:
 
   // If type == STRUCT, use this to define the internal fields of that struct.
   // This maps to the 'AresStruct struct_value' in your AresValue message.
-  AresDataSchema struct_schema = 7;
+  AresStructSchema struct_schema = 7;
 
   // If type == LIST, use this to define what a single element in the list looks like.
   // This maps to the 'AresValueList list_value' in your AresValue message.
   // Note: Since AresValueList contains AresValues, this schema entry describes the type of those values.
-  SchemaEntry list_element_schema = 8;
+  AresValueSchema list_element_schema = 8;
 }

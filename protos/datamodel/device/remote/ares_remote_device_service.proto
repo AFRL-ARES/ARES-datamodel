@@ -36,7 +36,7 @@ message DeviceInfoResponse {
 }
 
 message SettingsSchemaResponse {
-  AresDataSchema schema = 1;
+  AresStructSchema schema = 1;
 }
 
 message CurrentSettingsResponse {
@@ -56,7 +56,7 @@ message DeviceStateStreamRequest {
 }
 
 message StateSchemaResponse {
-  AresDataSchema schema = 1;
+  AresStructSchema schema = 1;
 }
 
 message DeviceStateResponse {

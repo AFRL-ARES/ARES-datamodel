@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+import "ares_data_schema.proto";
+import "ares_struct.proto";
+import "scripting/symbol_kind.proto";
+import "scripting/symbol_tag.proto";
+
+message ScriptSymbolMetadata {
+    message ValueShape {
+        SchemaEntry schema = 1;
+        // Optional known value for constants/globals.
+        AresValue value = 2;
+    }
+
+    message FunctionShape {
+        AresDataSchema input_schema = 1;
+        SchemaEntry output_schema = 2;
+    }
+
+    // Symbol identity.
+    string identifier = 1;
+    optional string parent_identifier = 2;
+
+    // Symbol category for client rendering/behavior.
+    SymbolKind kind = 3;
+    repeated SymbolTag tags = 8;
+
+    // Optional short/long descriptions for clients to format as needed.
+    optional string detail = 4;
+    optional string documentation = 5;
+
+    // Shape payload for kinds that carry schema/signature data.
+    //
+    // Contract rules:
+    // - SYMBOL_KIND_FUNCTION: function_shape is allowed.
+    // - SYMBOL_KIND_VARIABLE and SYMBOL_KIND_STRUCT: value_shape is allowed.
+    // - Other kinds: shape should be unset.
+    //
+    // Shape is optional when type/signature inference is unavailable.
+    oneof shape {
+        ValueShape value_shape = 6;
+        FunctionShape function_shape = 7;
+    }
+
+}

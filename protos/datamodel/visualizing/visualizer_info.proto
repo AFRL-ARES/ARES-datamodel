@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ares.datamodel.visualizing;
 
-import "visualizing/visualizer_capabilities.proto";
-
 message VisualizerInfo {
 	optional string unique_id = 1; // A unique id for this visualizer
 	string name = 2; // name of the visualizer

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+import "ares_data_schema.proto";
+
+message SignatureParameter {
+    string name = 1;
+    SchemaEntry schema = 2;
+    optional string documentation = 3;
+}
+
+message FunctionSignature {
+    // Human-readable signature label (for example: "set_temperature(target: number) -> number").
+    string label = 1;
+    optional string documentation = 2;
+    repeated SignatureParameter parameters = 3;
+    SchemaEntry return_schema = 4;
+}
+
+message SignatureHelp {
+    repeated FunctionSignature signatures = 1;
+    // 0-based active signature index.
+    optional int32 active_signature = 2;
+    // 0-based active parameter index.
+    optional int32 active_parameter = 3;
+}

@@ -16,6 +16,7 @@ service AresAutomation {
 	rpc GetAllCampaigns(GetAllCampaignsRequest) returns (GetAllCampaignsResponse);
 	rpc GetSingleCampaign(CampaignRequest) returns (datamodel.templates.CampaignTemplate);
 	rpc RemoveCampaign(CampaignRequest) returns (google.protobuf.Empty);
+	rpc GetCopyOfCampaign(CampaignRequest) returns (GetCopyOfCampaignResponse);
 	rpc CampaignExists(CampaignRequest) returns (google.protobuf.BoolValue);
 	rpc AddCampaign(AddOrUpdateCampaignRequest) returns (google.protobuf.Empty);
 	rpc UpdateCampaign(AddOrUpdateCampaignRequest) returns (datamodel.templates.CampaignTemplate);
@@ -173,4 +174,9 @@ message CampaignExecutionSummaryRequest {
 message CheckExecutionEligibilityResponse {
 	bool is_eligible = 1;
 	string error = 2;
+}
+
+message GetCopyOfCampaignResponse {
+	datamodel.templates.CampaignTemplate template = 1;
+	optional string serialized_json_data = 2;
 }

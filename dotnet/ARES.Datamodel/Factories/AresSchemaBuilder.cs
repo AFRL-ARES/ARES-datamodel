@@ -19,7 +19,9 @@ public class RootSchemaBuilder
   private readonly AresDataType _rootType;
 
   private string _rootDescription = "";
-  private string _rootUnit = "";
+  private QuantitySchema? _rootQuantitySchema;
+  private double? _rootMinNumberValue;
+  private double? _rootMaxNumberValue;
   private bool _rootOptional = false; // Added back
 
   public RootSchemaBuilder() { }
@@ -47,9 +49,40 @@ public class RootSchemaBuilder
     return this;
   }
 
-  public RootSchemaBuilder WithUnit(string unit)
+  public RootSchemaBuilder WithQuantitySchema(QuantitySchema quantitySchema)
   {
-    _rootUnit = unit;
+    _rootQuantitySchema = quantitySchema;
+    return this;
+  }
+
+  public RootSchemaBuilder WithQuantityRange(QuantityType quantityType, string boundsUnit, double? minScalarValue = null, double? maxScalarValue = null)
+  {
+    _rootQuantitySchema ??= new QuantitySchema();
+    _rootQuantitySchema.QuantityType = quantityType;
+    _rootQuantitySchema.BoundsUnit = boundsUnit;
+    if(minScalarValue is not null)
+      _rootQuantitySchema.MinScalarValue = minScalarValue.Value;
+    if(maxScalarValue is not null)
+      _rootQuantitySchema.MaxScalarValue = maxScalarValue.Value;
+    return this;
+  }
+
+  public RootSchemaBuilder WithMinNumberValue(double value)
+  {
+    _rootMinNumberValue = value;
+    return this;
+  }
+
+  public RootSchemaBuilder WithMaxNumberValue(double value)
+  {
+    _rootMaxNumberValue = value;
+    return this;
+  }
+
+  public RootSchemaBuilder WithNumberRange(double minValue, double maxValue)
+  {
+    _rootMinNumberValue = minValue;
+    _rootMaxNumberValue = maxValue;
     return this;
   }
 
@@ -64,7 +97,7 @@ public class RootSchemaBuilder
     if (!string.IsNullOrEmpty(_rootName))
     {
       // Now using the _rootOptional flag
-      _schema.AddEntry(_rootName, _rootType, _rootOptional, _rootDescription, _rootUnit);
+      _schema.AddEntry(_rootName, _rootType, _rootOptional, _rootDescription, _rootQuantitySchema, _rootMinNumberValue, _rootMaxNumberValue);
     }
     return _schema;
   }
@@ -91,9 +124,40 @@ public class EntryBuilder
     return this;
   }
 
-  public EntryBuilder WithUnit(string unit)
+  public EntryBuilder WithQuantitySchema(QuantitySchema quantitySchema)
   {
-    _entry.Unit = unit;
+    _entry.QuantitySchema = quantitySchema;
+    return this;
+  }
+
+  public EntryBuilder WithQuantityRange(QuantityType quantityType, string boundsUnit, double? minScalarValue = null, double? maxScalarValue = null)
+  {
+    _entry.QuantitySchema ??= new QuantitySchema();
+    _entry.QuantitySchema.QuantityType = quantityType;
+    _entry.QuantitySchema.BoundsUnit = boundsUnit;
+    if(minScalarValue is not null)
+      _entry.QuantitySchema.MinScalarValue = minScalarValue.Value;
+    if(maxScalarValue is not null)
+      _entry.QuantitySchema.MaxScalarValue = maxScalarValue.Value;
+    return this;
+  }
+
+  public EntryBuilder WithMinNumberValue(double value)
+  {
+    _entry.MinNumberValue = value;
+    return this;
+  }
+
+  public EntryBuilder WithMaxNumberValue(double value)
+  {
+    _entry.MaxNumberValue = value;
+    return this;
+  }
+
+  public EntryBuilder WithNumberRange(double minValue, double maxValue)
+  {
+    _entry.MinNumberValue = minValue;
+    _entry.MaxNumberValue = maxValue;
     return this;
   }
 

@@ -4,6 +4,7 @@ package ares.datamodel;
 
 // Import the Enums
 import "ares_data_type.proto";
+import "ares_quantity_type.proto";
 // Import AresStruct, StringArray, NumberArray, etc.
 import "ares_struct.proto"; 
 
@@ -23,9 +24,8 @@ message SchemaEntry {
   // Describe the purpose of this particular piece of data
   string description = 3; 
 
-  // Metadata for units (e.g. "DegreesCelsius", "Meters", "Seconds").
-  // This applies primarily when type is NUMBER or NUMBER_ARRAY.
-  string unit = 4; 
+  // Quantity metadata. Applies when type == QUANTITY.
+  QuantitySchema quantity_schema = 4;
 
   // Constraints: An optional list of allowed choices.
   oneof available_choices {
@@ -43,4 +43,20 @@ message SchemaEntry {
   // This maps to the 'AresValueList list_value' in your AresValue message.
   // Note: Since AresValueList contains AresValues, this schema entry describes the type of those values.
   SchemaEntry list_element_schema = 8;
+
+  // Numeric bounds for scalar NUMBER values.
+  optional double min_number_value = 9;
+  optional double max_number_value = 10;
+}
+
+message QuantitySchema {
+  // The dimensional category of this quantity value.
+  QuantityType quantity_type = 1;
+
+  // Unit used when evaluating scalar min/max bounds (for example: "m", "degC").
+  string bounds_unit = 2;
+
+  // Optional bounds for quantity scalar in the specified bounds_unit.
+  optional double min_scalar_value = 3;
+  optional double max_scalar_value = 4;
 }

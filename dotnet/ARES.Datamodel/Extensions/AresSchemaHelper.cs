@@ -6,15 +6,28 @@ public static class AresSchemaHelper
   // BASIC ENTRIES (Primitives)
   // ------------------------------------------------------------------------
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional = true, string description = "", string unit = "")
+  public static AresDataSchema AddEntry(
+    this AresDataSchema schema,
+    string name,
+    AresDataType type,
+    bool optional = true,
+    string description = "",
+    QuantitySchema? quantitySchema = null,
+    double? minNumberValue = null,
+    double? maxNumberValue = null)
   {
     var entry = new SchemaEntry
     {
       Type = type,
       Optional = optional,
-      Description = description,
-      Unit = unit
+      Description = description
     };
+    if (quantitySchema is not null)
+      entry.QuantitySchema = quantitySchema;
+    if (minNumberValue is not null)
+      entry.MinNumberValue = minNumberValue.Value;
+    if (maxNumberValue is not null)
+      entry.MaxNumberValue = maxNumberValue.Value;
     schema.Fields[name] = entry;
     return schema;
   }
@@ -49,7 +62,7 @@ public static class AresSchemaHelper
   // CONSTRAINED ENTRIES (Numbers with Choices)
   // ------------------------------------------------------------------------
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions, string description = "", string unit = "")
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
   {
     if (type != AresDataType.Number && type != AresDataType.NumberArray)
     {
@@ -61,9 +74,12 @@ public static class AresSchemaHelper
       Type = type,
       Optional = optional,
       Description = description,
-      Unit = unit,
       NumberChoices = new NumberArray()
     };
+    if (minNumberValue is not null)
+      entry.MinNumberValue = minNumberValue.Value;
+    if (maxNumberValue is not null)
+      entry.MaxNumberValue = maxNumberValue.Value;
 
     // Note: 'Numbers' comes from 'repeated double numbers = 2' in ares_struct.proto
     entry.NumberChoices.Numbers.AddRange(numOptions);
@@ -73,15 +89,15 @@ public static class AresSchemaHelper
   }
 
   // Overload for Int options
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<int> numOptions, string description = "", string unit = "")
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<int> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
   {
-    return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, unit);
+    return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, minNumberValue, maxNumberValue);
   }
 
   // Overload for Float options
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<float> numOptions, string description = "", string unit = "")
+  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<float> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
   {
-    return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, unit);
+    return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, minNumberValue, maxNumberValue);
   }
 
   // ------------------------------------------------------------------------

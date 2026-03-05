@@ -16,6 +16,7 @@
     <PackageReference Include="Google.Protobuf" Version="3.33.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.71.0" />
     <PackageReference Include="Grpc.Tools" Version="2.76.0" PrivateAssets="all" />
+    <PackageReference Include="UnitsNet" Version="5.75.0" />
   </ItemGroup>
 
 

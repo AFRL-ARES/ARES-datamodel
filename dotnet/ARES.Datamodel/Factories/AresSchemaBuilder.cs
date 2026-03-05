@@ -55,15 +55,22 @@ public class RootSchemaBuilder
     return this;
   }
 
-  public RootSchemaBuilder WithQuantityRange(QuantityType quantityType, string boundsUnit, double? minScalarValue = null, double? maxScalarValue = null)
+  public RootSchemaBuilder WithQuantity(QuantityType quantityType)
   {
     _rootQuantitySchema ??= new QuantitySchema();
     _rootQuantitySchema.QuantityType = quantityType;
-    _rootQuantitySchema.BoundsUnit = boundsUnit;
+    return this;
+  }
+
+  public RootSchemaBuilder WithQuantityRange(QuantityType quantityType, string boundsUnit, double? minScalarValue = null, double? maxScalarValue = null)
+  {
+    var schema = _rootQuantitySchema ??= new QuantitySchema();
+    schema.QuantityType = quantityType;
+    schema.BoundsUnit = boundsUnit;
     if(minScalarValue is not null)
-      _rootQuantitySchema.MinScalarValue = minScalarValue.Value;
+      schema.MinScalarValue = minScalarValue.Value;
     if(maxScalarValue is not null)
-      _rootQuantitySchema.MaxScalarValue = maxScalarValue.Value;
+      schema.MaxScalarValue = maxScalarValue.Value;
     return this;
   }
 
@@ -130,15 +137,22 @@ public class EntryBuilder
     return this;
   }
 
-  public EntryBuilder WithQuantityRange(QuantityType quantityType, string boundsUnit, double? minScalarValue = null, double? maxScalarValue = null)
+  public EntryBuilder WithQuantity(QuantityType quantityType)
   {
     _entry.QuantitySchema ??= new QuantitySchema();
     _entry.QuantitySchema.QuantityType = quantityType;
-    _entry.QuantitySchema.BoundsUnit = boundsUnit;
+    return this;
+  }
+
+  public EntryBuilder WithQuantityRange(QuantityType quantityType, string boundsUnit, double? minScalarValue = null, double? maxScalarValue = null)
+  {
+    var schema = _entry.QuantitySchema ??= new QuantitySchema();
+    schema.QuantityType = quantityType;
+    schema.BoundsUnit = boundsUnit;
     if(minScalarValue is not null)
-      _entry.QuantitySchema.MinScalarValue = minScalarValue.Value;
+      schema.MinScalarValue = minScalarValue.Value;
     if(maxScalarValue is not null)
-      _entry.QuantitySchema.MaxScalarValue = maxScalarValue.Value;
+      schema.MaxScalarValue = maxScalarValue.Value;
     return this;
   }
 

@@ -52,7 +52,7 @@ public static class QuantityValueUnitsNetExtensions
     {
       Scalar = (double)quantity.Value,
       Type = resolvedType,
-      Unit = quantity.Unit.ToString()
+      Unit = ToUnitsNetDefaultAbbreviation(quantity)
     };
   }
 
@@ -76,5 +76,12 @@ public static class QuantityValueUnitsNetExtensions
       return name;
 
     throw new InvalidOperationException($"No UnitsNet quantity mapping exists for QuantityType '{quantityType}'.");
+  }
+
+  private static string ToUnitsNetDefaultAbbreviation(IQuantity quantity)
+  {
+    var unitType = quantity.Unit.GetType();
+    var unitValue = Convert.ToInt32(quantity.Unit, CultureInfo.InvariantCulture);
+    return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unitType, unitValue, CultureInfo.InvariantCulture);
   }
 }

@@ -31,7 +31,7 @@ public class QuantityValueUnitsNetExtensionsTests
     var result = quantity.ToQuantityValue();
 
     Assert.That(result.Type, Is.EqualTo(QuantityType.Length));
-    Assert.That(result.Unit, Is.EqualTo("Meter"));
+    Assert.That(result.Unit, Is.EqualTo("m"));
     Assert.That(result.Scalar, Is.EqualTo(1.25).Within(1e-8));
   }
 
@@ -42,7 +42,7 @@ public class QuantityValueUnitsNetExtensionsTests
     {
       Scalar = 250,
       Type = QuantityType.Length,
-      Unit = "Millimeter"
+      Unit = "mm"
     };
 
     var quantity = value.ToUnitsNetQuantity();
@@ -59,7 +59,7 @@ public class QuantityValueUnitsNetExtensionsTests
     {
       Scalar = 12,
       Type = QuantityType.ElectricPotential,
-      Unit = "Volt"
+      Unit = "V"
     };
 
     var quantity = value.ToUnitsNetQuantity();
@@ -75,7 +75,7 @@ public class QuantityValueUnitsNetExtensionsTests
     {
       Scalar = 10,
       Type = QuantityType.VolumeFlow,
-      Unit = "LiterPerMinute"
+      Unit = "L/min"
     };
 
     var quantity = value.ToUnitsNetQuantity();
@@ -91,7 +91,7 @@ public class QuantityValueUnitsNetExtensionsTests
     {
       Scalar = 500,
       Type = QuantityType.HeatFlux,
-      Unit = "WattPerSquareMeter"
+      Unit = "W/m^2"
     };
 
     var quantity = value.ToUnitsNetQuantity();

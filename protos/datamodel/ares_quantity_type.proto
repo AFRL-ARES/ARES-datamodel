@@ -11,63 +11,64 @@ enum QuantityType {
   VOLUME = 3;
   DURATION = 4;
   SPEED = 5;
-  FREQUENCY = 6;
+  ACCELERATION = 6;
+  FREQUENCY = 7;
 
   // Mass & amount
-  MASS = 7;
-  AMOUNT_OF_SUBSTANCE = 8;     // mol
-  MOLAR_MASS = 9;              // g/mol
+  MASS = 8;
+  AMOUNT_OF_SUBSTANCE = 9;     // mol
+  MOLAR_MASS = 10;             // g/mol
 
   // Temperature & pressure
-  TEMPERATURE = 10;            // K, degC
-  TEMPERATURE_DELTA = 11;      // dK, delta_degC
-  PRESSURE = 12;               // Pa, bar, psi, atm
+  TEMPERATURE = 11;            // K, degC
+  TEMPERATURE_DELTA = 12;      // dK, delta_degC
+  PRESSURE = 13;               // Pa, bar, psi, atm
 
   // Concentrations
-  MOLARITY = 13;               // mol/L, mM
-  MASS_CONCENTRATION = 14;     // g/L, mg/mL
-  VOLUME_CONCENTRATION = 15;   // v/v (dimensionless)
-  MASS_FRACTION = 16;          // w/w (dimensionless)
+  MOLARITY = 14;               // mol/L, mM
+  MASS_CONCENTRATION = 15;     // g/L, mg/mL
+  VOLUME_CONCENTRATION = 16;   // v/v (dimensionless)
+  MASS_FRACTION = 17;          // w/w (dimensionless)
 
   // Density & viscosity (materials / fluids)
-  DENSITY = 17;                // kg/m^3, g/mL
-  DYNAMIC_VISCOSITY = 18;      // Pa*s
-  KINEMATIC_VISCOSITY = 19;    // m^2/s
+  DENSITY = 18;                // kg/m^3, g/mL
+  DYNAMIC_VISCOSITY = 19;      // Pa*s
+  KINEMATIC_VISCOSITY = 20;    // m^2/s
 
   // Flow / transport
-  VOLUME_FLOW = 20;            // mL/min, L/s
-  MASS_FLOW = 21;              // g/s, kg/h
-  MASS_FLUX = 22;              // g/(m^2*s)
+  VOLUME_FLOW = 21;            // mL/min, L/s
+  MASS_FLOW = 22;              // g/s, kg/h
+  MASS_FLUX = 23;              // g/(m^2*s)
 
   // Mixing / centrifugation / agitation
-  ROTATIONAL_ACCELERATION = 23; // rad/s^2
-  ROTATIONAL_SPEED = 24;       // rpm
+  ROTATIONAL_ACCELERATION = 24; // rad/s^2
+  ROTATIONAL_SPEED = 25;       // rpm
 
   // Energy / heat / power
-  ENERGY = 25;                 // J
-  POWER = 26;                  // W
-  HEAT_FLUX = 27;              // W/m^2 (useful for heaters, irradiation, thermal tests)
-  SPECIFIC_ENERGY = 28;        // J/kg
-  THERMAL_CONDUCTIVITY = 29;   // W/(m*K)
+  ENERGY = 26;                 // J
+  POWER = 27;                  // W
+  HEAT_FLUX = 28;              // W/m^2 (useful for heaters, irradiation, thermal tests)
+  SPECIFIC_ENERGY = 29;        // J/kg
+  THERMAL_CONDUCTIVITY = 30;   // W/(m*K)
 
   // Forces (mechanical testing)
-  FORCE = 30;                  // N
-  FORCE_PER_LENGTH = 31;       // N/m
-  RATIO = 32;                  // dimensionless
+  FORCE = 31;                  // N
+  FORCE_PER_LENGTH = 32;       // N/m
+  RATIO = 33;                  // dimensionless
 
   // Optics / light exposure (common in bio + materials characterization)
-  IRRADIANCE = 33;             // W/m^2
-  ILLUMINANCE = 34;            // lux (if you care about photometric units)
-  TEMPERATURE_GRADIENT = 35;   // K/m
+  IRRADIANCE = 34;             // W/m^2
+  ILLUMINANCE = 35;            // lux (if you care about photometric units)
+  TEMPERATURE_GRADIENT = 36;   // K/m
 
   // Electrical (instrumentation / sensors / electrophoresis)
-  ELECTRIC_POTENTIAL = 36;     // V
-  ELECTRIC_CURRENT = 37;       // A
-  ELECTRIC_RESISTANCE = 38;    // ohm
-  ELECTRIC_CONDUCTIVITY = 39;  // S/m (buffers, materials)
-  ELECTRIC_CONDUCTANCE = 40;   // S
+  ELECTRIC_POTENTIAL = 37;     // V
+  ELECTRIC_CURRENT = 38;       // A
+  ELECTRIC_RESISTANCE = 39;    // ohm
+  ELECTRIC_CONDUCTIVITY = 40;  // S/m (buffers, materials)
+  ELECTRIC_CONDUCTANCE = 41;   // S
 
   // Dimensionless / ratios
-  RATIO_CHANGE_RATE = 41;
-  RELATIVE_HUMIDITY = 42;
+  RATIO_CHANGE_RATE = 42;
+  RELATIVE_HUMIDITY = 43;
 }

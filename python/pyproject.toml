@@ -19,10 +19,18 @@ classifiers = [
 ]
 license = { file = "License.md" }
 dynamic = ["version"]
+dependencies = [
+  "pint>=0.24",
+]
 
 [project.urls]
 Homepage = "https://github.com/AFRL-ARES/ARES-datamodel"
 Issues = "https://github.com/AFRL-ARES/ARES-datamodel/issues"
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.3",
+]
 
 [tool.hatch.version]
 source = "env"

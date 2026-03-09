@@ -17,8 +17,7 @@ message DriverInfo {
   string driver_id = 1;       
   string display_name = 2;
   string version = 3;
-  string checksum = 4;
-  int64 file_size_bytes = 5;
+  int64 file_size_bytes = 4;
 }
 
 message DriverRequest {

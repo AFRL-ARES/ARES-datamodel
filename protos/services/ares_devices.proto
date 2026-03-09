@@ -43,6 +43,8 @@ service AresDevices {
 	rpc GetAllRemoteDevicesConfigs(google.protobuf.Empty) returns (RemoteDeviceConfigResponse);
 
 	rpc AddAresDevice(AddDeviceRequest) returns (AddDeviceResponse);
+	rpc UpdateAresDevice(UpdateDeviceRequest) returns (UpdateDeviceResponse);
+	rpc RemoveAresDevice(RemoveDeviceRequest) returns (RemoveDeviceResponse);
 	rpc GetAvailableDeviceDrivers(google.protobuf.Empty) returns (AvailableDeviceDriversResponse);
 	rpc GetDeviceConfig(GetDeviceConfigRequest) returns (DeviceConfigResponse);
 	rpc GetAllAvailableDevices(google.protobuf.Empty) returns (AvailableDevicesResponse);
@@ -185,4 +187,23 @@ message GetDeviceConfigRequest {
 
 message AvailableDevicesResponse {
 	repeated datamodel.device.AresDeviceDescription devices = 1;
+}
+
+message UpdateDeviceRequest {
+	string device_id = 1;
+	datamodel.device.DeviceConfig updated_config = 2;
+}
+
+message UpdateDeviceResponse {
+	bool success = 1;
+	optional string error_message = 2;
+}
+
+message RemoveDeviceRequest {
+	string device_id = 1;
+}
+
+message RemoveDeviceResponse {
+	bool success = 1;
+	optional string error_message = 2;
 }

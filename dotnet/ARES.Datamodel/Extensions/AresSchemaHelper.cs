@@ -1,4 +1,6 @@
-﻿namespace Ares.Datamodel.Extensions;
+using System.Text;
+
+namespace Ares.Datamodel.Extensions;
 
 public static class AresSchemaHelper
 {
@@ -136,5 +138,167 @@ public static class AresSchemaHelper
     schema.Fields[name] = entry;
 
     return schema;
+  }
+
+  public static string Stringify(this SchemaEntry schema)
+  {
+    return schema.Type switch
+    {
+      AresDataType.UnspecifiedType => "Unspecified",
+      AresDataType.Null => "Null",
+      AresDataType.Boolean => "Boolean",
+      AresDataType.String => schema.StringifyString(),
+      AresDataType.Number => schema.StringifyNumber(),
+      AresDataType.StringArray => schema.StringifyStringArray(),
+      AresDataType.NumberArray => schema.StringifyNumArray(),
+      AresDataType.List => schema.StringifyList(),
+      AresDataType.Struct => schema.StringifyStruct(),
+      AresDataType.ByteArray => "Byte Array",
+      AresDataType.Any => "Any",
+      AresDataType.Unit => "Unit",
+      AresDataType.Function => "Function Pointer",
+      AresDataType.Quantity => schema.StringifyQuantity(),
+      _ => $"{schema.Type}"
+    };
+  }
+
+  private static string StringifyString(this SchemaEntry entry)
+  {
+    if (entry.Type != AresDataType.String)
+    {
+      throw new InvalidOperationException($"Tried to stringify string, but it's actually {entry.Type}");
+    }
+
+    var sb = new StringBuilder("String");
+    if (entry.AvailableChoicesCase == SchemaEntry.AvailableChoicesOneofCase.StringChoices)
+    {
+      sb.AppendLine();
+      sb.Append("Available Choices: ");
+      sb.Append(string.Join(", ", entry.StringChoices.Strings));
+    }
+
+    return sb.ToString();
+  }
+
+  private static string StringifyNumber(this SchemaEntry entry)
+  {
+    if (entry.Type != AresDataType.Number)
+    {
+      throw new InvalidOperationException($"Tried to stringify number, but it's actually {entry.Type}");
+    }
+
+    var sb = new StringBuilder("Number");
+    if (entry.HasMinNumberValue)
+    {
+      sb.AppendLine($" (Min: {entry.MinNumberValue})");
+    }
+    if (entry.HasMaxNumberValue)
+    {
+      sb.AppendLine($" (Max: {entry.MaxNumberValue})");
+    }
+    if (entry.AvailableChoicesCase == SchemaEntry.AvailableChoicesOneofCase.NumberChoices)
+    {
+      sb.AppendLine("Available Choices: ");
+      sb.Append(string.Join(", ", entry.NumberChoices.Numbers));
+    }
+
+    return sb.ToString();
+  }
+
+  private static string StringifyStringArray(this SchemaEntry entry)
+  {
+    if (entry.Type != AresDataType.StringArray)
+    {
+      throw new InvalidOperationException($"Tried to stringify string array, but it's actually {entry.Type}");
+    }
+
+    var sb = new StringBuilder("String Array");
+    if (entry.AvailableChoicesCase == SchemaEntry.AvailableChoicesOneofCase.StringChoices)
+    {
+      sb.AppendLine("Available Choices: ");
+      var choices = string.Join(", ", entry.StringChoices.Strings);
+      sb.Append(choices);
+    }
+
+    return sb.ToString();
+  }
+
+  private static string StringifyNumArray(this SchemaEntry entry)
+  {
+    if (entry.Type != AresDataType.NumberArray)
+    {
+      throw new InvalidOperationException($"Tried to stringify number array, but it's actually {entry.Type}");
+    }
+
+    var sb = new StringBuilder("Number Array");
+    if (entry.HasMinNumberValue)
+    {
+      sb.AppendLine($" (Min: {entry.MinNumberValue})");
+    }
+    if (entry.HasMaxNumberValue)
+    {
+      sb.AppendLine($" (Max: {entry.MaxNumberValue})");
+    }
+    if (entry.AvailableChoicesCase == SchemaEntry.AvailableChoicesOneofCase.NumberChoices)
+    {
+      sb.AppendLine("Available Choices: ");
+      sb.Append(string.Join(", ", entry.NumberChoices.Numbers));
+    }
+
+    return sb.ToString();
+  }
+
+  private static string StringifyList(this SchemaEntry entry)
+  {
+    if (entry.Type != AresDataType.List)
+    {
+      throw new InvalidOperationException($"Tried to stringify list, but it's actually {entry.Type}");
+    }
+
+    var element = entry.ListElementSchema?.Stringify() ?? "Any";
+    return $"List<{element}>";
+  }
+
+  private static string StringifyStruct(this SchemaEntry entry)
+  {
+    if (entry.Type != AresDataType.Struct)
+    {
+      throw new InvalidOperationException($"Tried to stringify struct, but it's actually {entry.Type}");
+    }
+
+    if (entry.StructSchema is null || entry.StructSchema.Fields.Count == 0)
+      return "Struct {}";
+
+    var fields = entry.StructSchema.Fields
+      .Select(field => $"{field.Key}: {field.Value.Stringify()}");
+    return $"Struct {{ {string.Join("; ", fields)} }}";
+  }
+
+  private static string StringifyQuantity(this SchemaEntry entry)
+  {
+    if (entry.Type != AresDataType.Quantity)
+    {
+      throw new InvalidOperationException($"Tried to stringify quantity, but it's actually {entry.Type}");
+    }
+
+    var quantitySchema = entry.QuantitySchema;
+    if (quantitySchema is null)
+      return "Quantity";
+
+    var sb = new StringBuilder($"Quantity ({quantitySchema.QuantityType})");
+    if (!string.IsNullOrWhiteSpace(quantitySchema.BoundsUnit))
+    {
+      sb.Append($" [{quantitySchema.BoundsUnit}]");
+    }
+    if (quantitySchema.HasMinScalarValue)
+    {
+      sb.Append($" (Min: {quantitySchema.MinScalarValue})");
+    }
+    if (quantitySchema.HasMaxScalarValue)
+    {
+      sb.Append($" (Max: {quantitySchema.MaxScalarValue})");
+    }
+
+    return sb.ToString();
   }
 }

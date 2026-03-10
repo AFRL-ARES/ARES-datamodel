@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+import "device/device_connection_info.proto";
+
+message RemoteConnectionInfo {
+  DeviceConnectionInfo connection_info = 1;
+  string address = 2;
+}

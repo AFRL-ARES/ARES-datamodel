@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ares.datamodel.device.plugin;
+package ares.datamodel.device;
 
 import "ares_struct.proto";
 

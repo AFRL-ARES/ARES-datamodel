@@ -2,8 +2,8 @@
 
 package ares.datamodel.device;
 
-import "device/parity.proto";
 import "ares_struct.proto";
+import "device/plugin/plugin_connection_info.proto";
 
 message DeviceConfig {
   optional string unique_id = 1;
@@ -11,10 +11,6 @@ message DeviceConfig {
   string device_id = 3;
   string driver_id = 4;
   bool is_simulated = 5;
-  optional SerialConnection serial_info = 13;
+  optional device.plugin.SerialConnection serial_info = 13;
   AresStruct device_settings = 20;
-}
-
-message SerialConnection {
-    string port_name = 1;   // e.g., "COM3", "/dev/ttyUSB0"
 }

@@ -16,4 +16,5 @@ enum AresDataType {
 	ANY = 10;
 	UNIT = 11;
 	FUNCTION = 12;
+	QUANTITY = 13;
 }

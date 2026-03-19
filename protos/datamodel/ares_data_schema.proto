@@ -4,6 +4,7 @@ package ares.datamodel;
 
 // Import the Enums
 import "ares_data_type.proto";
+import "ares_quantity_type.proto";
 // Import AresStruct, StringArray, NumberArray, etc.
 import "ares_struct.proto"; 
 import "limits.proto";
@@ -16,23 +17,49 @@ message AresStructSchema {
 
 // This is a description of an Ares Value
 message AresValueSchema {
-  AresDataType type = 1;
-  bool optional = 2;
-  optional string description = 3;
+  // The high-level data type (NULL, BOOLEAN, STRUCT, LIST, etc.)
+  AresDataType type = 1; 
+
+  // Is the data optional?
+  bool optional = 2; 
+
+  // Describe the purpose of this particular piece of data
+  string description = 3; 
+
+  // Quantity metadata. Applies when type == QUANTITY.
+  QuantitySchema quantity_schema = 4;
+
+  // Constraints: An optional list of allowed choices.
   oneof available_choices {
-    StringArray string_choices = 4;
-    NumberArray number_choices = 5;
-    Limits limits = 6;
+    StringArray string_choices = 5;
+    NumberArray number_choices = 6;
+    Limits limits = 7;
   }
 
   // RECURSIVE DEFINITIONS:
 
   // If type == STRUCT, use this to define the internal fields of that struct.
   // This maps to the 'AresStruct struct_value' in your AresValue message.
-  AresStructSchema struct_schema = 7;
+  AresStructSchema struct_schema = 8;
 
   // If type == LIST, use this to define what a single element in the list looks like.
   // This maps to the 'AresValueList list_value' in your AresValue message.
   // Note: Since AresValueList contains AresValues, this schema entry describes the type of those values.
-  AresValueSchema list_element_schema = 8;
+  AresValueSchema list_element_schema = 9;
+
+  // Numeric bounds for scalar NUMBER values.
+  optional double min_number_value = 10;
+  optional double max_number_value = 11;
+}
+
+message QuantitySchema {
+  // The dimensional category of this quantity value.
+  QuantityType quantity_type = 1;
+
+  // Unit used when evaluating scalar min/max bounds (for example: "m", "degC").
+  string bounds_unit = 2;
+
+  // Optional bounds for quantity scalar in the specified bounds_unit.
+  optional double min_scalar_value = 3;
+  optional double max_scalar_value = 4;
 }

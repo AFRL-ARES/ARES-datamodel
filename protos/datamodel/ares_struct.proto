@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ares.datamodel;
 
+import "ares_quantity_type.proto";
+
 // This is ares simple struct containing keys and values whose type should correspond with and related AresStructSchema
 // This is similar to the built-in protobuf struct
 message AresStruct {
@@ -21,6 +23,7 @@ message AresValue {
 		AresStruct struct_value = 9;
 		UnitValue unit_value = 10; // AresScript support
 		FunctionValue function_value = 11; // AresScript support
+		QuantityValue quantity_value = 12;
 	}
 }
 
@@ -46,4 +49,10 @@ message NumberArray {
 
 message AresValueList {
 	repeated AresValue values = 1;
+}
+
+message QuantityValue {
+	double scalar = 1;
+	QuantityType type = 2;
+	string unit = 3;
 }

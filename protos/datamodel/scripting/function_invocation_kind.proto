@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+enum FunctionInvocationKind {
+    FUNCTION_INVOCATION_KIND_UNSPECIFIED = 0;
+    FUNCTION_INVOCATION_KIND_SYSTEM = 1;
+    FUNCTION_INVOCATION_KIND_EXTENSION = 2;
+    FUNCTION_INVOCATION_KIND_USER = 3;
+    FUNCTION_INVOCATION_KIND_LAMBDA = 4;
+}

@@ -2,24 +2,35 @@ syntax = "proto3";
 
 package ares.services;
 
-import "google/protobuf/empty.proto";
-import "scripting/autocomplete_catalog.proto";
+import "ares_struct.proto";
 import "scripting/completion.proto";
 import "scripting/diagnostic.proto";
+import "scripting/navigation.proto";
+import "scripting/script_summary_step.proto";
+import "scripting/script_symbol_metadata.proto";
+import "scripting/signature_help.proto";
 
 service AresScriptingService {
     // Executes a script and streams the output.
-    rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionOutput);
-    
-    // Returns the static definition of the world (Namespaces, Globals, etc).
-    // Can be used for initial caching on the client side.
-    rpc GetAutocompleteCatalog(google.protobuf.Empty) returns (AutocompleteCatalogResponse);
+    rpc ExecuteScript(ScriptExecutionRequest) returns (stream ScriptExecutionEvent);
     
     // Dynamic context-aware suggestions based on cursor position.
     rpc GetCompletions(CompletionRequest) returns (CompletionResponse);
 
     // Checks for syntax errors or invalid variable references without running
     rpc ValidateScript(ValidateScriptRequest) returns (ValidateScriptResponse);
+
+    // Builds an ordered summary of function calls found in the script.
+    rpc GetScriptSummary(ScriptSummaryRequest) returns (ScriptSummaryResponse);
+
+    // Resolves metadata for the symbol at a cursor location.
+    rpc GetSymbolMetadata(SymbolMetadataRequest) returns (SymbolMetadataResponse);
+
+    // Resolves references for the symbol at a cursor location.
+    rpc GetReferences(ReferencesRequest) returns (ReferencesResponse);
+
+    // Resolves function signatures for call-site help at a cursor location.
+    rpc GetSignatureHelp(SignatureHelpRequest) returns (SignatureHelpResponse);
 }
 
 // --- Execution Messages ---
@@ -28,8 +39,46 @@ message ScriptExecutionRequest {
     string script = 1;
 }
 
-message ScriptExecutionOutput {
+message ScriptExecutionEvent {
+    int64 sequence = 1;
+
+    oneof event {
+        ExecutionStarted execution_started = 2;
+        ExecutionCompleted execution_completed = 3;
+        ExecutionFailed execution_failed = 4;
+        ConsoleOutput console_output = 5;
+        FunctionStarted function_started = 6;
+        FunctionCompleted function_completed = 7;
+        FunctionFailed function_failed = 8;
+    }
+}
+
+message ExecutionStarted {}
+
+message ExecutionCompleted {}
+
+message ExecutionFailed {
+    string error = 1;
+}
+
+message ConsoleOutput {
     string output = 1;
+}
+
+message FunctionStarted {
+    string call_id = 1;
+    string parent_call_id = 2;
+    datamodel.scripting.ScriptFunctionInvocation invocation = 3;
+}
+
+message FunctionCompleted {
+    string call_id = 1;
+    datamodel.AresValue result = 2;
+}
+
+message FunctionFailed {
+    string call_id = 1;
+    string error = 2;
 }
 
 // --- Validation Messages ---
@@ -42,12 +91,68 @@ message ValidateScriptResponse {
     repeated datamodel.scripting.Diagnostic diagnostics = 1;
 }
 
-// --- Catalog Messages ---
-
-message AutocompleteCatalogResponse {
-    datamodel.scripting.AutocompleteCatalog catalog = 1;
+message ScriptSummaryRequest {
+    string script = 1;
+    bool include_user_functions = 2;
+    bool include_lambdas = 3;
 }
 
+message ScriptSummaryResponse {
+    repeated datamodel.scripting.ScriptFunctionInvocation steps = 1;
+    repeated datamodel.scripting.Diagnostic diagnostics = 2;
+}
+
+message SymbolMetadataRequest {
+    // Full document text so the server can resolve scope/types.
+    string script = 1;
+    // 1-based cursor line.
+    int32 cursor_line = 2;
+    // 1-based cursor column.
+    int32 cursor_column = 3;
+    // Optional identifier already resolved by the client at the cursor position.
+    optional string identifier = 4;
+}
+
+message SymbolMetadataResponse {
+    // False when no symbol is found at the requested position.
+    bool found = 1;
+    // Present when found is true. May be absent when found is false.
+    datamodel.scripting.ScriptSymbolMetadata metadata = 2;
+    // Optional warnings/errors from best-effort analysis.
+    repeated datamodel.scripting.Diagnostic diagnostics = 3;
+}
+
+message ReferencesRequest {
+    // Full document text so the server can resolve scope/types.
+    string script = 1;
+    // 1-based cursor line.
+    int32 cursor_line = 2;
+    // 1-based cursor column.
+    int32 cursor_column = 3;
+    // Optional identifier already resolved by the client at the cursor position.
+    optional string identifier = 4;
+    // Include the declaration/definition location when true.
+    bool include_definition = 5;
+}
+
+message ReferencesResponse {
+    repeated datamodel.scripting.SymbolLocation locations = 1;
+    repeated datamodel.scripting.Diagnostic diagnostics = 2;
+}
+
+message SignatureHelpRequest {
+    // Full document text so the server can resolve scope/types.
+    string script = 1;
+    // 1-based cursor line.
+    int32 cursor_line = 2;
+    // 1-based cursor column.
+    int32 cursor_column = 3;
+}
+
+message SignatureHelpResponse {
+    datamodel.scripting.SignatureHelp signature_help = 1;
+    repeated datamodel.scripting.Diagnostic diagnostics = 2;
+}
 
 // --- Autocomplete Messages ---
 

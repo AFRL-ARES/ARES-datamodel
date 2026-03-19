@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ARES.Datamodel.Tests/ARES.Datamodel.Tests.csproj" />
+  <Project Path="ARES.Datamodel/ARES.Datamodel.csproj" />
+</Solution>

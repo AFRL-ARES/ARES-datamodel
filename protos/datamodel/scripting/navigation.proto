@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ares.datamodel.scripting;
+
+message ScriptRange {
+    // 1-based line number.
+    int32 start_line = 1;
+    // 1-based column number.
+    int32 start_column = 2;
+    int32 end_line = 3;
+    int32 end_column = 4;
+}
+
+message SymbolLocation {
+    string identifier = 1;
+    optional string parent_identifier = 2;
+    ScriptRange range = 3;
+}

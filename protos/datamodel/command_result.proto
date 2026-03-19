@@ -6,7 +6,7 @@ import "ares_struct.proto";
 
 message CommandResult {
 	optional string unique_id = 1;
-	AresStruct result = 2;
+	AresValue result = 2;
 	bool success = 3; // Whether or not the execution was successful
 	string error = 4; // Error message assuming the success is false
 	bool await_user_input = 5; //Wait for user input

@@ -6,7 +6,7 @@ import "ares_data_schema.proto";
 
 message SignatureParameter {
     string name = 1;
-    SchemaEntry schema = 2;
+    AresValueSchema schema = 2;
     optional string documentation = 3;
 }
 
@@ -15,7 +15,7 @@ message FunctionSignature {
     string label = 1;
     optional string documentation = 2;
     repeated SignatureParameter parameters = 3;
-    SchemaEntry return_schema = 4;
+    AresValueSchema return_schema = 4;
 }
 
 message SignatureHelp {

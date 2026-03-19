@@ -7,14 +7,16 @@ import "ares_data_type.proto";
 import "ares_quantity_type.proto";
 // Import AresStruct, StringArray, NumberArray, etc.
 import "ares_struct.proto"; 
+import "limits.proto";
 
 // This is a key value pair that should be used when data is requested in order to describe the data.
 // ex.: {"TemperatureValue": AresDataType.NUMBER, "TestPhoto": AresDataType.BYTE_ARRAY}
-message AresDataSchema {
-  map<string, SchemaEntry> fields = 1;
+message AresStructSchema {
+  map<string, AresValueSchema> fields = 1;
 }
 
-message SchemaEntry {
+// This is a description of an Ares Value
+message AresValueSchema {
   // The high-level data type (NULL, BOOLEAN, STRUCT, LIST, etc.)
   AresDataType type = 1; 
 
@@ -31,22 +33,23 @@ message SchemaEntry {
   oneof available_choices {
     StringArray string_choices = 5;
     NumberArray number_choices = 6;
+    Limits limits = 7;
   }
 
   // RECURSIVE DEFINITIONS:
 
   // If type == STRUCT, use this to define the internal fields of that struct.
   // This maps to the 'AresStruct struct_value' in your AresValue message.
-  AresDataSchema struct_schema = 7;
+  AresStructSchema struct_schema = 8;
 
   // If type == LIST, use this to define what a single element in the list looks like.
   // This maps to the 'AresValueList list_value' in your AresValue message.
   // Note: Since AresValueList contains AresValues, this schema entry describes the type of those values.
-  SchemaEntry list_element_schema = 8;
+  AresValueSchema list_element_schema = 9;
 
   // Numeric bounds for scalar NUMBER values.
-  optional double min_number_value = 9;
-  optional double max_number_value = 10;
+  optional double min_number_value = 10;
+  optional double max_number_value = 11;
 }
 
 message QuantitySchema {

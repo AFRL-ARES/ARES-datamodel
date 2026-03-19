@@ -8,8 +8,8 @@ public static class AresSchemaHelper
   // BASIC ENTRIES (Primitives)
   // ------------------------------------------------------------------------
 
-  public static AresDataSchema AddEntry(
-    this AresDataSchema schema,
+  public static AresStructSchema AddEntry(
+    this AresStructSchema schema,
     string name,
     AresDataType type,
     bool optional = true,
@@ -18,7 +18,7 @@ public static class AresSchemaHelper
     double? minNumberValue = null,
     double? maxNumberValue = null)
   {
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = type,
       Optional = optional,
@@ -38,14 +38,14 @@ public static class AresSchemaHelper
   // CONSTRAINED ENTRIES (Strings with Choices)
   // ------------------------------------------------------------------------
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<string> stringOptions, string description = "")
+  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<string> stringOptions, string description = "")
   {
     if (type != AresDataType.String && type != AresDataType.StringArray)
     {
       throw new InvalidOperationException($"Cannot provide string options to a datatype that is {type}");
     }
 
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = type,
       Optional = optional,
@@ -64,14 +64,14 @@ public static class AresSchemaHelper
   // CONSTRAINED ENTRIES (Numbers with Choices)
   // ------------------------------------------------------------------------
 
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
+  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
   {
     if (type != AresDataType.Number && type != AresDataType.NumberArray)
     {
       throw new InvalidOperationException($"Cannot provide number options to a datatype that is {type}");
     }
 
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = type,
       Optional = optional,
@@ -91,13 +91,13 @@ public static class AresSchemaHelper
   }
 
   // Overload for Int options
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<int> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
+  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<int> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
   {
     return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, minNumberValue, maxNumberValue);
   }
 
   // Overload for Float options
-  public static AresDataSchema AddEntry(this AresDataSchema schema, string name, AresDataType type, bool optional, IEnumerable<float> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
+  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<float> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
   {
     return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, minNumberValue, maxNumberValue);
   }
@@ -109,9 +109,9 @@ public static class AresSchemaHelper
   /// <summary>
   /// Adds a nested Struct schema.
   /// </summary>
-  public static AresDataSchema AddStructEntry(this AresDataSchema schema, string name, bool optional, AresDataSchema innerStructSchema, string description = "")
+  public static AresStructSchema AddStructEntry(this AresStructSchema schema, string name, bool optional, AresStructSchema innerStructSchema, string description = "")
   {
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = AresDataType.Struct,
       Optional = optional,
@@ -126,9 +126,9 @@ public static class AresSchemaHelper
   /// <summary>
   /// Adds a List schema. You must define what a single element of the list looks like.
   /// </summary>
-  public static AresDataSchema AddListEntry(this AresDataSchema schema, string name, bool optional, SchemaEntry listElementSchema, string description = "")
+  public static AresStructSchema AddListEntry(this AresStructSchema schema, string name, bool optional, AresValueSchema listElementSchema, string description = "")
   {
-    var entry = new SchemaEntry
+    var entry = new AresValueSchema
     {
       Type = AresDataType.List,
       Optional = optional,
@@ -140,7 +140,7 @@ public static class AresSchemaHelper
     return schema;
   }
 
-  public static string Stringify(this SchemaEntry schema)
+  public static string Stringify(this AresValueSchema schema)
   {
     return schema.Type switch
     {
@@ -162,7 +162,7 @@ public static class AresSchemaHelper
     };
   }
 
-  private static string StringifyString(this SchemaEntry entry)
+  private static string StringifyString(this AresValueSchema entry)
   {
     if (entry.Type != AresDataType.String)
     {
@@ -170,7 +170,7 @@ public static class AresSchemaHelper
     }
 
     var sb = new StringBuilder("String");
-    if (entry.AvailableChoicesCase == SchemaEntry.AvailableChoicesOneofCase.StringChoices)
+    if (entry.AvailableChoicesCase == AresValueSchema.AvailableChoicesOneofCase.StringChoices)
     {
       sb.AppendLine();
       sb.Append("Available Choices: ");
@@ -180,7 +180,7 @@ public static class AresSchemaHelper
     return sb.ToString();
   }
 
-  private static string StringifyNumber(this SchemaEntry entry)
+  private static string StringifyNumber(this AresValueSchema entry)
   {
     if (entry.Type != AresDataType.Number)
     {
@@ -196,7 +196,7 @@ public static class AresSchemaHelper
     {
       sb.AppendLine($" (Max: {entry.MaxNumberValue})");
     }
-    if (entry.AvailableChoicesCase == SchemaEntry.AvailableChoicesOneofCase.NumberChoices)
+    if (entry.AvailableChoicesCase == AresValueSchema.AvailableChoicesOneofCase.NumberChoices)
     {
       sb.AppendLine("Available Choices: ");
       sb.Append(string.Join(", ", entry.NumberChoices.Numbers));
@@ -205,7 +205,7 @@ public static class AresSchemaHelper
     return sb.ToString();
   }
 
-  private static string StringifyStringArray(this SchemaEntry entry)
+  private static string StringifyStringArray(this AresValueSchema entry)
   {
     if (entry.Type != AresDataType.StringArray)
     {
@@ -213,7 +213,7 @@ public static class AresSchemaHelper
     }
 
     var sb = new StringBuilder("String Array");
-    if (entry.AvailableChoicesCase == SchemaEntry.AvailableChoicesOneofCase.StringChoices)
+    if (entry.AvailableChoicesCase == AresValueSchema.AvailableChoicesOneofCase.StringChoices)
     {
       sb.AppendLine("Available Choices: ");
       var choices = string.Join(", ", entry.StringChoices.Strings);
@@ -223,7 +223,7 @@ public static class AresSchemaHelper
     return sb.ToString();
   }
 
-  private static string StringifyNumArray(this SchemaEntry entry)
+  private static string StringifyNumArray(this AresValueSchema entry)
   {
     if (entry.Type != AresDataType.NumberArray)
     {
@@ -239,7 +239,7 @@ public static class AresSchemaHelper
     {
       sb.AppendLine($" (Max: {entry.MaxNumberValue})");
     }
-    if (entry.AvailableChoicesCase == SchemaEntry.AvailableChoicesOneofCase.NumberChoices)
+    if (entry.AvailableChoicesCase == AresValueSchema.AvailableChoicesOneofCase.NumberChoices)
     {
       sb.AppendLine("Available Choices: ");
       sb.Append(string.Join(", ", entry.NumberChoices.Numbers));
@@ -248,7 +248,7 @@ public static class AresSchemaHelper
     return sb.ToString();
   }
 
-  private static string StringifyList(this SchemaEntry entry)
+  private static string StringifyList(this AresValueSchema entry)
   {
     if (entry.Type != AresDataType.List)
     {
@@ -259,7 +259,7 @@ public static class AresSchemaHelper
     return $"List<{element}>";
   }
 
-  private static string StringifyStruct(this SchemaEntry entry)
+  private static string StringifyStruct(this AresValueSchema entry)
   {
     if (entry.Type != AresDataType.Struct)
     {
@@ -274,7 +274,7 @@ public static class AresSchemaHelper
     return $"Struct {{ {string.Join("; ", fields)} }}";
   }
 
-  private static string StringifyQuantity(this SchemaEntry entry)
+  private static string StringifyQuantity(this AresValueSchema entry)
   {
     if (entry.Type != AresDataType.Quantity)
     {

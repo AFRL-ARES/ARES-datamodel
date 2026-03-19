@@ -3,6 +3,8 @@ syntax = "proto3";
 package ares.datamodel.scripting;
 
 import "scripting/script_symbol_metadata.proto";
+import "scripting/symbol_kind.proto";
+import "ares_data_schema.proto";
 
 message CompletionItem {
     // Displayed text in the list.
@@ -20,6 +22,25 @@ message CompletionItem {
 
     // Canonical symbol metadata payload for UI rendering.
     ScriptSymbolMetadata metadata = 5;
+    // Short type/signature summary.
+    string detail = 6;
+
+    // Longer description or docs.
+    string documentation = 7;
+
+    // Category for UI icon/grouping.
+    SymbolKind kind = 8;
+
+    // Parent namespace/device identifier when applicable.
+    string parent_identifier = 9;
+
+    // Schema details for hover/documentation panels
+    // Input schema for functions
+    AresStructSchema input_schema = 10;
+    // Output schema for functions
+    AresValueSchema output_schema = 11;
+    // Just a schema for variables and constants
+    AresValueSchema schema = 12;
 }
 
 enum InsertTextFormat {

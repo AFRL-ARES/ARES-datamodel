@@ -4,7 +4,7 @@ package ares.datamodel;
 
 import "ares_quantity_type.proto";
 
-// This is ares simple struct containing keys and values whose type should correspond with and related AresDataSchema
+// This is ares simple struct containing keys and values whose type should correspond with and related AresStructSchema
 // This is similar to the built-in protobuf struct
 message AresStruct {
 	map<string, AresValue> fields = 1;

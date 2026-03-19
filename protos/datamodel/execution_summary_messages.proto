@@ -49,4 +49,5 @@ message CommandExecutionSummary {
   CommandResult result = 4;
   string command_name = 5;
   string command_description = 6;
+  string template_id = 7;
 }

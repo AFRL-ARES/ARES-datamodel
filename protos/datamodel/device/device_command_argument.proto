@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+import "ares_struct.proto";
+
+message DeviceCommandArgument {
+  string arg_name = 1;
+  AresValue arg_value = 2;  
+}

@@ -26,7 +26,7 @@ service AresRemoteAnalyzerService {
 }
 
 message ParameterValidationRequest {
-	AresDataSchema input_schema = 1;
+	AresStructSchema input_schema = 1;
 }
 
 message ParameterValidationResult {
@@ -41,6 +41,6 @@ message AnalysisRequest {
 }
 
 message AnalysisParametersResponse {
-	AresDataSchema parameter_schema = 1;
+	AresStructSchema parameter_schema = 1;
 }
 

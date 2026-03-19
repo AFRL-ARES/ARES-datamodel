@@ -4,7 +4,7 @@ namespace Ares.Datamodel.Extensions;
 
 public static class AresValueSchemaExtensions
 {
-  public static SchemaEntry ToSchemaEntry(this AresValue value)
+  public static AresValueSchema ToAresValueSchema(this AresValue value)
   {
     return value.KindCase switch
     {
@@ -27,12 +27,12 @@ public static class AresValueSchemaExtensions
     };
   }
 
-  private static SchemaEntry CreateStructEntry(AresStruct structValue)
+  private static AresValueSchema CreateStructEntry(AresStruct structValue)
   {
-    var schema = new AresDataSchema();
+    var schema = new AresStructSchema();
     foreach(var field in structValue.Fields)
     {
-      schema.Fields[field.Key] = field.Value.ToSchemaEntry();
+      schema.Fields[field.Key] = field.Value.ToAresValueSchema();
     }
 
     var entry = AresSchemaBuilder.Entry(AresDataType.Struct).Build();
@@ -40,7 +40,7 @@ public static class AresValueSchemaExtensions
     return entry;
   }
 
-  private static SchemaEntry CreateListEntry(IEnumerable<AresValue> values)
+  private static AresValueSchema CreateListEntry(IEnumerable<AresValue> values)
   {
     var list = values.ToArray();
     if(list.Length == 0)
@@ -48,8 +48,8 @@ public static class AresValueSchemaExtensions
       return CreateListEntry(AresSchemaBuilder.Entry(AresDataType.Any).Build());
     }
 
-    var first = list[0].ToSchemaEntry();
-    var allSameType = list.All(val => val.ToSchemaEntry().Type == first.Type);
+    var first = list[0].ToAresValueSchema();
+    var allSameType = list.All(val => val.ToAresValueSchema().Type == first.Type);
     if(allSameType)
     {
       return CreateListEntry(first);
@@ -58,7 +58,7 @@ public static class AresValueSchemaExtensions
     return CreateListEntry(AresSchemaBuilder.Entry(AresDataType.Any).Build());
   }
 
-  private static SchemaEntry CreateListEntry(SchemaEntry elementSchema)
+  private static AresValueSchema CreateListEntry(AresValueSchema elementSchema)
   {
     var entry = AresSchemaBuilder.Entry(AresDataType.List).Build();
     entry.ListElementSchema = elementSchema;

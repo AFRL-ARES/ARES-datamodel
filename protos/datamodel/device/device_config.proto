@@ -2,11 +2,15 @@
 
 package ares.datamodel.device;
 
-import "google/protobuf/any.proto";
+import "ares_struct.proto";
+import "device/device_connection_info.proto";
 
 message DeviceConfig {
   optional string unique_id = 1;
   string device_name = 2;
-  string device_type = 3;
-  google.protobuf.Any config_data = 4;
+  string device_id = 3;
+  string driver_id = 4;
+  bool is_simulated = 5;
+  optional device.SerialConnection serial_info = 13;
+  AresStruct device_settings = 20;
 }

@@ -9,14 +9,14 @@ import "scripting/symbol_tag.proto";
 
 message ScriptSymbolMetadata {
     message ValueShape {
-        SchemaEntry schema = 1;
+        AresValueSchema schema = 1;
         // Optional known value for constants/globals.
         AresValue value = 2;
     }
 
     message FunctionShape {
-        AresDataSchema input_schema = 1;
-        SchemaEntry output_schema = 2;
+        AresStructSchema input_schema = 1;
+        AresValueSchema output_schema = 2;
     }
 
     // Symbol identity.

@@ -12,6 +12,7 @@ import "device/device_info.proto";
 import "device/device_config.proto";
 import "device/device_settings.proto";
 import "device/device_polling_settings.proto";
+import "device/device_description.proto";
 import "ares_struct.proto";
 import "ares_data_schema.proto";
 import "device/device_logging_settings.proto";
@@ -40,6 +41,13 @@ service AresDevices {
 	rpc RemoveRemoteDevice(RemoveRemoteDeviceRequest) returns (RemoveRemoteDeviceResponse);
 	rpc UpdateRemoteDevice(UpdateRemoteDeviceRequest) returns (UpdateRemoteDeviceResponse);
 	rpc GetAllRemoteDevicesConfigs(google.protobuf.Empty) returns (RemoteDeviceConfigResponse);
+
+	rpc AddAresDevice(AddDeviceRequest) returns (AddDeviceResponse);
+	rpc UpdateAresDevice(UpdateDeviceRequest) returns (UpdateDeviceResponse);
+	rpc RemoveAresDevice(RemoveDeviceRequest) returns (RemoveDeviceResponse);
+	rpc GetAvailableDeviceDrivers(google.protobuf.Empty) returns (AvailableDeviceDriversResponse);
+	rpc GetDeviceConfig(GetDeviceConfigRequest) returns (DeviceConfigResponse);
+	rpc GetAllAvailableDevices(google.protobuf.Empty) returns (AvailableDevicesResponse);
 }
 
 message ListAresDevicesResponse
@@ -87,7 +95,7 @@ message DeviceStateSchemaRequest {
 }
 
 message DeviceStateSchemaResponse {
-	datamodel.AresDataSchema schema = 1;
+	datamodel.AresStructSchema schema = 1;
 }
 
 message DeviceLoggerSettingsRequest {
@@ -153,6 +161,49 @@ message RemoveRemoteDeviceRequest {
 }
 
 message RemoveRemoteDeviceResponse {
+	bool success = 1;
+	optional string error_message = 2;
+}
+
+message AddDeviceRequest {
+	string device_name = 1;
+	string driver_name = 2;
+	datamodel.device.DeviceConfig device_config = 3;
+}
+
+message AddDeviceResponse {
+	bool success = 1;
+	string error_message = 2;
+}
+
+message AvailableDeviceDriversResponse {
+	repeated string device_drivers = 1;
+}
+
+message GetDeviceConfigRequest {
+	string driver_name = 1;
+	string driver_id = 2;
+}
+
+message AvailableDevicesResponse {
+	repeated datamodel.device.AresDeviceDescription devices = 1;
+}
+
+message UpdateDeviceRequest {
+	string device_id = 1;
+	datamodel.device.DeviceConfig updated_config = 2;
+}
+
+message UpdateDeviceResponse {
+	bool success = 1;
+	optional string error_message = 2;
+}
+
+message RemoveDeviceRequest {
+	string device_id = 1;
+}
+
+message RemoveDeviceResponse {
 	bool success = 1;
 	optional string error_message = 2;
 }

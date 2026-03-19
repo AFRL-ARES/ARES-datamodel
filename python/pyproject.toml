@@ -21,7 +21,8 @@ license = { file = "License.md" }
 dynamic = ["version"]
 dependencies = [
   "pint>=0.24",
-  "protobuf >= 7.34"
+  "protobuf >= 7.34",  
+  "grpcio>=1.74.0"
 ]
 
 [project.urls]

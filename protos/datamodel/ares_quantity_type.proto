@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package ares.datamodel;
+
+enum QuantityType {
+  QUANTITY_TYPE_UNSPECIFIED = 0;
+
+  // Core dimensions / time
+  LENGTH = 1;
+  AREA = 2;
+  VOLUME = 3;
+  DURATION = 4;
+  SPEED = 5;
+  ACCELERATION = 6;
+  FREQUENCY = 7;
+
+  // Mass & amount
+  MASS = 8;
+  AMOUNT_OF_SUBSTANCE = 9;     // mol
+  MOLAR_MASS = 10;             // g/mol
+
+  // Temperature & pressure
+  TEMPERATURE = 11;            // K, degC
+  TEMPERATURE_DELTA = 12;      // dK, delta_degC
+  PRESSURE = 13;               // Pa, bar, psi, atm
+
+  // Concentrations
+  MOLARITY = 14;               // mol/L, mM
+  MASS_CONCENTRATION = 15;     // g/L, mg/mL
+  VOLUME_CONCENTRATION = 16;   // v/v (dimensionless)
+  MASS_FRACTION = 17;          // w/w (dimensionless)
+
+  // Density & viscosity (materials / fluids)
+  DENSITY = 18;                // kg/m^3, g/mL
+  DYNAMIC_VISCOSITY = 19;      // Pa*s
+  KINEMATIC_VISCOSITY = 20;    // m^2/s
+
+  // Flow / transport
+  VOLUME_FLOW = 21;            // mL/min, L/s
+  MASS_FLOW = 22;              // g/s, kg/h
+  MASS_FLUX = 23;              // g/(m^2*s)
+
+  // Mixing / centrifugation / agitation
+  ROTATIONAL_ACCELERATION = 24; // rad/s^2
+  ROTATIONAL_SPEED = 25;       // rpm
+
+  // Energy / heat / power
+  ENERGY = 26;                 // J
+  POWER = 27;                  // W
+  HEAT_FLUX = 28;              // W/m^2 (useful for heaters, irradiation, thermal tests)
+  SPECIFIC_ENERGY = 29;        // J/kg
+  THERMAL_CONDUCTIVITY = 30;   // W/(m*K)
+
+  // Forces (mechanical testing)
+  FORCE = 31;                  // N
+  FORCE_PER_LENGTH = 32;       // N/m
+  RATIO = 33;                  // dimensionless
+
+  // Optics / light exposure (common in bio + materials characterization)
+  IRRADIANCE = 34;             // W/m^2
+  ILLUMINANCE = 35;            // lux (if you care about photometric units)
+  TEMPERATURE_GRADIENT = 36;   // K/m
+
+  // Electrical (instrumentation / sensors / electrophoresis)
+  ELECTRIC_POTENTIAL = 37;     // V
+  ELECTRIC_CURRENT = 38;       // A
+  ELECTRIC_RESISTANCE = 39;    // ohm
+  ELECTRIC_CONDUCTIVITY = 40;  // S/m (buffers, materials)
+  ELECTRIC_CONDUCTANCE = 41;   // S
+
+  // Dimensionless / ratios
+  RATIO_CHANGE_RATE = 42;
+  RELATIVE_HUMIDITY = 43;
+}

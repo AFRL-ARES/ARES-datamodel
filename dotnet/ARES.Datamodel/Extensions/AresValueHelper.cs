@@ -83,6 +83,24 @@ public static class AresValueHelper
     return new AresValue { FunctionValue = new FunctionValue { FunctionId = id } };
   }
 
+  public static AresValue CreateQuantity(QuantityValue quantity)
+  {
+    return new AresValue { QuantityValue = quantity };
+  }
+
+  public static AresValue CreateQuantity(double scalar, QuantityType type, string unit)
+  {
+    return new AresValue
+    {
+      QuantityValue = new QuantityValue
+      {
+        Scalar = scalar,
+        Type = type,
+        Unit = unit
+      }
+    };
+  }
+
   public static AresValue CreateBool(bool value)
   {
     return new AresValue { BoolValue = value };
@@ -118,6 +136,7 @@ public static class AresValueHelper
       AresDataType.Struct => CreateStruct(),
       AresDataType.List => CreateList(),
       AresDataType.Unit => CreateUnit(),
+      AresDataType.Quantity => CreateQuantity(0, QuantityType.Unspecified, string.Empty),
       _ => CreateNull()
     };
   }
@@ -168,6 +187,8 @@ public static class AresValueHelper
         return true;
       case AresValue.KindOneofCase.FunctionValue:
         return false;
+      case AresValue.KindOneofCase.QuantityValue:
+        return true;
       default:
         return false;
     }
@@ -188,6 +209,7 @@ public static class AresValueHelper
       AresValue.KindOneofCase.StructValue => $"{{{string.Join(", ", value.StructValue.Fields.Select(kv => $"{kv.Key}: {kv.Value.Stringify()}"))}}}",
       AresValue.KindOneofCase.UnitValue => "()",
       AresValue.KindOneofCase.FunctionValue => $"Function pointer: {value.FunctionValue.FunctionId}",
+      AresValue.KindOneofCase.QuantityValue => $"{value.QuantityValue.Scalar} {value.QuantityValue.Unit} [{value.QuantityValue.Type}]",
       _ => "Unknown value"
     };
   }
@@ -208,6 +230,7 @@ public static class AresValueHelper
       AresValue.KindOneofCase.ListValue => AresDataType.List,
       AresValue.KindOneofCase.UnitValue => AresDataType.Unit,
       AresValue.KindOneofCase.FunctionValue => AresDataType.Function,
+      AresValue.KindOneofCase.QuantityValue => AresDataType.Quantity,
       _ => AresDataType.UnspecifiedType
     };
   }

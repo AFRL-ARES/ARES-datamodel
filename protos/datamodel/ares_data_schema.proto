@@ -56,7 +56,7 @@ message QuantitySchema {
   // The dimensional category of this quantity value.
   QuantityType quantity_type = 1;
 
-  // Unit used when evaluating scalar min/max bounds (for example: "m", "degC").
+  // Unit used when evaluating scalar min/max bounds (for example: "m", "c").
   string bounds_unit = 2;
 
   // Optional bounds for quantity scalar in the specified bounds_unit.

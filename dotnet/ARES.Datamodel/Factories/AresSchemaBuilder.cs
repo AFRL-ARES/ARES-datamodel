@@ -177,11 +177,14 @@ public class EntryBuilder
 
   public EntryBuilder WithChoices(params string[] choices)
   {
-    if (_entry.Type != AresDataType.String)
-      throw new InvalidOperationException("Cannot add string choices to a non-string entry.");
+      // Fix: If it's 'Any', it becomes 'String' automatically
+      if (_entry.Type == AresDataType.Any) _entry.Type = AresDataType.String;
 
-    _entry.StringChoices.Strings.AddRange(choices);
-    return this;
+      if (_entry.Type != AresDataType.String)
+          throw new InvalidOperationException("Cannot add string choices to a non-string entry.");
+
+      _entry.StringChoices.Strings.AddRange(choices);
+      return this;
   }
 
   public EntryBuilder WithChoices(params double[] choices)
@@ -199,11 +202,14 @@ public class EntryBuilder
 
   public EntryBuilder WithStructSchema(AresStructSchema schema)
   {
-    if(_entry.Type != AresDataType.Struct)
-      throw new InvalidOperationException("Cannot add struct schema to a non-struct entry.");
+      // Fix: If it's 'Any', it becomes 'Struct' automatically
+      if (_entry.Type == AresDataType.Any) _entry.Type = AresDataType.Struct;
 
-    _entry.StructSchema = schema;
-    return this;
+      if (_entry.Type != AresDataType.Struct)
+          throw new InvalidOperationException($"Cannot add struct schema to a {_entry.Type} entry.");
+
+      _entry.StructSchema = schema;
+      return this;
   }
 
   public EntryBuilder WithStructSchema(Action<AresStructSchema> configure)
@@ -218,11 +224,14 @@ public class EntryBuilder
 
   public EntryBuilder WithListElementSchema(AresValueSchema elementSchema)
   {
-    if(_entry.Type != AresDataType.List)
-      throw new InvalidOperationException("Cannot add list element schema to a non-list entry.");
+      // Fix: If it's 'Any', it becomes 'List' automatically
+      if (_entry.Type == AresDataType.Any) _entry.Type = AresDataType.List;
 
-    _entry.ListElementSchema = elementSchema;
-    return this;
+      if (_entry.Type != AresDataType.List)
+          throw new InvalidOperationException($"Cannot add list element schema to a {_entry.Type} entry.");
+
+      _entry.ListElementSchema = elementSchema;
+      return this;
   }
 
   public EntryBuilder WithListElementSchema(AresDataType elementType)

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel.visualizing.local;
+
+import "visualization_path.proto";
+import "visualizing/chart_style.proto";
+
+message DeviceVisualizationConfig {
+  optional string unique_id = 1; //A unique id for this config
+  string device_id = 2; //The unique ID of the associated device
+  VisualizationPath path = 3; //The path to the data being visualized
+  ChartStyle style = 4; //The style of the chart (i.e. line, bar, gauge, etc.)
+}

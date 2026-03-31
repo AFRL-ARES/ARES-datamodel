@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ares.datamodel.visualizing.local;
+
+import "ares_data_type.proto";
+
+message VisualizationPath {
+  string path = 1; // The path to the state value being visualized
+  AresDataType data_type = 2; // The data type of the associated 
+  bool is_plottable = 3;  
+}

@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ares.datamodel.templates;
 
-import "templates/step_template.proto";
-
 message ExperimentTemplate {
 	optional string unique_id = 1; // A unique id for this template
 	string script = 2; // the experiment script itself

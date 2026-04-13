@@ -6,7 +6,7 @@ import "ares_struct.proto";
 import "scripting/completion.proto";
 import "scripting/diagnostic.proto";
 import "scripting/navigation.proto";
-import "scripting/script_summary_step.proto";
+import "scripting/script_function_invocation.proto";
 import "scripting/script_symbol_metadata.proto";
 import "scripting/signature_help.proto";
 

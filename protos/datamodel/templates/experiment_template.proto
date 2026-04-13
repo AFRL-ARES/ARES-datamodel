@@ -11,4 +11,6 @@ message ExperimentTemplate {
 	optional string analyzer_id = 4; // the analyzer assigned to this template
 	map<string, string> analyzer_maps = 5; // The mapping of the analyzer input keys to the user output keys
 	repeated Parameter parameters = 6; // the parameters associated with this template
+	string template_id = 7; // This is the id of the template itself
+	int32 version = 8; // The version of this template id
 }

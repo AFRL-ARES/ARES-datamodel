@@ -5,6 +5,7 @@ package ares.datamodel;
 import "google/protobuf/timestamp.proto";
 import "experiment_overview.proto";
 import "command_result.proto";
+import "scripting/script_function_invocation.proto";
 
 message ExecutionInfo {
   optional string unique_id = 1;
@@ -29,25 +30,16 @@ message CampaignExecutionSummary {
 message ExperimentExecutionSummary {
   optional string unique_id = 1;
   string experiment_id = 2;
-  repeated StepExecutionSummary step_summaries = 3;
+  ScriptExecutionSummary script_execution_summary = 3;
   ExecutionInfo execution_info = 4;
   ExperimentOverview experiment_overview = 5;
   string result_output_path = 6;
 }
 
-message StepExecutionSummary {
+message ScriptExecutionSummary {
   optional string unique_id = 1;
-  string step_id = 2;
-  repeated CommandExecutionSummary command_summaries = 3;
-  ExecutionInfo execution_info = 4;
-}
-
-message CommandExecutionSummary {
-  optional string unique_id = 1;
-  string command_id = 2;
-  ExecutionInfo execution_info = 3;
-  CommandResult result = 4;
-  string command_name = 5;
-  string command_description = 6;
-  string template_id = 7;
+  ExecutionInfo execution_info = 2;
+  CommandResult result = 3;
+  repeated scripting.ScriptFunctionInvocation function_invocations = 4;
+  repeated string console_output = 5;
 }

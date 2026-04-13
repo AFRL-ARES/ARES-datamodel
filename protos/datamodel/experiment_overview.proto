@@ -8,9 +8,9 @@ import "ares_struct.proto";
 import "analysis_overview.proto";
 
 message ExperimentOverview {
-	optional string unique_id = 1; // A unique id for this experiment
+	optional string unique_id = 1; // A unique id for database storage
 	templates.ExperimentTemplate template = 2; // Template used to generate the executable experiment providing the results
-	AresStruct result = 3; // Result of the experiment
+	AresValue result = 3; // Result of the experiment
 	repeated templates.Parameter parameters = 4; // Parameters used in the completed experiment
 	AnalysisOverview analysis_overview = 5; // An overview of the experiments analysis
 }

@@ -2,10 +2,13 @@ syntax = "proto3";
 
 package ares.datamodel.templates;
 
+import "templates/parameter.proto";
+
 message ExperimentTemplate {
 	optional string unique_id = 1; // A unique id for this template
 	string script = 2; // the experiment script itself
 	string name = 3; // Name of the experiment, most likely automatically generated relative to the campaign name
 	optional string analyzer_id = 4; // the analyzer assigned to this template
 	map<string, string> analyzer_maps = 5; // The mapping of the analyzer input keys to the user output keys
+	repeated Parameter parameters = 6; // the parameters associated with this template
 }

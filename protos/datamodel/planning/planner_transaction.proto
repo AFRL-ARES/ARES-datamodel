@@ -10,8 +10,9 @@ message PlannerTransaction {
   string planner_name = 2;
   string planner_type = 3;
   string planner_version = 4;
-  PlanningRequest planning_request = 5;
-  PlanningResponse planning_response = 6;
-  google.protobuf.Timestamp time_request_sent = 7;
-  google.protobuf.Timestamp time_response_received = 8;
+  string planner_id = 5;
+  PlanningRequest planning_request = 6;
+  PlanningResponse planning_response = 7;
+  google.protobuf.Timestamp time_request_sent = 8;
+  google.protobuf.Timestamp time_response_received = 9;
 }

@@ -11,8 +11,9 @@ message AnalyzerTransaction {
   string analyzer_name = 2;
   string analyzer_type = 3;
   string analyzer_version = 4;
-  analyzing.remote.AnalysisRequest analysis_request = 5;
-  Analysis analysis_response = 6;
-  google.protobuf.Timestamp time_request_sent = 7;
-  google.protobuf.Timestamp time_response_received = 8;
+  string analyzer_id = 5;
+  analyzing.remote.AnalysisRequest analysis_request = 6;
+  Analysis analysis_response = 7;
+  google.protobuf.Timestamp time_request_sent = 8;
+  google.protobuf.Timestamp time_response_received = 9;
 }

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+message SilaDeviceConfig {
+  optional string unique_id = 1;
+  string server_name = 2;
+  string description = 3;
+  string type = 4;
+  string vendor_uri = 5;
+  string version = 6;
+}

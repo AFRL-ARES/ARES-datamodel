@@ -6,6 +6,7 @@ import "ares_data_type.proto";
 
 message VisualizationPath {
   string path = 1; // The path to the state value being visualized
-  AresDataType data_type = 2; // The data type of the associated 
-  bool is_plottable = 3;  
+  AresDataType data_type = 2; // The data type of the associated
+  bool is_plottable = 3; // Whether or not this data is plottable
+  string associated_device_name = 4; //Name of the device associated with this data path  
 }

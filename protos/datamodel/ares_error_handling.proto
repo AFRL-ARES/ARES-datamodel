@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package ares.datamodel;
+
+enum ErrorHandling {
+  UNKNOWN_HANDLING = 0;
+  PROMPT_USER = 1;
+  REPLAN = 2;
+  RETRY = 3;
+  STOP_AND_CLOSEOUT = 4;
+  ENTER_SAFE_MODE = 5;
+}

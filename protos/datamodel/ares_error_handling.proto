@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ares.datamodel;
 
+import "command_status_code.proto";
+
 enum ErrorHandling {
   UNKNOWN_HANDLING = 0;
   PROMPT_USER = 1;
@@ -9,4 +11,9 @@ enum ErrorHandling {
   RETRY = 3;
   STOP_AND_CLOSEOUT = 4;
   ENTER_SAFE_MODE = 5;
+}
+
+message DeviceErrorHandlingConfig {
+  CommandStatusCode code = 1;
+  ErrorHandling handling = 2;
 }

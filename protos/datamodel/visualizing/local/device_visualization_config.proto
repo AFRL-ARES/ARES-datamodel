@@ -19,4 +19,5 @@ message DeviceVisualizationConfig {
   int32 grid_y = 10; // Row position
   int32 grid_w = 11; // Widget width
   int32 grid_h = 12; // Widget height
+  string chart_title = 13; //Title associated with the chart
 }

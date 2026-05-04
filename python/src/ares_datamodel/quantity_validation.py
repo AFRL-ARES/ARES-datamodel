@@ -6,7 +6,7 @@ from pint import UnitRegistry
 
 _UNIT_REGISTRY = UnitRegistry()
 
-_QUANTITY_TYPE_TO_CANONICAL_UNIT: dict[QuantityType, str] = {
+QUANTITY_TYPE_TO_CANONICAL_UNIT: dict[QuantityType, str] = {
     QuantityType.LENGTH: "meter",
     QuantityType.ACCELERATION: "meter/second**2",
     QuantityType.AREA: "meter**2",
@@ -71,7 +71,7 @@ def validate_quantity_value(
     if quantity_type == QuantityType.QUANTITY_TYPE_UNSPECIFIED:
         raise ValueError("Quantity type must be specified.")
 
-    expected_unit = _QUANTITY_TYPE_TO_CANONICAL_UNIT.get(quantity_type)
+    expected_unit = QUANTITY_TYPE_TO_CANONICAL_UNIT.get(quantity_type)
     if expected_unit is None:
         quantity_type_name = QuantityType.Name(quantity_type)
         raise ValueError(f"No canonical Pint unit mapping for quantity type '{quantity_type_name}'.")

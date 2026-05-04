@@ -22,7 +22,7 @@ public class RootSchemaBuilder
   private QuantitySchema? _rootQuantitySchema;
   private double? _rootMinNumberValue;
   private double? _rootMaxNumberValue;
-  private bool _rootOptional = false; // Added back
+  private bool _rootOptional = false;
 
   public RootSchemaBuilder() { }
 
@@ -102,10 +102,8 @@ public class RootSchemaBuilder
   public AresStructSchema Build()
   {
     if (!string.IsNullOrEmpty(_rootName))
-    {
-      // Now using the _rootOptional flag
       _schema.AddEntry(_rootName, _rootType, _rootOptional, _rootDescription, _rootQuantitySchema, _rootMinNumberValue, _rootMaxNumberValue);
-    }
+
     return _schema;
   }
 }
@@ -177,36 +175,35 @@ public class EntryBuilder
 
   public EntryBuilder WithChoices(params string[] choices)
   {
-      // Fix: If it's 'Any', it becomes 'String' automatically
-      if (_entry.Type == AresDataType.Any) _entry.Type = AresDataType.String;
+    if(_entry.Type == AresDataType.Any) 
+      _entry.Type = AresDataType.String;
 
-      if (_entry.Type != AresDataType.String)
-          throw new InvalidOperationException("Cannot add string choices to a non-string entry.");
+    if(_entry.Type != AresDataType.String)
+      throw new InvalidOperationException("Cannot add string choices to a non-string entry.");
 
-      _entry.StringChoices.Strings.AddRange(choices);
-      return this;
+    _entry.StringChoices.Strings.AddRange(choices);
+    return this;
   }
 
   public EntryBuilder WithChoices(params double[] choices)
   {
-    if (_entry.Type != AresDataType.Number)
+    if(_entry.Type != AresDataType.Number)
       throw new InvalidOperationException("Cannot add number choices to a non-number entry.");
 
     _entry.NumberChoices.Numbers.AddRange(choices);
     return this;
   }
 
-  // Overloads for int/float for convenience
   public EntryBuilder WithChoices(IEnumerable<int> choices) => WithChoices(choices.Select(Convert.ToDouble).ToArray());
   public EntryBuilder WithChoices(IEnumerable<float> choices) => WithChoices(choices.Select(Convert.ToDouble).ToArray());
 
   public EntryBuilder WithStructSchema(AresStructSchema schema)
   {
-      // Fix: If it's 'Any', it becomes 'Struct' automatically
-      if (_entry.Type == AresDataType.Any) _entry.Type = AresDataType.Struct;
+      if(_entry.Type == AresDataType.Any) 
+        _entry.Type = AresDataType.Struct;
 
-      if (_entry.Type != AresDataType.Struct)
-          throw new InvalidOperationException($"Cannot add struct schema to a {_entry.Type} entry.");
+      if(_entry.Type != AresDataType.Struct)
+        throw new InvalidOperationException($"Cannot add struct schema to a {_entry.Type} entry.");
 
       _entry.StructSchema = schema;
       return this;
@@ -224,11 +221,11 @@ public class EntryBuilder
 
   public EntryBuilder WithListElementSchema(AresValueSchema elementSchema)
   {
-      // Fix: If it's 'Any', it becomes 'List' automatically
-      if (_entry.Type == AresDataType.Any) _entry.Type = AresDataType.List;
+      if(_entry.Type == AresDataType.Any) 
+        _entry.Type = AresDataType.List;
 
-      if (_entry.Type != AresDataType.List)
-          throw new InvalidOperationException($"Cannot add list element schema to a {_entry.Type} entry.");
+      if(_entry.Type != AresDataType.List)
+        throw new InvalidOperationException($"Cannot add list element schema to a {_entry.Type} entry.");
 
       _entry.ListElementSchema = elementSchema;
       return this;

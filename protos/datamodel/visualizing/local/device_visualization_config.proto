@@ -7,7 +7,6 @@ import "visualizing/chart_style.proto";
 
 message DeviceVisualizationConfig {
   optional string unique_id = 1; //A unique id for this config
-  repeated string device_ids = 2; //The unique IDs of the associated devices for this visualization
   repeated VisualizationPath paths = 3; //The paths to the data being visualized
   ChartStyle style = 4; //The style of the chart (i.e. line, bar, gauge, etc.)
   int32 polling_rate = 5; //The defined polling rate for the visualization (how often it updates the chart)

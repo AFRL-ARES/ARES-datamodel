@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package ares.datamodel.visualizing.local;
+
+import "visualization_path.proto";
+import "visualizing/chart_style.proto";
+
+message DeviceVisualizationConfig {
+  optional string unique_id = 1; //A unique id for this config
+  repeated VisualizationPath paths = 3; //The paths to the data being visualized
+  ChartStyle style = 4; //The style of the chart (i.e. line, bar, gauge, etc.)
+  int32 polling_rate = 5; //The defined polling rate for the visualization (how often it updates the chart)
+  int32 number_display_points = 6; //The maximum number of points the chart displays at a given time
+  bool show_data_labels = 7; //True if the chart should label each data point, otherwise false
+  bool show_markers = 8; //True if the user wants markers to appear for each data point, otherwise false
+  // --- GridStack Persistence ---
+  int32 grid_x = 9;  // Column position
+  int32 grid_y = 10; // Row position
+  int32 grid_w = 11; // Widget width
+  int32 grid_h = 12; // Widget height
+  string chart_title = 13; //Title associated with the chart
+}

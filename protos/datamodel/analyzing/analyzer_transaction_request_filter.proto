@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel.analyzing;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/duration.proto";
+
+message AnalyzerTransactionRequestFilter {
+  google.protobuf.Timestamp start = 1;
+  google.protobuf.Timestamp end = 2;
+  string analyzer_id = 3; 
+}

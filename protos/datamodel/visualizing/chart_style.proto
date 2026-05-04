@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel.visualizing;
+
+enum ChartStyle {
+  UNSPECIFIED_CHART = 0;
+  LINE = 1;
+  SPLINE = 2;
+  AREA = 3;
+  COLUMN = 4;
+  GAUGE = 5;
+  TEXT_INDICATOR = 6;
+}

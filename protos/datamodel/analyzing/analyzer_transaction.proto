@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package ares.datamodel.analyzing;
+
+import "analyzing/analysis.proto";
+import "analyzing/remote/ares_remote_analyzer_service.proto";
+import "google/protobuf/timestamp.proto";
+
+message AnalyzerTransaction {
+  optional string unique_id = 1;
+  string analyzer_name = 2;
+  string analyzer_type = 3;
+  string analyzer_version = 4;
+  string analyzer_id = 5;
+  analyzing.remote.AnalysisRequest analysis_request = 6;
+  Analysis analysis_response = 7;
+  google.protobuf.Timestamp time_request_sent = 8;
+  google.protobuf.Timestamp time_response_received = 9;
+}

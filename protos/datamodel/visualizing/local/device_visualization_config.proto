@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ares.datamodel.visualizing.local;
 
-import "visualization_path.proto";
+import "visualizing/local/visualization_path.proto";
 import "visualizing/chart_style.proto";
 
 message DeviceVisualizationConfig {

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ares.datamodel.planning;
 
-import "plan.proto";
+import "planning/plan.proto";
 import "google/protobuf/timestamp.proto";
 
 message PlannerTransaction {

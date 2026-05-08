@@ -2,30 +2,26 @@ syntax = "proto3";
 
 package ares.datamodel;
 
-import "google/protobuf/timestamp.proto";
 import "ares_data_schema.proto";
 import "ares_struct.proto";
 
 message AresDataSet {
   optional string unique_id = 1;
   string name = 2;
-  AresDataSetKind kind = 3;
-  AresStructSchema schema = 4;
-  repeated AresDataRecord records = 5;
-  map<string, string> metadata = 6;
+  repeated AresDataColumn columns = 3;
+  repeated AresDataRecord records = 4;
+  map<string, string> metadata = 5;
+}
+
+message AresDataColumn {
+  optional string unique_id = 1;
+  string name = 2;
+  AresValueSchema schema = 3;
+  optional string display_name = 4;
 }
 
 message AresDataRecord {
   optional string unique_id = 1;
-  // timestamp should be enforced when the data set is time series, but it can be optional for other types of data sets.
-  optional google.protobuf.Timestamp timestamp = 2;
-  string source_id = 3;
-  AresStruct data = 4;
-  map<string, string> metadata = 5;
+  AresStruct data = 2;
 }
 
-enum AresDataSetKind {
-  ARES_DATA_SET_KIND_UNSPECIFIED = 0;
-  ARES_DATA_SET_KIND_TABLE = 1;
-  ARES_DATA_SET_KIND_TIME_SERIES = 2;
-}

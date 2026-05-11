@@ -3,6 +3,7 @@ syntax = "proto3";
 package ares.datamodel;
 
 import "ares_quantity_type.proto";
+import "google/protobuf/timestamp.proto";
 
 // This is ares simple struct containing keys and values whose type should correspond with and related AresStructSchema
 // This is similar to the built-in protobuf struct
@@ -24,6 +25,9 @@ message AresValue {
 		UnitValue unit_value = 10; // AresScript support
 		FunctionValue function_value = 11; // AresScript support
 		QuantityValue quantity_value = 12;
+		google.protobuf.Timestamp timestamp_value = 13;
+		double float_value = 14;
+		int64 int_value = 15;
 	}
 }
 

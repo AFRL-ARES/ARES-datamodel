@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Ares.Datamodel.Extensions;
 
@@ -22,6 +23,37 @@ public static class AresValueHelper
   public static AresValue CreateString(string value)
   {
     return new AresValue { StringValue = value, };
+  }
+
+  public static AresValue CreateTimestamp(Timestamp value)
+  {
+    return new AresValue { TimestampValue = value };
+  }
+
+  public static AresValue CreateTimestamp(DateTime value)
+  {
+    var utc = value.Kind == DateTimeKind.Utc ? value : value.ToUniversalTime();
+    return CreateTimestamp(Timestamp.FromDateTime(utc));
+  }
+
+  public static AresValue CreateFloat(double value)
+  {
+    return new AresValue { FloatValue = value };
+  }
+
+  public static AresValue CreateFloat(float value)
+  {
+    return CreateFloat((double)value);
+  }
+
+  public static AresValue CreateInt(long value)
+  {
+    return new AresValue { IntValue = value };
+  }
+
+  public static AresValue CreateInt(int value)
+  {
+    return CreateInt((long)value);
   }
 
   public static AresValue CreateNumberArray(IEnumerable<int> values)
@@ -137,6 +169,9 @@ public static class AresValueHelper
       AresDataType.List => CreateList(),
       AresDataType.Unit => CreateUnit(),
       AresDataType.Quantity => CreateQuantity(0, QuantityType.Unspecified, string.Empty),
+      AresDataType.Timestamp => CreateTimestamp(DateTime.UnixEpoch),
+      AresDataType.Float => CreateFloat(0),
+      AresDataType.Int => CreateInt(0),
       _ => CreateNull()
     };
   }
@@ -189,7 +224,32 @@ public static class AresValueHelper
         return false;
       case AresValue.KindOneofCase.QuantityValue:
         return true;
+      case AresValue.KindOneofCase.TimestampValue:
+        return true;
+      case AresValue.KindOneofCase.FloatValue:
+        return true;
+      case AresValue.KindOneofCase.IntValue:
+        return true;
       default:
+        return false;
+    }
+  }
+
+  public static bool TryGetNumericValue(this AresValue value, out double number)
+  {
+    switch (value.KindCase)
+    {
+      case AresValue.KindOneofCase.NumberValue:
+        number = value.NumberValue;
+        return true;
+      case AresValue.KindOneofCase.FloatValue:
+        number = value.FloatValue;
+        return true;
+      case AresValue.KindOneofCase.IntValue:
+        number = value.IntValue;
+        return true;
+      default:
+        number = default;
         return false;
     }
   }
@@ -210,6 +270,9 @@ public static class AresValueHelper
       AresValue.KindOneofCase.UnitValue => "()",
       AresValue.KindOneofCase.FunctionValue => $"Function pointer: {value.FunctionValue.FunctionId}",
       AresValue.KindOneofCase.QuantityValue => $"{value.QuantityValue.Scalar} {value.QuantityValue.Unit} [{value.QuantityValue.Type}]",
+      AresValue.KindOneofCase.TimestampValue => value.TimestampValue.ToDateTime().ToString("O"),
+      AresValue.KindOneofCase.FloatValue => value.FloatValue.ToString(),
+      AresValue.KindOneofCase.IntValue => value.IntValue.ToString(),
       _ => "Unknown value"
     };
   }
@@ -231,6 +294,9 @@ public static class AresValueHelper
       AresValue.KindOneofCase.UnitValue => AresDataType.Unit,
       AresValue.KindOneofCase.FunctionValue => AresDataType.Function,
       AresValue.KindOneofCase.QuantityValue => AresDataType.Quantity,
+      AresValue.KindOneofCase.TimestampValue => AresDataType.Timestamp,
+      AresValue.KindOneofCase.FloatValue => AresDataType.Float,
+      AresValue.KindOneofCase.IntValue => AresDataType.Int,
       _ => AresDataType.UnspecifiedType
     };
   }

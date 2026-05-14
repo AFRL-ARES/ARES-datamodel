@@ -8,9 +8,10 @@ enum ErrorHandling {
   UNKNOWN_HANDLING = 0;
   PROMPT_USER = 1;
   REPLAN = 2;
-  RETRY = 3;
-  STOP_AND_CLOSEOUT = 4;
-  ENTER_SAFE_MODE = 5;
+  RETRY_COMMAND = 3;
+  RETRY_EXPERIMENT = 4;
+  STOP_AND_CLOSEOUT = 5;
+  ENTER_SAFE_MODE = 6;
 }
 
 message DeviceErrorHandlingConfig {

@@ -15,6 +15,8 @@ public static class AresValueSchemaExtensions
       AresValue.KindOneofCase.NumberValue => AresSchemaBuilder.Entry(AresDataType.Number).Build(),
       AresValue.KindOneofCase.StringArrayValue => AresSchemaBuilder.Entry(AresDataType.StringArray).Build(),
       AresValue.KindOneofCase.NumberArrayValue => AresSchemaBuilder.Entry(AresDataType.NumberArray).Build(),
+      AresValue.KindOneofCase.IntArrayValue => AresSchemaBuilder.Entry(AresDataType.IntArray).Build(),
+      AresValue.KindOneofCase.FloatArrayValue => AresSchemaBuilder.Entry(AresDataType.FloatArray).Build(),
       AresValue.KindOneofCase.BytesValue => AresSchemaBuilder.Entry(AresDataType.ByteArray).Build(),
       AresValue.KindOneofCase.UnitValue => AresSchemaBuilder.Entry(AresDataType.Unit).Build(),
       AresValue.KindOneofCase.FunctionValue => AresSchemaBuilder.Entry(AresDataType.Function).Build(),

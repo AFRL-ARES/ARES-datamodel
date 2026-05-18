@@ -80,6 +80,38 @@ public static class AresValueHelper
     return val;
   }
 
+  public static AresValue CreateIntArray(IEnumerable<int> values)
+  {
+    var val = new AresValue { IntArrayValue = new IntArray() };
+    val.IntArrayValue.Ints.AddRange(values.Select(num => (long)num));
+
+    return val;
+  }
+
+  public static AresValue CreateIntArray(IEnumerable<long> values)
+  {
+    var val = new AresValue { IntArrayValue = new IntArray() };
+    val.IntArrayValue.Ints.AddRange(values);
+
+    return val;
+  }
+
+  public static AresValue CreateFloatArray(IEnumerable<float> values)
+  {
+    var val = new AresValue { FloatArrayValue = new FloatArray() };
+    val.FloatArrayValue.Floats.AddRange(values.Select(num => (double)num));
+
+    return val;
+  }
+
+  public static AresValue CreateFloatArray(IEnumerable<double> values)
+  {
+    var val = new AresValue { FloatArrayValue = new FloatArray() };
+    val.FloatArrayValue.Floats.AddRange(values);
+
+    return val;
+  }
+
   public static AresValue CreateStringArray(IEnumerable<string> values)
   {
     var val = new AresValue { StringArrayValue = new StringArray() };
@@ -164,6 +196,8 @@ public static class AresValueHelper
       AresDataType.Number => CreateNumber(0),
       AresDataType.StringArray => CreateStringArray(Array.Empty<string>()),
       AresDataType.NumberArray => CreateNumberArray(Array.Empty<double>()),
+      AresDataType.IntArray => CreateIntArray(Array.Empty<long>()),
+      AresDataType.FloatArray => CreateFloatArray(Array.Empty<double>()),
       AresDataType.ByteArray => CreateBytes(Array.Empty<byte>()),
       AresDataType.Struct => CreateStruct(),
       AresDataType.List => CreateList(),
@@ -211,6 +245,10 @@ public static class AresValueHelper
       case AresValue.KindOneofCase.StringArrayValue:
         return false;
       case AresValue.KindOneofCase.NumberArrayValue:
+        return false;
+      case AresValue.KindOneofCase.IntArrayValue:
+        return false;
+      case AresValue.KindOneofCase.FloatArrayValue:
         return false;
       case AresValue.KindOneofCase.BytesValue:
         return false;
@@ -265,6 +303,8 @@ public static class AresValueHelper
       AresValue.KindOneofCase.BytesValue => BitConverter.ToString(value.BytesValue.ToByteArray()),
       AresValue.KindOneofCase.StringArrayValue => string.Join(", ", value.StringArrayValue.Strings),
       AresValue.KindOneofCase.NumberArrayValue => string.Join(", ", value.NumberArrayValue.Numbers),
+      AresValue.KindOneofCase.IntArrayValue => string.Join(", ", value.IntArrayValue.Ints),
+      AresValue.KindOneofCase.FloatArrayValue => string.Join(", ", value.FloatArrayValue.Floats),
       AresValue.KindOneofCase.ListValue => $"[{string.Join(", ", value.ListValue.Values.Select(v => v.Stringify()))}]",
       AresValue.KindOneofCase.StructValue => $"{{{string.Join(", ", value.StructValue.Fields.Select(kv => $"{kv.Key}: {kv.Value.Stringify()}"))}}}",
       AresValue.KindOneofCase.UnitValue => "()",
@@ -288,6 +328,8 @@ public static class AresValueHelper
       AresValue.KindOneofCase.NumberValue => AresDataType.Number,
       AresValue.KindOneofCase.StringArrayValue => AresDataType.StringArray,
       AresValue.KindOneofCase.NumberArrayValue => AresDataType.NumberArray,
+      AresValue.KindOneofCase.IntArrayValue => AresDataType.IntArray,
+      AresValue.KindOneofCase.FloatArrayValue => AresDataType.FloatArray,
       AresValue.KindOneofCase.BytesValue => AresDataType.ByteArray,
       AresValue.KindOneofCase.StructValue => AresDataType.Struct,
       AresValue.KindOneofCase.ListValue => AresDataType.List,

@@ -138,6 +138,30 @@ public static class AresStructHelper
     return aresStruct;
   }
 
+  public static AresStruct AddIntArray(this AresStruct aresStruct, string key, IEnumerable<int> values)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateIntArray(values);
+    return aresStruct;
+  }
+
+  public static AresStruct AddIntArray(this AresStruct aresStruct, string key, IEnumerable<long> values)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateIntArray(values);
+    return aresStruct;
+  }
+
+  public static AresStruct AddFloatArray(this AresStruct aresStruct, string key, IEnumerable<float> values)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateFloatArray(values);
+    return aresStruct;
+  }
+
+  public static AresStruct AddFloatArray(this AresStruct aresStruct, string key, IEnumerable<double> values)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateFloatArray(values);
+    return aresStruct;
+  }
+
   public static AresStruct AddBool(this AresStruct aresStruct, string key, bool value)
   {
     aresStruct.Fields[key] = AresValueHelper.CreateBool(value);
@@ -290,6 +314,34 @@ public static class AresStructHelper
   {
     AresStruct newStruct = new();
     newStruct.Fields[key] = AresValueHelper.CreateNumberArray(values);
+    return newStruct;
+  }
+
+  public static AresStruct CreateIntArrayStruct(string key, IEnumerable<int> values)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateIntArray(values);
+    return newStruct;
+  }
+
+  public static AresStruct CreateIntArrayStruct(string key, IEnumerable<long> values)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateIntArray(values);
+    return newStruct;
+  }
+
+  public static AresStruct CreateFloatArrayStruct(string key, IEnumerable<float> values)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateFloatArray(values);
+    return newStruct;
+  }
+
+  public static AresStruct CreateFloatArrayStruct(string key, IEnumerable<double> values)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateFloatArray(values);
     return newStruct;
   }
 

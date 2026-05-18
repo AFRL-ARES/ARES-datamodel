@@ -20,4 +20,6 @@ enum AresDataType {
 	TIMESTAMP = 14;
 	FLOAT = 15;
 	INT = 16;
+	INT_ARRAY = 17;
+	FLOAT_ARRAY = 18;
 }

@@ -35,10 +35,30 @@ public class AresValueHelperTests
     Assert.That(value.IntValue, Is.EqualTo(1234567890123L));
   }
 
+  [Test]
+  public void CreateIntArray_UsesIntArrayValueKind()
+  {
+    var value = AresValueHelper.CreateIntArray([1, 2, 3]);
+
+    Assert.That(value.KindCase, Is.EqualTo(AresValue.KindOneofCase.IntArrayValue));
+    Assert.That(value.IntArrayValue.Ints, Is.EqualTo(new long[] { 1, 2, 3 }));
+  }
+
+  [Test]
+  public void CreateFloatArray_UsesFloatArrayValueKind()
+  {
+    var value = AresValueHelper.CreateFloatArray([1.25d, 2.5d]);
+
+    Assert.That(value.KindCase, Is.EqualTo(AresValue.KindOneofCase.FloatArrayValue));
+    Assert.That(value.FloatArrayValue.Floats, Is.EqualTo(new[] { 1.25d, 2.5d }));
+  }
+
   [TestCase(AresDataType.Timestamp, AresValue.KindOneofCase.TimestampValue)]
   [TestCase(AresDataType.Float, AresValue.KindOneofCase.FloatValue)]
   [TestCase(AresDataType.Int, AresValue.KindOneofCase.IntValue)]
-  public void CreateDefault_NewScalarTypes_ReturnsExpectedKind(AresDataType dataType, AresValue.KindOneofCase expectedKind)
+  [TestCase(AresDataType.IntArray, AresValue.KindOneofCase.IntArrayValue)]
+  [TestCase(AresDataType.FloatArray, AresValue.KindOneofCase.FloatArrayValue)]
+  public void CreateDefault_NewTypes_ReturnsExpectedKind(AresDataType dataType, AresValue.KindOneofCase expectedKind)
   {
     var value = AresValueHelper.CreateDefault(dataType);
 
@@ -48,7 +68,9 @@ public class AresValueHelperTests
   [TestCase(AresDataType.Timestamp, AresValue.KindOneofCase.TimestampValue)]
   [TestCase(AresDataType.Float, AresValue.KindOneofCase.FloatValue)]
   [TestCase(AresDataType.Int, AresValue.KindOneofCase.IntValue)]
-  public void GetAresDataType_NewScalarTypes_ReturnsExpectedType(AresDataType expectedType, AresValue.KindOneofCase expectedKind)
+  [TestCase(AresDataType.IntArray, AresValue.KindOneofCase.IntArrayValue)]
+  [TestCase(AresDataType.FloatArray, AresValue.KindOneofCase.FloatArrayValue)]
+  public void GetAresDataType_NewTypes_ReturnsExpectedType(AresDataType expectedType, AresValue.KindOneofCase expectedKind)
   {
     var value = AresValueHelper.CreateDefault(expectedType);
 
@@ -59,7 +81,9 @@ public class AresValueHelperTests
   [TestCase(AresDataType.Timestamp, "1970-01-01T00:00:00.0000000Z")]
   [TestCase(AresDataType.Float, "0")]
   [TestCase(AresDataType.Int, "0")]
-  public void Stringify_NewScalarTypes_ReturnsExpectedText(AresDataType dataType, string expectedText)
+  [TestCase(AresDataType.IntArray, "")]
+  [TestCase(AresDataType.FloatArray, "")]
+  public void Stringify_NewTypes_ReturnsExpectedText(AresDataType dataType, string expectedText)
   {
     var value = AresValueHelper.CreateDefault(dataType);
 
@@ -82,12 +106,35 @@ public class AresValueHelperTests
   [TestCase(AresDataType.Timestamp)]
   [TestCase(AresDataType.Float)]
   [TestCase(AresDataType.Int)]
-  public void ToAresValueSchema_NewScalarTypes_ReturnsExpectedType(AresDataType dataType)
+  [TestCase(AresDataType.IntArray)]
+  [TestCase(AresDataType.FloatArray)]
+  public void ToAresValueSchema_NewTypes_ReturnsExpectedType(AresDataType dataType)
   {
     var value = AresValueHelper.CreateDefault(dataType);
 
     var schema = value.ToAresValueSchema();
 
     Assert.That(schema.Type, Is.EqualTo(dataType));
+  }
+
+  [TestCase(AresDataType.IntArray, "Int Array")]
+  [TestCase(AresDataType.FloatArray, "Float Array")]
+  public void StringifySchema_NewArrayTypes_ReturnsExpectedText(AresDataType dataType, string expectedText)
+  {
+    var schema = new AresValueSchema { Type = dataType };
+
+    Assert.That(schema.Stringify(), Is.EqualTo(expectedText));
+  }
+
+  [TestCase(AresDataType.IntArray)]
+  [TestCase(AresDataType.FloatArray)]
+  public void AddEntry_NewArrayTypes_AcceptsNumberChoices(AresDataType dataType)
+  {
+    var schema = new AresStructSchema();
+
+    schema.AddEntry("values", dataType, optional: false, new[] { 1.0, 2.0 });
+
+    Assert.That(schema.Fields["values"].Type, Is.EqualTo(dataType));
+    Assert.That(schema.Fields["values"].NumberChoices.Numbers, Is.EqualTo(new[] { 1.0, 2.0 }));
   }
 }

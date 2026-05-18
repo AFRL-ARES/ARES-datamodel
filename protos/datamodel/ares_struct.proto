@@ -28,6 +28,8 @@ message AresValue {
 		google.protobuf.Timestamp timestamp_value = 13;
 		double float_value = 14;
 		int64 int_value = 15;
+		IntArray int_array_value = 16;
+		FloatArray float_array_value = 17;
 	}
 }
 
@@ -49,6 +51,14 @@ message StringArray {
 
 message NumberArray {
 	repeated double numbers = 2;
+}
+
+message IntArray {
+	repeated int64 ints = 1;
+}
+
+message FloatArray {
+	repeated double floats = 1;
 }
 
 message AresValueList {

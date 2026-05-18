@@ -5,6 +5,7 @@ package ares.datamodel;
 import "google/protobuf/timestamp.proto";
 import "experiment_overview.proto";
 import "command_result.proto";
+import "command_status_code.proto";
 
 message ExecutionInfo {
   optional string unique_id = 1;
@@ -50,4 +51,5 @@ message CommandExecutionSummary {
   string command_name = 5;
   string command_description = 6;
   string template_id = 7;
+  CommandStatusCode status_code = 8;
 }

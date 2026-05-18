@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package ares.datamodel;
+
+enum CommandStatusCode {
+  STATUS_UNSPECIFIED = 0;
+  COMMAND_SUCCESS = 1;
+  SUCCESS_WITH_WARNINGS = 2;
+  COMMAND_FAILED = 3;
+  INVALID_COMMAND = 4;
+  HARDWARE_FAULT = 5;
+  EMERGENCY_STOP = 6;
+  OUT_OF_RANGE = 7;
+  PARAMETERS_UNACHIEVABLE = 8;
+}

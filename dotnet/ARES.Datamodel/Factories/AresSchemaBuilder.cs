@@ -9,6 +9,9 @@ public static class AresSchemaBuilder
   public static RootSchemaBuilder Empty() => new();
   public static EntryBuilder StringEntry() => new(AresDataType.String);
   public static EntryBuilder NumberEntry() => new(AresDataType.Number);
+  public static EntryBuilder TimestampEntry() => new(AresDataType.Timestamp);
+  public static EntryBuilder FloatEntry() => new(AresDataType.Float);
+  public static EntryBuilder IntEntry() => new(AresDataType.Int);
   public static EntryBuilder Entry(AresDataType type) => new(type);
 }
 
@@ -187,7 +190,7 @@ public class EntryBuilder
 
   public EntryBuilder WithChoices(params double[] choices)
   {
-    if(_entry.Type != AresDataType.Number)
+    if(_entry.Type != AresDataType.Number && _entry.Type != AresDataType.Float && _entry.Type != AresDataType.Int)
       throw new InvalidOperationException("Cannot add number choices to a non-number entry.");
 
     _entry.NumberChoices.Numbers.AddRange(choices);

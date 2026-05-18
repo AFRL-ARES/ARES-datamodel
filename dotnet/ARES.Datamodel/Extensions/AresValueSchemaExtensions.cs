@@ -21,6 +21,9 @@ public static class AresValueSchemaExtensions
       AresValue.KindOneofCase.QuantityValue => AresSchemaBuilder.Entry(AresDataType.Quantity)
         .WithQuantitySchema(new QuantitySchema { QuantityType = value.QuantityValue.Type })
         .Build(),
+      AresValue.KindOneofCase.TimestampValue => AresSchemaBuilder.Entry(AresDataType.Timestamp).Build(),
+      AresValue.KindOneofCase.FloatValue => AresSchemaBuilder.Entry(AresDataType.Float).Build(),
+      AresValue.KindOneofCase.IntValue => AresSchemaBuilder.Entry(AresDataType.Int).Build(),
       AresValue.KindOneofCase.ListValue => CreateListEntry(value.ListValue.Values),
       AresValue.KindOneofCase.StructValue => CreateStructEntry(value.StructValue),
       _ => AresSchemaBuilder.Entry(AresDataType.Any).Build()

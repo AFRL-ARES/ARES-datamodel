@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel.planning;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/duration.proto";
+
+message PlannerTransactionRequestFilter {
+  google.protobuf.Timestamp start = 1;
+  google.protobuf.Timestamp end = 2;
+  string planner_id = 3; 
+}

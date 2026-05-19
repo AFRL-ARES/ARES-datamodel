@@ -1,4 +1,6 @@
-﻿namespace Ares.Datamodel.Extensions;
+﻿using Google.Protobuf.WellKnownTypes;
+
+namespace Ares.Datamodel.Extensions;
 
 public static class AresStructHelper
 {
@@ -58,6 +60,42 @@ public static class AresStructHelper
     return aresStruct;
   }
 
+  public static AresStruct AddTimestamp(this AresStruct aresStruct, string key, Timestamp value)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateTimestamp(value);
+    return aresStruct;
+  }
+
+  public static AresStruct AddTimestamp(this AresStruct aresStruct, string key, DateTime value)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateTimestamp(value);
+    return aresStruct;
+  }
+
+  public static AresStruct AddFloat(this AresStruct aresStruct, string key, double value)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateFloat(value);
+    return aresStruct;
+  }
+
+  public static AresStruct AddFloat(this AresStruct aresStruct, string key, float value)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateFloat(value);
+    return aresStruct;
+  }
+
+  public static AresStruct AddInt(this AresStruct aresStruct, string key, long value)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateInt(value);
+    return aresStruct;
+  }
+
+  public static AresStruct AddInt(this AresStruct aresStruct, string key, int value)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateInt(value);
+    return aresStruct;
+  }
+
   public static AresStruct AddNull(this AresStruct aresStruct, string key)
   {
     aresStruct.Fields[key] = AresValueHelper.CreateNull();
@@ -97,6 +135,30 @@ public static class AresStructHelper
   public static AresStruct AddNumberArray(this AresStruct aresStruct, string key, IEnumerable<float> values)
   {
     aresStruct.Fields[key] = AresValueHelper.CreateNumberArray(values);
+    return aresStruct;
+  }
+
+  public static AresStruct AddIntArray(this AresStruct aresStruct, string key, IEnumerable<int> values)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateIntArray(values);
+    return aresStruct;
+  }
+
+  public static AresStruct AddIntArray(this AresStruct aresStruct, string key, IEnumerable<long> values)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateIntArray(values);
+    return aresStruct;
+  }
+
+  public static AresStruct AddFloatArray(this AresStruct aresStruct, string key, IEnumerable<float> values)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateFloatArray(values);
+    return aresStruct;
+  }
+
+  public static AresStruct AddFloatArray(this AresStruct aresStruct, string key, IEnumerable<double> values)
+  {
+    aresStruct.Fields[key] = AresValueHelper.CreateFloatArray(values);
     return aresStruct;
   }
 
@@ -164,6 +226,48 @@ public static class AresStructHelper
     return newStruct;
   }
 
+  public static AresStruct CreateTimestampStruct(string key, Timestamp value)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateTimestamp(value);
+    return newStruct;
+  }
+
+  public static AresStruct CreateTimestampStruct(string key, DateTime value)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateTimestamp(value);
+    return newStruct;
+  }
+
+  public static AresStruct CreateFloatStruct(string key, double value)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateFloat(value);
+    return newStruct;
+  }
+
+  public static AresStruct CreateFloatStruct(string key, float value)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateFloat(value);
+    return newStruct;
+  }
+
+  public static AresStruct CreateIntStruct(string key, long value)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateInt(value);
+    return newStruct;
+  }
+
+  public static AresStruct CreateIntStruct(string key, int value)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateInt(value);
+    return newStruct;
+  }
+
   public static AresStruct CreateNullStruct(string key)
   {
     AresStruct newStruct = new();
@@ -210,6 +314,34 @@ public static class AresStructHelper
   {
     AresStruct newStruct = new();
     newStruct.Fields[key] = AresValueHelper.CreateNumberArray(values);
+    return newStruct;
+  }
+
+  public static AresStruct CreateIntArrayStruct(string key, IEnumerable<int> values)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateIntArray(values);
+    return newStruct;
+  }
+
+  public static AresStruct CreateIntArrayStruct(string key, IEnumerable<long> values)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateIntArray(values);
+    return newStruct;
+  }
+
+  public static AresStruct CreateFloatArrayStruct(string key, IEnumerable<float> values)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateFloatArray(values);
+    return newStruct;
+  }
+
+  public static AresStruct CreateFloatArrayStruct(string key, IEnumerable<double> values)
+  {
+    AresStruct newStruct = new();
+    newStruct.Fields[key] = AresValueHelper.CreateFloatArray(values);
     return newStruct;
   }
 

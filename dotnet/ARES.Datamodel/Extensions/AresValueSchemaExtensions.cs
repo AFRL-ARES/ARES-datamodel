@@ -15,12 +15,17 @@ public static class AresValueSchemaExtensions
       AresValue.KindOneofCase.NumberValue => AresSchemaBuilder.Entry(AresDataType.Number).Build(),
       AresValue.KindOneofCase.StringArrayValue => AresSchemaBuilder.Entry(AresDataType.StringArray).Build(),
       AresValue.KindOneofCase.NumberArrayValue => AresSchemaBuilder.Entry(AresDataType.NumberArray).Build(),
+      AresValue.KindOneofCase.IntArrayValue => AresSchemaBuilder.Entry(AresDataType.IntArray).Build(),
+      AresValue.KindOneofCase.FloatArrayValue => AresSchemaBuilder.Entry(AresDataType.FloatArray).Build(),
       AresValue.KindOneofCase.BytesValue => AresSchemaBuilder.Entry(AresDataType.ByteArray).Build(),
       AresValue.KindOneofCase.UnitValue => AresSchemaBuilder.Entry(AresDataType.Unit).Build(),
       AresValue.KindOneofCase.FunctionValue => AresSchemaBuilder.Entry(AresDataType.Function).Build(),
       AresValue.KindOneofCase.QuantityValue => AresSchemaBuilder.Entry(AresDataType.Quantity)
         .WithQuantitySchema(new QuantitySchema { QuantityType = value.QuantityValue.Type })
         .Build(),
+      AresValue.KindOneofCase.TimestampValue => AresSchemaBuilder.Entry(AresDataType.Timestamp).Build(),
+      AresValue.KindOneofCase.FloatValue => AresSchemaBuilder.Entry(AresDataType.Float).Build(),
+      AresValue.KindOneofCase.IntValue => AresSchemaBuilder.Entry(AresDataType.Int).Build(),
       AresValue.KindOneofCase.ListValue => CreateListEntry(value.ListValue.Values),
       AresValue.KindOneofCase.StructValue => CreateStructEntry(value.StructValue),
       _ => AresSchemaBuilder.Entry(AresDataType.Any).Build()

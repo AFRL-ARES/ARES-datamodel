@@ -66,7 +66,12 @@ public static class AresSchemaHelper
 
   public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
   {
-    if (type != AresDataType.Number && type != AresDataType.NumberArray)
+    if (type != AresDataType.Number
+      && type != AresDataType.NumberArray
+      && type != AresDataType.Float
+      && type != AresDataType.Int
+      && type != AresDataType.IntArray
+      && type != AresDataType.FloatArray)
     {
       throw new InvalidOperationException($"Cannot provide number options to a datatype that is {type}");
     }
@@ -149,8 +154,13 @@ public static class AresSchemaHelper
       AresDataType.Boolean => "Boolean",
       AresDataType.String => schema.StringifyString(),
       AresDataType.Number => schema.StringifyNumber(),
+      AresDataType.Timestamp => "Timestamp",
+      AresDataType.Float => schema.StringifyNumber(),
+      AresDataType.Int => schema.StringifyNumber(),
       AresDataType.StringArray => schema.StringifyStringArray(),
       AresDataType.NumberArray => schema.StringifyNumArray(),
+      AresDataType.IntArray => schema.StringifyNumArray(),
+      AresDataType.FloatArray => schema.StringifyNumArray(),
       AresDataType.List => schema.StringifyList(),
       AresDataType.Struct => schema.StringifyStruct(),
       AresDataType.ByteArray => "Byte Array",
@@ -182,12 +192,17 @@ public static class AresSchemaHelper
 
   private static string StringifyNumber(this AresValueSchema entry)
   {
-    if (entry.Type != AresDataType.Number)
+    if (entry.Type != AresDataType.Number && entry.Type != AresDataType.Float && entry.Type != AresDataType.Int)
     {
       throw new InvalidOperationException($"Tried to stringify number, but it's actually {entry.Type}");
     }
 
-    var sb = new StringBuilder("Number");
+    var sb = new StringBuilder(entry.Type switch
+    {
+      AresDataType.Float => "Float",
+      AresDataType.Int => "Int",
+      _ => "Number"
+    });
     if (entry.HasMinNumberValue)
     {
       sb.AppendLine($" (Min: {entry.MinNumberValue})");
@@ -225,12 +240,17 @@ public static class AresSchemaHelper
 
   private static string StringifyNumArray(this AresValueSchema entry)
   {
-    if (entry.Type != AresDataType.NumberArray)
+    if (entry.Type != AresDataType.NumberArray && entry.Type != AresDataType.IntArray && entry.Type != AresDataType.FloatArray)
     {
       throw new InvalidOperationException($"Tried to stringify number array, but it's actually {entry.Type}");
     }
 
-    var sb = new StringBuilder("Number Array");
+    var sb = new StringBuilder(entry.Type switch
+    {
+      AresDataType.IntArray => "Int Array",
+      AresDataType.FloatArray => "Float Array",
+      _ => "Number Array"
+    });
     if (entry.HasMinNumberValue)
     {
       sb.AppendLine($" (Min: {entry.MinNumberValue})");

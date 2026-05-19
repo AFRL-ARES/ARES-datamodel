@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package ares.datamodel;
+
+import "ares_data_schema.proto";
+import "ares_struct.proto";
+
+message AresDataset {
+  optional string unique_id = 1;
+  string name = 2;
+  repeated AresDataColumn columns = 3;
+  repeated AresDataRow rows = 4;
+  map<string, string> metadata = 5;
+}
+
+message AresDataColumn {
+  optional string unique_id = 1;
+  string name = 2;
+  AresValueSchema schema = 3;
+  optional string display_name = 4;
+}
+
+message AresDataRow {
+  optional string unique_id = 1;
+  AresStruct data = 2;
+}
+

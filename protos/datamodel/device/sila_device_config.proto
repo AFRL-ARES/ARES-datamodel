@@ -9,4 +9,5 @@ message SilaDeviceConfig {
   string type = 4;
   string vendor_uri = 5;
   string version = 6;
+  string address = 7;
 }

@@ -13,6 +13,7 @@ message PlanningRequest {
   AresStruct adapter_settings = 2; // The settings associated with this plan request
   repeated double analysis_results = 3; // A collection of analysis results produced by an analyzer
   RequestMetadata metadata = 4; // Metadata providing additional context from ARES
+  int32 batch_size = 5; // The number of plans being requested from this planner
 }
 
 message PlanningResponse {
@@ -32,7 +33,8 @@ message PlanningParameter {
   bool is_planned = 8; // Set based on whether the parameter should be planned for
   bool is_result = 9; // Set based on whether the parameter is designed as the result of the experiment
   string planner_name = 10; // The planner requested to plan for the parameter
-  optional AresValue initial_value = 11; // An optional initial value for the planner to use for this parameter 
+  optional AresValue initial_value = 11; // An optional initial value for the planner to use for this parameter
+  optional int32 batch_number = 12; // An optional value that represents what batch this parameter is associated with (if any)  
 }
 
 message ParameterHistoryInfo {

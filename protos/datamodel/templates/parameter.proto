@@ -14,6 +14,23 @@ message Parameter {
 	bool environment_based = 5; //Indicated whether or not the parameter needs environment information
 	ParameterMetadata planning_metadata = 6; // metadata containing the info needed for planning
 	VariableType variable_type = 7; // variable type to match given ARES environment variables
-	string variable_argument = 8; // optional argument to be populated with the environment variable
+	string variable_argument = 8; // optional argument to be populated with the a variable
 	int64 index = 9; // Index of the collection in which executed this template
+	ParameterSource parameter_source = 10; // Source of the parameter
+}
+
+enum ParameterSource {
+	PARAMETER_SOURCE_UNSPECIFIED = 0;
+	// The value needs to come from a planner
+	// Needs planning_metadata
+	PARAMETER_SOURCE_PLANNED = 1; 
+	// The value needs to come from an ARES environment variable
+	// Needs variable_argument and variable_type to be set
+	PARAMETER_SOURCE_ENVIRONMENT = 2;
+	// The value needs to be explicitly specified
+	// Needs value to be set
+	PARAMETER_SOURCE_VALUE = 3;
+	// The value needs to come from a variable defined in an earlier command
+	// Needs variable_argument to be set
+	PARAMETER_SOURCE_VARIABLE = 4;
 }

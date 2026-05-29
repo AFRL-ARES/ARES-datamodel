@@ -10,6 +10,7 @@ import "project.proto";
 import "execution_status_messages.proto";
 import "execution_summary_messages.proto";
 import "ares_campaign_tag.proto";
+import "ares_error_handling.proto";
 
 service AresAutomation {
 	// Campaigns
@@ -59,6 +60,7 @@ service AresAutomation {
 	rpc GetCampaignExecutionStatus(google.protobuf.Empty) returns (CampaignExecutionStatusResponse);
 	rpc GetCampaignExecutionStateStream(google.protobuf.Empty) returns (stream datamodel.CampaignExecutionState);
 	
+	rpc SubmitUserDecision(UserDecisionRequest) returns (google.protobuf.Empty);
 
 	// Summaries
 	rpc GetAvailableCampaignExecutionSummaries(google.protobuf.Empty) returns (AvailableCampaignExecutionSummariesResponse);
@@ -179,4 +181,8 @@ message CheckExecutionEligibilityResponse {
 message GetCopyOfCampaignResponse {
 	datamodel.templates.CampaignTemplate template = 1;
 	optional string serialized_json_data = 2;
+}
+
+message UserDecisionRequest {
+	datamodel.ErrorHandling decision = 1;
 }

@@ -52,4 +52,7 @@ message CommandExecutionSummary {
   string command_description = 6;
   string template_id = 7;
   CommandStatusCode status_code = 8;
+  // optional variable name for the output of this command
+  // comes from the output_var_name in the command template
+  optional string var_name = 9;
 }

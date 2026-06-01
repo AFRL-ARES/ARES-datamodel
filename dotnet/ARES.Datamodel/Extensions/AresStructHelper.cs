@@ -369,6 +369,12 @@ public static class AresStructHelper
     return newStruct;
   }
 
+  public static AresStruct CreateEmptyStruct()
+  {
+    AresStruct newStruct = new();
+    return newStruct;
+  }
+
 
   /// <summary>
   /// 

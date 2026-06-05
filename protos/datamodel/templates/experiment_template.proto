@@ -9,6 +9,8 @@ message ExperimentTemplate {
 	repeated StepTemplate step_templates = 2; // Collection of step templates used to generate executable steps
 	string name = 3; // Name of the experiment, most likely automatically generated relative to the campaign name
 	optional string analyzer_id = 4; // the analyzer assigned to this template
-	map<string, string> analyzer_maps = 5; // The mapping of the analyzer input keys to the user output keys
-	bool resolved = 6; // Inidcates whether or not this template has been processed and thus should not have any metadata, only executable stuff. 
+	// The mapping of the analyzer input keys to the user output variable
+	// if output is a struct it should be written like "variable.field1.field2..."
+	map<string, string> analyzer_maps = 5;
+	bool resolved = 6; // Indicates whether or not this template has been processed and thus should not have any metadata, only executable stuff. 
 }

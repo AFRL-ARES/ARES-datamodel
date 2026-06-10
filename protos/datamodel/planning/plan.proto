@@ -22,7 +22,7 @@ message PlanningResponse {
   Outcome planning_outcome = 2 [deprecated = true]; // Whether or not the planning proccess was successful, deprecated and is being replaced with batch planning 
   optional string error_string = 3 [deprecated = true]; // Optional string for defining errors in the planning process, deprecated and is being replaced with batch planning
 
-  repeated Plan plans = 4; // A collection of plans returns from the planner
+  repeated Plan plans = 4; // A collection of plans returned from the planner
 }
 
 message Plan {

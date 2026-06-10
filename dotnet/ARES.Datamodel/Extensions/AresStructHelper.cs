@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using System.Runtime.InteropServices;
 
 namespace Ares.Datamodel.Extensions;
 
@@ -369,7 +370,44 @@ public static class AresStructHelper
     return newStruct;
   }
 
+  public static AresStruct CreateEmptyStruct()
+  {
+    AresStruct newStruct = new();
+    return newStruct;
+  }
 
+  /// <summary>
+  /// A helper method to flatten a struct into a dictionary of its respective <see cref="AresValue"'s/> 
+  /// </summary>
+  /// <param name="unflattendStruct">The struct to be flattened</param>
+  /// <param name="structKey">An optional key for parsing nested structs. Designed to be null when called on the initial struct.</param>
+  /// <returns>A dictionary of strings and <see cref="AresValue"'s/> representing all the data within the original struct. 
+  /// Items found within a nested struct have their value names prepended by the structs name following by a period.</returns>
+  public static Dictionary<string, AresValue> FlattenStruct(this AresStruct unflattendStruct, string? structKey = null)
+  {
+    var newDict = new Dictionary<string, AresValue>();
+
+    foreach(var field in unflattendStruct.Fields)
+    {
+      if(field.Value.GetAresDataType() == AresDataType.Struct)
+        newDict = newDict.Concat(FlattenStruct(field.Value.StructValue, field.Key)).ToDictionary();
+
+      else
+        newDict.Add(structKey is null ? field.Key : $"{structKey}.{field.Key}", field.Value);
+    }
+
+    return newDict;
+  }
+
+  /// <summary>
+  /// Searches the given struct for the provided value key.
+  /// </summary>
+  /// <param name="structValue">The <see cref="AresStruct"/> to be searched.</param>
+  /// <param name="valueKey">The key of the value to be searched for. Nested values are seperated by a period and the name of the struct they are nested in (e.g. structKey.valueKey).</param>
+  /// <returns>The matching <see cref="AresValue"/> or null if no match is found</returns>
+  public static AresValue? SearchStructForValue(this AresStruct structValue, string valueKey)
+    => FlattenStruct(structValue).GetValueOrDefault(valueKey);
+  
   /// <summary>
   /// 
   /// </summary>

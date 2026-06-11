@@ -14,11 +14,20 @@ message PlanningRequest {
   repeated double analysis_results = 3; // A collection of analysis results produced by an analyzer
   RequestMetadata metadata = 4; // Metadata providing additional context from ARES
   PlanStatusCode previous_plan_status_code = 5; // A status code that matches the outcome from the previously planned experiment
+  int32 batch_size = 6; // The number of plans being requested from this planner
 }
 
 message PlanningResponse {
-  repeated planning.PlannedParameter planned_parameters = 1; // Parameters that have received planning values from the planning service
-  Outcome planning_outcome = 2; // Whether or not the planning proccess was successful 
+  repeated planning.PlannedParameter planned_parameters = 1 [deprecated = true]; // Parameters that have received planning values from the planning service, deprecated and is being replaced with batch planning
+  Outcome planning_outcome = 2 [deprecated = true]; // Whether or not the planning proccess was successful, deprecated and is being replaced with batch planning 
+  optional string error_string = 3 [deprecated = true]; // Optional string for defining errors in the planning process, deprecated and is being replaced with batch planning
+
+  repeated Plan plans = 4; // A collection of plans returned from the planner
+}
+
+message Plan {
+  repeated planning.PlannedParameter planned_parameters = 1; // A complete collection of planned parameters needed to conduct an experiment
+  Outcome planning_outcome = 2; // The outcome of this planning attempt, indicates whether or not the planning proccess was successful
   optional string error_string = 3; // Optional string for defining errors in the planning process
 }
 
@@ -33,7 +42,7 @@ message PlanningParameter {
   bool is_planned = 8; // Set based on whether the parameter should be planned for
   bool is_result = 9; // Set based on whether the parameter is designed as the result of the experiment
   string planner_name = 10; // The planner requested to plan for the parameter
-  optional AresValue initial_value = 11; // An optional initial value for the planner to use for this parameter 
+  optional AresValue initial_value = 11; // An optional initial value for the planner to use for this parameter
 }
 
 message ParameterHistoryInfo {

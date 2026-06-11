@@ -50,6 +50,9 @@ message AresValueSchema {
   // Numeric bounds for scalar NUMBER values.
   optional double min_number_value = 10;
   optional double max_number_value = 11;
+  
+  // Optional Default Value
+  optional AresValue default_value = 12;
 }
 
 message QuantitySchema {

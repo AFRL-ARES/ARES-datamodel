@@ -51,6 +51,7 @@ message CommandExecutionStatus {
   ExecutionState state = 4;
   optional AresValue result = 5; // The optional output of the command
   optional string variable_name = 6; // An optional string to represent the name of the variable a commands output is assigned to (if any)
+  optional string status_message = 7; // An optional string for displaying status messages
 }
 
 enum ExecutionState {

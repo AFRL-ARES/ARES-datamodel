@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel;
+
+import "google/protobuf/duration.proto";
+
+message AresGeneralSettingsConfig {
+  string unique_id = 1;
+  int32 experiment_retry_limit = 2;
+  int32 command_retry_limit = 3;
+  google.protobuf.Duration retry_cooldown = 4;
+  google.protobuf.Duration command_latency = 5;
+}

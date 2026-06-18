@@ -2,6 +2,12 @@ using Ares.Datamodel.Extensions;
 
 namespace Ares.Datamodel.Factories;
 
+/// <summary>
+/// A static factory class that provides entry points for creating schema builders.
+/// Use this class to fluently initialize <see cref="RootSchemaBuilder"/> instances for 
+/// structural schemas or <see cref="EntryBuilder"/> instances for specific data types 
+/// (e.g., String, Number, Boolean).
+/// </summary>
 public static class AresSchemaBuilder
 {
   public static RootSchemaBuilder Create(string name, AresDataType type) => new(name, type);
@@ -9,12 +15,20 @@ public static class AresSchemaBuilder
   public static RootSchemaBuilder Empty() => new();
   public static EntryBuilder StringEntry() => new(AresDataType.String);
   public static EntryBuilder NumberEntry() => new(AresDataType.Number);
+  public static EntryBuilder BooleanEntry() => new(AresDataType.Boolean);
+  public static EntryBuilder StructEntry() => new(AresDataType.Struct);
   public static EntryBuilder TimestampEntry() => new(AresDataType.Timestamp);
   public static EntryBuilder FloatEntry() => new(AresDataType.Float);
   public static EntryBuilder IntEntry() => new(AresDataType.Int);
   public static EntryBuilder Entry(AresDataType type) => new(type);
 }
 
+/// <summary>
+/// A fluent builder for constructing an <see cref="AresStructSchema"/>.
+/// Allows configuration of root-level properties (such as data type, optionality, 
+/// constraints, and descriptions) as well as the addition of nested child entries 
+/// to build complex, hierarchical data structures.
+/// </summary>
 public class RootSchemaBuilder
 {
   private readonly AresStructSchema _schema = new();
@@ -111,6 +125,12 @@ public class RootSchemaBuilder
   }
 }
 
+/// <summary>
+/// A fluent builder for constructing and configuring an individual <see cref="AresValueSchema"/> node.
+/// Provides methods to set schema metadata, validation constraints (like min/max numeric boundaries), 
+/// physical quantity bounds, allowed choice values, and nested element schemas for complex types 
+/// (Structs and Lists).
+/// </summary>
 public class EntryBuilder
 {
   private readonly AresValueSchema _entry;

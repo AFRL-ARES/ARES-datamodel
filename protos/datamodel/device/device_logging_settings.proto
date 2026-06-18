@@ -16,4 +16,5 @@ message DeviceLoggingSettings {
   // (ex.: state changes every second, but if the interval is set to 2 seconds, we'll still get update state every 2 seconds.)
   sint64 interval_ms = 3;
   map<string, double> deltas = 4;
+  bool logging_enabled = 5; // A boolean value that determines if this device should be logging
 }

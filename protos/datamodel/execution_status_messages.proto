@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ares.datamodel;
 
+import "ares_struct.proto";
+
 message CampaignExecutionStatus {
   string campaign_id = 1;
   ExecutionState state = 2;
@@ -47,13 +49,11 @@ message CommandExecutionStatus {
   // they can extrapolate the state that they should be in. Campaign is a bit special so it gets its own state so that
   // it's easier to check its status during runtime.
   ExecutionState state = 4;
+  optional AresValue result = 5; // The optional output of the command
+  optional string variable_name = 6; // An optional string to represent the name of the variable a commands output is assigned to (if any)
+  optional string status_message = 7; // An optional string for displaying status messages
 }
 
-// the higher number has higher priority on the status of a container holding an entity with this state
-// ex.: A step that has an idle task, a succeeded task, and a failed task would be considered a failed step
-//      which would propagate to the experiment status and thus campaign status
-//      If, however, the failed task was suceeded, then the whole step would be idle as idle takes priority
-//      over success
 enum ExecutionState {
   UNDEFINED = 0;
   SUCCEEDED = 1;

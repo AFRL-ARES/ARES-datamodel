@@ -13,7 +13,7 @@ message PlanningRequest {
   AresStruct adapter_settings = 2; // The settings associated with this plan request
   repeated double analysis_results = 3; // A collection of analysis results produced by an analyzer
   RequestMetadata metadata = 4; // Metadata providing additional context from ARES
-  PlanStatusCode previous_plan_status_code = 5; // A status code that matches the outcome from the previously planned experiment
+  repeated PlanStatusCode previous_plan_status_codes = 5; // A collection of status codes that matches the outcome from the previously planned experiments
   int32 batch_size = 6; // The number of plans being requested from this planner
 }
 

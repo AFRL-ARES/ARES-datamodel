@@ -6,12 +6,13 @@ import "ares_struct.proto";
 import "ares_data_type.proto";
 import "ares_outcome_enum.proto";
 import "request_metadata.proto";
+import "analyzing/analysis.proto";
 
 //A collection of messages relevant to the planning process
 message PlanningRequest {
   repeated planning.PlanningParameter planning_parameters = 1; // The parameters ARES is requesting the service to plan for
   AresStruct adapter_settings = 2; // The settings associated with this plan request
-  repeated double analysis_results = 3; // A collection of analysis results produced by an analyzer
+  repeated analyzing.AnalysisResponse analysis_results = 3; // A collection of analysis results produced by an analyzer
   RequestMetadata metadata = 4; // Metadata providing additional context from ARES
   repeated PlanStatusCode previous_plan_status_codes = 5; // A collection of status codes that matches the outcome from the previously planned experiments
   int32 batch_size = 6; // The number of plans being requested from this planner
@@ -23,6 +24,7 @@ message PlanningResponse {
   optional string error_string = 3 [deprecated = true]; // Optional string for defining errors in the planning process, deprecated and is being replaced with batch planning
 
   repeated Plan plans = 4; // A collection of plans returned from the planner
+  ObjectiveStatus objective_status = 5; // Signals whether or not the objective has been achieved, can be used to determine when an experiment should stop
 }
 
 message Plan {
@@ -67,4 +69,11 @@ enum PlanStatusCode {
   PLAN_ACCEPTED = 1;
   PLAN_UNACHIEVABLE = 2;
   PLAN_FAILED = 3;
+}
+
+enum ObjectiveStatus {
+	OBJECTIVE_STATUS_UNSPECIFIED = 0; // A default status
+	OBJECTIVE_UNACHIEVED = 1; // The analyzer has not yet achieved it's desired objective
+	OBJECTIVE_ACHIEVED = 2; // The analyzer has successfully achieved it's objective
+	OBJECTIVE_FAILED = 3; // The analyzer cannot achieve it's objective
 }

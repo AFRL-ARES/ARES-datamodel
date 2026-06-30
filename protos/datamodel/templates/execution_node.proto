@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package ares.datamodel.templates;
+
+import "templates/command_template.proto";
+import "templates/command_metadata.proto";
+import "templates/system_operations.proto";
+import "templates/parameter.proto";
+
+message ExecutionNode {
+  string unique_id = 1;
+  string name = 2;
+  int64 index = 3;
+
+	oneof template_type {
+		CommandTemplate command_template = 4; // Hardware Control
+		SystemTemplate system_template = 5; // System Control
+    LogicTemplate logic_gate = 6; // Logic Branching
+    LoopTemplate loop_block = 7; // Loops
+	}
+}
+
+message SystemTemplate {
+	optional string unique_id = 1; // A unique id for this template
+	CommandMetadata metadata = 2; // Non-volatile information about the system command to be generated for execution
+  SystemOperation operation = 3; // Non-volatile information about the system command to be generated for execution
+	repeated Parameter parameters = 4; // Collection of command parameters used for generating an executable (device qualified) command
+	int64 index = 5; // Index of the collection in which executed this template
+	optional string output_var_name = 6; // optional string to set if the value of this system command will be assigned to a variable during runtime
+}
+
+message LogicTemplate {
+  optional string unique_id = 1; // A unique id for this template
+  string evaluation_expression = 2; // The expression to be evaluated for true or false, e.g. "Temperature > 100"
+  repeated ExecutionNode true_branch = 3; // The branch of execution to follow if true
+  repeated ExecutionNode false_branch = 4; // The branch of execution to follow if false
+}
+
+message LoopTemplate {
+  optional string unique_id = 1; // A unique id for this template
+  int32 max_iterations = 2; // A hard cap on the number of iterations this template is allowed to perform
+  string break_condition = 3; // The condition in which the template should break, e.g. "Pressure >= 50"
+  repeated ExecutionNode sequence_body = 4; // The steps within the loop itself
+}

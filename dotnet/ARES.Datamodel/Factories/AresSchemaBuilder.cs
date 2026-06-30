@@ -1,4 +1,5 @@
 using Ares.Datamodel.Extensions;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Ares.Datamodel.Factories;
 
@@ -20,6 +21,7 @@ public static class AresSchemaBuilder
   public static EntryBuilder TimestampEntry() => new(AresDataType.Timestamp);
   public static EntryBuilder FloatEntry() => new(AresDataType.Float);
   public static EntryBuilder IntEntry() => new(AresDataType.Int);
+  public static EntryBuilder AnyEntry() => new(AresDataType.Any);
   public static EntryBuilder Entry(AresDataType type) => new(type);
 }
 
@@ -34,12 +36,12 @@ public class RootSchemaBuilder
   private readonly AresStructSchema _schema = new();
   private readonly string _rootName = "";
   private readonly AresDataType _rootType;
-
   private string _rootDescription = "";
   private QuantitySchema? _rootQuantitySchema;
   private double? _rootMinNumberValue;
   private double? _rootMaxNumberValue;
   private bool _rootOptional = false;
+  private IEnumerable<string>? _rootStringChoices; 
 
   public RootSchemaBuilder() { }
 
@@ -110,6 +112,12 @@ public class RootSchemaBuilder
     return this;
   }
 
+  public RootSchemaBuilder WithStringChoices(params IEnumerable<string> stringChoices)
+  {
+    _rootStringChoices = stringChoices.ToArray();
+    return this;
+  }
+
   public RootSchemaBuilder AddEntry(string name, AresValueSchema entry)
   {
     _schema.Fields.Add(name, entry);
@@ -118,7 +126,16 @@ public class RootSchemaBuilder
 
   public AresStructSchema Build()
   {
-    if (!string.IsNullOrEmpty(_rootName))
+    if(string.IsNullOrWhiteSpace(_rootName))
+      return _schema;
+
+    if(_rootStringChoices is not null && (_rootMinNumberValue is not null || _rootMaxNumberValue is not null))
+      throw new InvalidOperationException("Cannot create a schema with both string options and a min and/or max number value");
+
+    if(_rootStringChoices is not null)
+      _schema.AddEntry(_rootName, _rootType, optional: _rootOptional, description: _rootDescription, stringOptions: _rootStringChoices);
+
+    else
       _schema.AddEntry(_rootName, _rootType, _rootOptional, _rootDescription, _rootQuantitySchema, _rootMinNumberValue, _rootMaxNumberValue);
 
     return _schema;

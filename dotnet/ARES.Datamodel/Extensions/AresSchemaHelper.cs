@@ -1,4 +1,5 @@
 using System.Text;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Ares.Datamodel.Extensions;
 
@@ -64,7 +65,14 @@ public static class AresSchemaHelper
   // CONSTRAINED ENTRIES (Numbers with Choices)
   // ------------------------------------------------------------------------
 
-  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<double> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
+  public static AresStructSchema AddEntry(this AresStructSchema schema, 
+  string name, 
+  AresDataType type, 
+  bool optional, 
+  IEnumerable<double> numOptions, 
+  string description = "", 
+  double? minNumberValue = null, 
+  double? maxNumberValue = null)
   {
     if (type != AresDataType.Number
       && type != AresDataType.NumberArray
@@ -96,7 +104,14 @@ public static class AresSchemaHelper
   }
 
   // Overload for Int options
-  public static AresStructSchema AddEntry(this AresStructSchema schema, string name, AresDataType type, bool optional, IEnumerable<int> numOptions, string description = "", double? minNumberValue = null, double? maxNumberValue = null)
+  public static AresStructSchema AddEntry(this AresStructSchema schema, 
+  string name, 
+  AresDataType type, 
+  bool optional, 
+  IEnumerable<int> numOptions, 
+  string description = "", 
+  double? minNumberValue = null,
+  double? maxNumberValue = null)
   {
     return schema.AddEntry(name, type, optional, numOptions.Select(n => (double)n), description, minNumberValue, maxNumberValue);
   }

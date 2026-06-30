@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ares.datamodel.templates;
+
+enum SystemOperation {
+  UNDEFINED_SYSTEM_OPERATION = 0;
+  SLEEP_FOR_MILLISECONDS = 1;
+  SLEEP_FOR_SECONDS = 2;
+  SLEEP_FOR_MINUTES = 3;
+  WAIT_FOR_USER = 4;
+  WAIT_FOR_USER_INPUT = 5;
+  GET_TIMESTAMP = 6;
+  CALCULATE_AVERAGE = 7;
+}

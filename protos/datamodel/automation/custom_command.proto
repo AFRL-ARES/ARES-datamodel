@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ares.datamodel.automation;
+
+import "ares_data_schema.proto";
+import "automation/custom_command_parameter.proto";
+
+message CustomCommand {
+  string name = 1;
+  string description = 2;
+  repeated CustomCommandParameter input_parameters = 3;
+  AresValueSchema output_schema = 4;
+  string script_body = 5;
+}

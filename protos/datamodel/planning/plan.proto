@@ -73,7 +73,7 @@ enum PlanStatusCode {
 
 enum ObjectiveStatus {
 	OBJECTIVE_STATUS_UNSPECIFIED = 0; // A default status
-	OBJECTIVE_UNACHIEVED = 1; // The analyzer has not yet achieved it's desired objective
-	OBJECTIVE_ACHIEVED = 2; // The analyzer has successfully achieved it's objective
-	OBJECTIVE_FAILED = 3; // The analyzer cannot achieve it's objective
+	OBJECTIVE_UNACHIEVED = 1; // The planner has not yet achieved it's desired objective
+	OBJECTIVE_ACHIEVED = 2; // The planner has successfully achieved it's objective
+	OBJECTIVE_FAILED = 3; // The planner cannot achieve it's objective
 }

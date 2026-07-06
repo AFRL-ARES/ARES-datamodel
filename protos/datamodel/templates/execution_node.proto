@@ -15,8 +15,6 @@ message ExecutionNode {
 	oneof template_type {
 		CommandTemplate command_template = 4; // Hardware Control
 		SystemTemplate system_template = 5; // System Control
-    LogicTemplate logic_gate = 6; // Logic Branching
-    LoopTemplate loop_block = 7; // Loops
 	}
 }
 

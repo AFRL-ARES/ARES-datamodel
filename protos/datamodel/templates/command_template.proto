@@ -4,11 +4,28 @@ package ares.datamodel.templates;
 
 import "templates/parameter.proto";
 import "templates/command_metadata.proto";
+import "templates/system_operations.proto";
 
 message CommandTemplate {
 	optional string unique_id = 1; // A unique id for this template
-	CommandMetadata metadata = 2; // Non-volatile information about the command to be generated for execution
-	repeated Parameter parameters = 3; // Collection of command parameters used for generating an executable (device qualified) command
+	repeated Parameter argument_bindings = 3; // Values and variable bindings for this command
 	int64 index = 4; // Index of the collection in which executed this template
 	optional string output_var_name = 5; // optional string to set if the value of this command will be assigned to a variable during runtime
+	oneof command_type {
+		DeviceCommand device_command = 10;
+		SystemCommand system_command = 11;
+		CustomCommandInvocation custom_command_invocation = 12;
+	}
+}
+
+message DeviceCommand {
+	CommandMetadata metadata = 1;
+}
+
+message SystemCommand {
+	SystemOperation operation = 1;
+}
+
+message CustomCommandInvocation {
+	string custom_command_id = 1;
 }

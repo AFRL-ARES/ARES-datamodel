@@ -22,16 +22,8 @@ message CampaignExecutionState {
 message ExperimentExecutionStatus {
   string experiment_id = 1;
   repeated StepExecutionStatus step_execution_statuses = 2;
-}
-
-message CampaignStartupStatus {
-  string campaign_id = 1;
-  repeated StepExecutionStatus startup_execution_statuses = 2;
-}
-
-message CampaignCloseoutStatus {
-  string campaign_id = 1;
-  repeated StepExecutionStatus closeout_execution_statuses = 2;
+  bool is_startup = 3; // A boolean value that indicates whether this status is associated with a startup script
+  bool is_closeout = 4; // A boolean value that indicates whether this status is associated with a closeout script
 }
 
 message StepExecutionStatus {

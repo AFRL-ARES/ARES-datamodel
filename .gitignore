@@ -6,3 +6,4 @@ nupkg
 .vs/
 .datamodel/
 .dotnet-cli
+.cr/

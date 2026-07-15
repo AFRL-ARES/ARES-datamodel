@@ -23,7 +23,8 @@ message PlanningResponse {
   optional string error_string = 3 [deprecated = true]; // Optional string for defining errors in the planning process, deprecated and is being replaced with batch planning
 
   repeated Plan plans = 4; // A collection of plans returned from the planner
-}
+  ObjectiveStatus objective_status = 5; // Signals whether or not the objective has been achieved, can be used to determine when an experiment should stop
+  }
 
 message Plan {
   repeated planning.PlannedParameter planned_parameters = 1; // A complete collection of planned parameters needed to conduct an experiment
@@ -67,4 +68,11 @@ enum PlanStatusCode {
   PLAN_ACCEPTED = 1;
   PLAN_UNACHIEVABLE = 2;
   PLAN_FAILED = 3;
+}
+
+enum ObjectiveStatus {
+	OBJECTIVE_STATUS_UNSPECIFIED = 0; // A default status
+	OBJECTIVE_UNACHIEVED = 1; // The planner has not yet achieved it's desired objective
+	OBJECTIVE_ACHIEVED = 2; // The planner has successfully achieved it's objective
+	OBJECTIVE_FAILED = 3; // The planner cannot achieve it's objective
 }

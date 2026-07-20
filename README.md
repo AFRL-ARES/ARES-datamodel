@@ -1,6 +1,5 @@
 # ARES-datamodel
 
-**Generated Protobuf and gRPC C# classes for the ARES Datamodel**
 <!-- License -->
 [![License](https://img.shields.io/github/license/AFRL-ARES/ARES-datamodel)](LICENSE)
 
@@ -9,137 +8,35 @@
 
 ---
 
-## Table of Contents
-
-- [Overview](#overview)  
-- [Repository Structure](#repository-structure)  
-- [Getting Started](#getting-started)  
-  - [Prerequisites](#development-prerequisites)  
-  - [Building / Regeneration](#building-or-regenerating-code)  
-- [Versioning & Releases](#versioning--releases)  
-- [Contributing](#contributing)  
-- [License](#license)  
-- [Contact](#contact)  
-
----
-
 ## Overview
 
-The **ARES-datamodel** repository hosts the protobuf defintions and their generated artifacts (as well as a few tools) that make up the ARES data model. Its main role is to centralize the data definitions and share them across the various ARES services.
+The **ARES-datamodel** repository hosts the protobuf defintions and their generated artifacts (as well as a few tools) that make up the ARES data model. Its main role is to centralize the data definitions and share them across the various ARES services.  
+The repository does **not** (typically) contain handwritten business logic; instead it focuses on the data interface layer.
 
-By having a single source of truth for Protobuf/gRPC definitions and auto-generated code, this repo helps ensure consistency across systems, enable type safety, and reduce manual serialization logic.
-
-Key points:
-- Schema definitions are maintained in `.proto` files (in the `protos/` folder).
-- C# client/server stubs and data classes are auto-generated from those `.proto` files.
-- Python artifacts or related tooling are also present (in `python/`), supporting cross-language usage.  
-- The repository does **not** (typically) contain handwritten business logic; instead it focuses on the data interface layer.
+You can find the main documentation on the data model [here](https://afrl-ares.github.io/docs/datamodel/intro) as well as the rest of the ARES ecosystem by visting https://afrl-ares.github.io/ to browse our centralized documentation site.
 
 ---
+
 <a id="repository-structure"></a>
 ## 📂 Repository Structure
 
 | Path | Description |
 |------|--------------|
-| **protos/** | Core `.proto` files that define ARES message types and gRPC services |
-| **dotnet/** | Generated C# source files and .NET project configuration |
-| **python/** | Python stubs, build scripts, or utilities for cross-language support |
+| **protos/** |- Core `.proto` files that define ARES message types and gRPC services |
+| **dotnet/** |- Auto Generated C# source files and .NET project configuration |
+| **python/** |- Python stubs, build scripts, or utilities for cross-language support |
 
 This structure separates **source definitions** (`protos/`) from **language-specific builds** (`dotnet/`, `python/`), ensuring clarity and reproducibility when regenerating code.
 
 ---
-<a id="getting-started"></a>
-## ⚙️ Getting Started
-
-### Installing for General Use
-If you're only interested in utilizing the existing proto definitions and not making changes to the datamodel, packages are readily available to support development in both C# and Python.
-
-#### Installing the ARES Datamodel for C#
-ARES-Datamodel can be installed in your C# project using the Nuget package manager. Simply navigate to your nuget package manager in your project and with your source set to nuget.org, search for ARES-Datamodel. Details for this package can be found [here](https://www.nuget.org/packages/ARES.Datamodel).
-
-#### Installing the ARES Datamodel for Python
-ARES-Datamodel is available for install via pip.
-```bash
-pip install ares-datamodel
-```
-
-### Development Prerequisites
-Those looking to make changes to the datamodel will have to generate their own language specific protobuf messages for testing. This can be done using the setup and generation steps below.
-
-Make sure you have the following tools installed:
-
-- [Protobuf Compiler (`protoc`)](https://grpc.io/docs/protoc-installation/)  
-- [.NET SDK](https://dotnet.microsoft.com/en-us/download)  
-- (Optional) [gRPC C# Plugin](https://grpc.io/docs/languages/csharp/quickstart/)  
-- (Optional) Python 3.8+ if using Python bindings  
-
-Confirm installations with:
-
-```bash
-protoc --version
-dotnet --version
-```
-<a id="building-or-regenerating-code"></a>
-## Building or Regenerating Code
-When `.proto` definitions are updated, you can regenerate the corresponding language specific proto files.
-
-#### Generating C# Proto Files
-New C# specific proto files can be generated using the `dotnet pack` command. Ensure your active directory is the dotnet directory, and run the following command:
-```bash
-dotnet pack -c Release --output ./nupkg /p:Version=x.x.x
-```
-This outputs a local nuget package that can be used for testing changes.
-
-#### Generating Python Proto Files
-Python specific proto files can be generated by running a python build command. Ensure your active directory is the python directory, and run the following command:
-```bash
-python -m build
-```
-
-This outputs two files, a .tar.gz file and a .whl file. Either of these can be used to install your package from the locally generated copy using pip
-```bash
-pip install .\dist\ares_datamodel-0.10.0b2.tar.gz
-```
-Alternatively, you can install an editable version of the library using pip's -e argument.
-```bash
-pip install -e \path\to\ares-datamodel\python
-```
-
-<a id="versioning--releases"></a>
-## 🧩 Versioning & Releases
-
-This project follows Semantic Versioning (SemVer), with tags like v0.13.2-beta.1.
-
-Each release represents a stable snapshot of the Protobuf definitions and generated artifacts.
-Consumers should reference a specific release tag to ensure schema compatibility.
-
-| Change Type | Example           | Impact                                |
-| ----------- | ----------------- | ------------------------------------- |
-| **Patch**   | `v1.0.1 → v1.0.2` | Minor, non-breaking fixes             |
-| **Minor**   | `v1.0.0 → v1.1.0` | Additive, backward-compatible changes |
-| **Major**   | `v1.0.0 → v2.0.0` | Breaking schema or service changes    |
-
-<a id="contributing"></a>
-## 🤝 Contributing
-Contributions are welcome! To propose schema or code generation updates:
-1. Fork the repository
-2. Create a branch (feature/new-message or fix/typo)
-3. Update or add .proto definitions
-4. Regenerate code and ensure it builds
-5. Submit a Pull Request describing:
-   - The purpose of the change
-   - Whether it introduces breaking changes
-   - Migration or downstream impact
-
-Please maintain consistent naming and field numbering to preserve backward compatibility.
 
 <a id="license"></a>
 ## ⚖️ License
+
 This project, as well as the rest of the ARES software, is licensed under the MIT License. <br></br>
 The ARES Datamodel has been cleared for release under clearance number AFRL-2025-5329.
 
 <a id="contact"></a>
 ## 📬 Contact
+
 For questions, bug reports, or schema proposals please open an issue in this repository with a detailed description of your problem, and how to reproduce it if applicable.
-
-

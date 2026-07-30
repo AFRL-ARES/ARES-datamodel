@@ -8,6 +8,7 @@ import "analyzing/analysis.proto";
 message AnalysisOverview {
     optional string unique_id = 1;
     string experiment_overview_id = 2;
-    repeated analyzing.Objective result = 3;
+    double result = 3 [deprecated = true];
     analyzing.AnalyzerInfo analyzer_info = 4;
+    repeated analyzing.Objective objectives = 5; 
 }

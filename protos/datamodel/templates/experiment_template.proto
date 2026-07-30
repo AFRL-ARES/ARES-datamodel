@@ -5,12 +5,13 @@ package ares.datamodel.templates;
 import "templates/step_template.proto";
 
 message ExperimentTemplate {
-  	optional string unique_id = 1; // A unique id for this template
+  optional string unique_id = 1; // A unique id for this template
 	repeated StepTemplate step_templates = 2; // Collection of step templates used to generate executable steps
 	string name = 3; // Name of the experiment, most likely automatically generated relative to the campaign name
 	optional string analyzer_id = 4; // the analyzer assigned to this template
 	// The mapping of the analyzer input keys to the user output variable
 	// if output is a struct it should be written like "variable.field1.field2..."
 	map<string, string> analyzer_maps = 5;
-	bool resolved = 6; // Indicates whether or not this template has been processed and thus should not have any metadata, only executable stuff. 
+	bool resolved = 6; // Indicates whether or not this template has been processed and thus should not have any metadata, only executable stuff.
+	repeated string plan_objectives = 7; // A collection of strings that specifies what objectives should be provided to the planner
 }

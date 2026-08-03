@@ -5,9 +5,11 @@ package ares.datamodel;
 import "google/protobuf/duration.proto";
 
 message AresGeneralSettingsConfig {
-  string unique_id = 1;
-  int32 experiment_retry_limit = 2;
-  int32 command_retry_limit = 3;
-  google.protobuf.Duration retry_cooldown = 4;
-  google.protobuf.Duration command_latency = 5;
+  string unique_id = 1; // A Unique ID to be associated with the config 
+  int32 experiment_retry_limit = 2; // A limit on how many times an experiment will be automatically retried, prevents endless looping on failure
+  int32 command_retry_limit = 3; // A limit on how many times a command will be automatically retried, prevents endless looping on failure
+  google.protobuf.Duration retry_cooldown = 4; // A duration value that sets how long ARES waits before retrying commands and experiments
+  google.protobuf.Duration command_latency = 5; // A duration value taht sets a universal time delay between commands being executed
+  bool display_compatability_warnings = 6; // A boolean value that determines whether ARES sends compatability warnings about external services
+  bool display_data_collection_widget = 7; // A boolean value that determines whether the data collection widget appears on the dashboard of ARES
 }

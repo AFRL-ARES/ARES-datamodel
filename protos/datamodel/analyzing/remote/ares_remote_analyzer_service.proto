@@ -15,10 +15,11 @@ import "connection/connection_state.proto";
 // defines a contract for ares to use in order to talk to a remote analyzer
 // designed to be similar to the internal ARES analyzer implementation
 service AresRemoteAnalyzerService {
-	rpc Analyze(AnalysisRequest) returns (Analysis);
+	rpc Analyze(AnalysisRequest) returns (AnalysisResponse);
 	rpc GetAnalyzerCapabilities(google.protobuf.Empty) returns (AnalyzerCapabilities);
 	rpc ValidateInputs(ParameterValidationRequest) returns (ParameterValidationResult);
 	rpc GetAnalysisParameters(google.protobuf.Empty) returns (AnalysisParametersResponse);
+	rpc GetAnalysisObjectives(google.protobuf.Empty) returns (AnalysisObjectivesResponse);
 
 	rpc GetConnectionStatus(google.protobuf.Empty) returns (connection.ConnectionStatus);
 	rpc GetState(google.protobuf.Empty) returns (connection.StateResponse);
@@ -41,6 +42,10 @@ message AnalysisRequest {
 }
 
 message AnalysisParametersResponse {
+	AresStructSchema parameter_schema = 1;
+}
+
+message AnalysisObjectivesResponse {
 	AresStructSchema parameter_schema = 1;
 }
 

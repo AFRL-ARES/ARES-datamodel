@@ -13,7 +13,8 @@ message AnalyzerTransaction {
   string analyzer_version = 4;
   string analyzer_id = 5;
   analyzing.remote.AnalysisRequest analysis_request = 6;
-  Analysis analysis_response = 7;
+  Analysis analysis_response = 7 [deprecated = true];
   google.protobuf.Timestamp time_request_sent = 8;
   google.protobuf.Timestamp time_response_received = 9;
+  AnalysisResponse analyzer_response = 10;
 }

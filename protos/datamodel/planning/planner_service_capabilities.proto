@@ -12,4 +12,5 @@ message PlannerServiceCapabilities {
   repeated planning.Planner available_planners = 3; // The planners this service is capable of utilizing
   AresStructSchema settings_schema = 4; // Settings associated with this planner
   repeated AresDataType accepted_types = 5; // The parameter types this planner can accept
+  bool multi_objective_capable = 6; // A boolean value that indicates whether this planner is capable of handling multi-objective campaigns
 }

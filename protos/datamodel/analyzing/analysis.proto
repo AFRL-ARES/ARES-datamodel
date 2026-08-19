@@ -2,10 +2,24 @@ syntax = "proto3";
 
 package ares.datamodel.analyzing;
 
+import "ares_struct.proto";
 import "ares_outcome_enum.proto";
 
 message Analysis {
-	float result = 1; // Result of the analysis performed on the given inputs
+	option deprecated = true;
+	float result = 1;// Result of the analysis performed on the given inputs
 	Outcome analysis_outcome = 2; // Whether or not the analysis was successful
-	optional string error_string = 3; // A string that should be populated when the analysis was not successful
+	optional string error_string = 3; // A string that should be populated when the analysis was not successful  
+}
+
+message AnalysisResponse {
+	repeated Objective objectives = 1; // A list of objectives returned by the analysis process
+	Outcome analysis_outcome = 2; // An enum value used to indicate whether or not analysis succeeded
+	optional string error_string = 3; // An optional string for passing error information back to ARES on analysis failures
+}
+
+message Objective {
+	string objective_name = 1; // A name the user wants associated with this objective
+	AresValue objective_value = 2; // The value associated with this objective, as caluclated by the analyzer
+	optional AresStruct objective_metadata = 3; // Optional field for users to add various pieces of metadata as needed
 }

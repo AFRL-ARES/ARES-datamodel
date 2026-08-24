@@ -5,9 +5,10 @@ package ares.datamodel;
 import "google/protobuf/timestamp.proto";
 
 message RequestMetadata {
-  string system_name = 1;
-  string campaign_name = 2;
-  string campaign_id = 3;
-  string experiment_id = 4;
-  google.protobuf.Timestamp experiment_start_time = 5;
+  string system_name = 1; // The name of the system sending the request, usually "ARES OS"
+  string campaign_name = 2; // The name of the campaign the request is associated with
+  string campaign_id = 3; // The UUID of the campaign associated with this request as a string
+  string experiment_id = 4; // The UUID of the experiment associated with this request as a string
+  google.protobuf.Timestamp experiment_start_time = 5; // The start time of the associated experiment
+  google.protobuf.Timestamp campaign_start_time = 6; // The start time of the associated campaign
 }

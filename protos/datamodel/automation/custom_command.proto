@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package ares.datamodel.automation;
+
+import "ares_data_schema.proto";
+import "automation/custom_command_parameter.proto";
+
+message CustomCommand {
+  string unique_id = 1;
+  string current_version_id = 2;
+}
+
+message CustomCommandVersion {
+  string unique_id = 1;
+  string custom_command_id = 2;
+  int64 version_number = 3;
+  string name = 4;
+  string description = 5;
+  repeated CustomCommandParameter input_parameters = 6;
+  AresValueSchema output_schema = 7;
+  string script_body = 8;
+}

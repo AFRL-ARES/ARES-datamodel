@@ -24,6 +24,8 @@ message AresNotification {
 	Severity notification_severity = 3;
 	google.protobuf.Timestamp timestamp = 4;
 	bool loiter = 5;
+	bool is_read = 6;
+	string unique_id = 7;
 }
 
 enum Severity {

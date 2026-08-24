@@ -7,4 +7,5 @@ import "ares_data_schema.proto";
 message AnalyzerCapabilities {
   int64 timeout_seconds = 1; // The timeout, in seconds, that ARES will wait to receive a response from the service
   AresStructSchema settings_schema = 2; // The settings associated with this adapter. Used to tell ARES what settings are available. Can be null.
+  AresStructSchema objective_output_schema = 3; // An AresStructSchema used to define the objectives output from a successful analysis call to this analyzer
 }

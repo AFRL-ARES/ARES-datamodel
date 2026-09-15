@@ -204,6 +204,7 @@ public class EntryBuilder
     if(_entry.Type != AresDataType.String)
       throw new InvalidOperationException("Cannot add string choices to a non-string entry.");
 
+    _entry.StringChoices = new StringArray();
     _entry.StringChoices.Strings.AddRange(choices);
     return this;
   }
@@ -213,6 +214,7 @@ public class EntryBuilder
     if(_entry.Type != AresDataType.Number && _entry.Type != AresDataType.Float && _entry.Type != AresDataType.Int)
       throw new InvalidOperationException("Cannot add number choices to a non-number entry.");
 
+    _entry.NumberChoices = new NumberArray();
     _entry.NumberChoices.Numbers.AddRange(choices);
     return this;
   }

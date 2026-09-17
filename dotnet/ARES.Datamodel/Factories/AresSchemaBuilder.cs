@@ -201,7 +201,7 @@ public class EntryBuilder
     if(_entry.Type == AresDataType.Any) 
       _entry.Type = AresDataType.String;
 
-    if(_entry.Type != AresDataType.String)
+    if(_entry.Type != AresDataType.String && _entry.Type != AresDataType.StringArray)
       throw new InvalidOperationException("Cannot add string choices to a non-string entry.");
 
     _entry.StringChoices = new StringArray();

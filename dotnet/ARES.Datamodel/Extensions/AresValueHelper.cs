@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+using UnitsNet;
 
 namespace Ares.Datamodel.Extensions;
 
@@ -271,6 +272,38 @@ public static class AresValueHelper
       default:
         return false;
     }
+  }
+
+  public static bool IsNumericType(this AresValue value)
+    => IsNumericType(value.GetAresDataType());
+
+  public static bool IsNumericType(this AresDataType dataType)
+  {
+    switch(dataType)
+    {
+      case AresDataType.Number:
+        return true;
+
+      case AresDataType.Int:
+        return true;
+
+      case AresDataType.Float:
+        return true;
+
+      default:
+        return false;
+    }
+  }
+
+  public static bool AreCompatibleDataTypes(AresDataType dataTypeOne, AresDataType dataTypeTwo)
+  {
+    if(dataTypeOne == dataTypeTwo)
+      return true;
+
+    if(dataTypeOne.IsNumericType() && dataTypeTwo.IsNumericType())
+      return true;
+
+    return false;
   }
 
   public static bool TryGetNumericValue(this AresValue value, out double number)

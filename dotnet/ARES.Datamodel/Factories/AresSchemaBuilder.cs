@@ -209,6 +209,12 @@ public class EntryBuilder
     return this;
   }
 
+  public EntryBuilder WithDefaultValue(AresValue defaultValue)
+  {
+    _entry.DefaultValue = defaultValue;
+    return this;
+  }
+
   public EntryBuilder WithChoices(params double[] choices)
   {
     if(_entry.Type != AresDataType.Number && _entry.Type != AresDataType.Float && _entry.Type != AresDataType.Int)

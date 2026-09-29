@@ -12,4 +12,5 @@ message AresGeneralSettingsConfig {
   google.protobuf.Duration command_latency = 5; // A duration value taht sets a universal time delay between commands being executed
   bool display_compatability_warnings = 6; // A boolean value that determines whether ARES sends compatability warnings about external services
   bool display_data_collection_widget = 7; // A boolean value that determines whether the data collection widget appears on the dashboard of ARES
+  bool hide_demo_mode_intro = 8; // A boolean value that determines whether the demo mode intro should be hidden when launching with the demo flag
 }

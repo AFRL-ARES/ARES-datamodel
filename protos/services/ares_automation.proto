@@ -51,7 +51,9 @@ service AresAutomation {
 	rpc GetPlanningBatchSize(google.protobuf.Empty) returns (PlanningBatchSize);
 	rpc SetPlanningBatchSize(PlanningBatchSize) returns (google.protobuf.Empty); 
 	rpc SetAnalysisResultStopCondition(AnalysisResultCondition) returns (google.protobuf.Empty);
+	rpc AddAnalysisResultStopConditions(AddAnalysisResultConditionsRequest) returns (google.protobuf.Empty);
 	rpc SetPlannerLeadStopCondition(google.protobuf.Empty) returns (google.protobuf.Empty);
+	rpc ClearStopConditions(google.protobuf.Empty) returns (google.protobuf.Empty);
 	rpc GetActiveStopCondition(google.protobuf.Empty) returns (ExperimentStopConditionResponse);
 	rpc RemoveStopCondition(StartStopCondition) returns (google.protobuf.Empty);
 	// Gets a stream of experiment execution statuses that can be observed in real time as experiment is running
@@ -186,4 +188,8 @@ message GetCopyOfCampaignResponse {
 
 message UserDecisionRequest {
 	datamodel.ErrorHandling decision = 1;
+}
+
+message AddAnalysisResultConditionsRequest {
+	repeated AnalysisResultCondition conditions = 1;
 }

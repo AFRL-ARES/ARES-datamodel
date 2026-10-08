@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel.visualizing;
+
+import "visualizing/visualizer_info.proto";
+
+message VisualizerAllocation {
+  optional string unique_id = 1; // A unique id for this entity
+  VisualizerInfo visualizer = 2; // The analyzer assigned to create a visual
+  string requested_visual = 3; // The name of the visual specifically requested
+  map<string, string> visualization_maps = 4; // Mappings that pair the inputs required by the visualizer with the outputs of the experiment
+  string user_provided_identifier = 5; // A user provided name to identify this visual
+}

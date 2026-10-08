@@ -34,6 +34,7 @@ message ExperimentExecutionSummary {
   ExecutionInfo execution_info = 4;
   ExperimentOverview experiment_overview = 5;
   string result_output_path = 6;
+  map<string, string> generated_visuals = 7;
 }
 
 message StepExecutionSummary {

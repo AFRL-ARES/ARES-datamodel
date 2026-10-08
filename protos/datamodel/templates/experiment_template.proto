@@ -3,6 +3,7 @@ syntax = "proto3";
 package ares.datamodel.templates;
 
 import "templates/step_template.proto";
+import "visualizing/visualizer_allocation.proto";
 
 message ExperimentTemplate {
   optional string unique_id = 1; // A unique id for this template
@@ -14,4 +15,5 @@ message ExperimentTemplate {
 	map<string, string> analyzer_maps = 5;
 	bool resolved = 6; // Indicates whether or not this template has been processed and thus should not have any metadata, only executable stuff.
 	repeated string plan_objectives = 7; // A collection of strings that specifies what objectives should be provided to the planner
+	repeated visualizing.VisualizerAllocation visualizer_allocations = 8; // A collection of allocations that specify what visuals should be created with the experiment and how to do so
 }

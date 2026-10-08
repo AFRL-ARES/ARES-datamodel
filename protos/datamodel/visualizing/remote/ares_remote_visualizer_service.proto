@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package ares.datamodel.visualizing.remote;
+
+import "google/protobuf/empty.proto";
+import "visualizing/visualizer_capabilities.proto";
+import "connection/connection_status.proto";
+import "connection/connection_info.proto";
+import "connection/connection_state.proto";
+import "ares_data_schema.proto";
+import "ares_struct.proto";
+
+// Defines a contract for ARES to use when talking to a Plotly based visualization service
+service RemoteVisualizerService {
+  rpc GetVisualizationOptions(google.protobuf.Empty) returns (VisualizationOptionsResponse);
+  rpc RequestUpdatedVisualization(GetUpdatedVisualRequest) returns (GetUpdatedVisualResponse);
+  rpc StreamPlotlyVisualization(GetUpdatedVisualRequest) returns (stream GetUpdatedVisualResponse);
+
+  rpc GetConnectionStatus(google.protobuf.Empty) returns (connection.ConnectionStatus);
+  rpc GetState(google.protobuf.Empty) returns (connection.StateResponse);
+  rpc GetInfo(google.protobuf.Empty) returns (connection.InfoResponse);
+}
+
+message VisualizationOptionsResponse {
+  repeated VisualizationOption visualization_options = 1;
+}
+
+message VisualizationOption {
+  string visualization_name = 1;
+  AresStructSchema visualization_input_schema = 2;
+  AresStructSchema visualization_settings_schema = 3;
+  string chart_type = 4;
+}
+
+message GetUpdatedVisualRequest {
+  string visualization_name = 1;
+  repeated VisualizationDataPoint visualization_data = 2;
+}
+
+message GetUpdatedVisualResponse {
+  string chart_json_data = 1;
+}
+
+message VisualizationDataPoint {
+  int32 index = 1;
+  AresStruct values = 2;
+}

@@ -1,6 +1,5 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-using UnitsNet;
 
 namespace Ares.Datamodel.Extensions;
 
@@ -211,6 +210,49 @@ public static class AresValueHelper
     };
   }
 
+  public static AresValue CreateDefaultValue(AresValueSchema schema)
+  {
+    switch(schema.Type)
+    {
+      case AresDataType.Struct:
+        var structure = new AresStruct();
+
+        foreach(var field in schema.StructSchema?.Fields ?? [])
+          structure.Fields[field.Key] = CreateDefaultValue(field.Value);
+
+        return AresValueHelper.CreateStruct(structure);
+
+      case AresDataType.List:
+        return AresValueHelper.CreateList();
+
+      case AresDataType.Any:
+        return AresValueHelper.CreateAnyAresValue(AresValueHelper.CreateNull());
+
+      case AresDataType.UnspecifiedType:
+      case AresDataType.Null:
+        return AresValueHelper.CreateNull();
+
+      case AresDataType.Boolean:
+      case AresDataType.String:
+      case AresDataType.Number:
+      case AresDataType.StringArray:
+      case AresDataType.NumberArray:
+      case AresDataType.ByteArray:
+      case AresDataType.Unit:
+      case AresDataType.Function:
+      case AresDataType.Quantity:
+      case AresDataType.Timestamp:
+      case AresDataType.Float:
+      case AresDataType.Int:
+      case AresDataType.IntArray:
+      case AresDataType.FloatArray:
+        return AresValueHelper.CreateDefault(schema.Type);
+
+      default:
+        throw new ArgumentOutOfRangeException(nameof(schema.Type), schema.Type, null);
+    }
+  }
+
   public static AresValue CreateDefault(AresDataType dataType, IEnumerable<string>? choices = null)
   {
     return dataType switch
@@ -375,4 +417,7 @@ public static class AresValueHelper
       _ => AresDataType.UnspecifiedType
     };
   }
+
+  public static AresValue CreateAnyAresValue(AresValue value)
+    => new AresValue() { AnyValue = value };
 }

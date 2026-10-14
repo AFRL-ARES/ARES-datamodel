@@ -30,6 +30,7 @@ message AresValue {
 		int64 int_value = 15;
 		IntArray int_array_value = 16;
 		FloatArray float_array_value = 17;
+		AresValue any_value = 18;
 	}
 }
 

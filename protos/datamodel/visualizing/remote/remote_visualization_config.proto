@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ares.datamodel.visualizing.remote;
+
+message RemoteVisualizationConfig {
+  optional string unique_id = 1; //A unique id for this config
+  string chart_title = 2; //Title associated with the chart, provided by the user
+  optional string visualizer_id = 3; // The ID of the visualizer providing the chart data
+  optional string requested_visual = 4; // The name of the requested visual from the visualizer
+  int32 grid_x = 5 ;  // Column position
+  int32 grid_y = 6; // Row position
+  int32 grid_w = 7; // Widget width
+  int32 grid_h = 8; // Widget height
+}

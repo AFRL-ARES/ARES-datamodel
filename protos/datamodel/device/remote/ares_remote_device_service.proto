@@ -60,7 +60,15 @@ message StateSchemaResponse {
 }
 
 message DeviceStateResponse {
-  AresStruct state = 1;
+  AresStruct state = 1 [deprecated = true];
+  repeated StateEntry device_state_data = 2;
+}
+
+message StateEntry {
+  string name = 1;
+  AresValue value = 2;
+  bool display_in_ui = 3;
+  int32 index = 4;
 }
 
 message ExecuteCommandRequest {

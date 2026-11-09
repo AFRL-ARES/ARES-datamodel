@@ -3,10 +3,12 @@ syntax = "proto3";
 package ares.datamodel.device;
 
 import "ares_data_schema.proto";
+import "device/device_command_ui_descriptor.proto";
 
 message DeviceCommandDescriptor {
   string name = 1; // the name for the command
   string description = 2; // what does this command do
   AresStructSchema input_schema = 5; // what does this command need
   AresValueSchema output_schema = 4; // can be set if the command provides an output
+  repeated WidgetDescriptor widget_descriptors = 6; // An optional set of descriptors for a UI display
 }

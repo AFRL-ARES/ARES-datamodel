@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+enum WidgetType {
+  WIDGET_UNSPECIFIED = 0;
+  NUMERIC_INPUT = 1;
+  NUMERIC_SLIDER = 2;
+  BOOLEAN_TOGGLE = 3;
+  STRING_INPUT = 4;
+  DROPDOWN = 5;
+  READ_ONLY = 6;
+}

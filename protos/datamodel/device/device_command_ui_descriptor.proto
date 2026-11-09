@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package ares.datamodel.device;
+
+import "device/ares_ui_widget_enum.proto";
+
+message WidgetDescriptor {
+  string associated_input = 1;
+  WidgetType widget_type = 2;
+  float slider_step_size = 3;
+}

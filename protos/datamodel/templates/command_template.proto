@@ -5,6 +5,7 @@ package ares.datamodel.templates;
 import "templates/parameter.proto";
 import "templates/command_metadata.proto";
 import "templates/system_operations.proto";
+import "ares_data_schema.proto";
 
 message CommandTemplate {
 	optional string unique_id = 1; // A unique id for this template
@@ -28,4 +29,19 @@ message SystemCommand {
 
 message CustomCommandInvocation {
 	string custom_command_id = 1;
+	CustomCommandRequirement requirement = 2;
+}
+
+message CustomCommandRequirement {
+  string name = 1;
+  string description = 2;
+  repeated CustomCommandParameterRequirement input_parameters = 3;
+  optional AresValueSchema output_schema = 4;
+}
+
+message CustomCommandParameterRequirement {
+  optional string unique_id = 1;
+	string name = 2;
+  int32 index = 3;
+  AresValueSchema schema = 4;
 }

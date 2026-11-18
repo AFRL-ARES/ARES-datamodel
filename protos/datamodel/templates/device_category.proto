@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package ares.datamodel.templates;
+
+enum DeviceCategory {
+  DEVICE_CATEGORY_UNSPECIFIED = 0;
+  DEVICE_CATEGORY_NATIVE_PLUGIN = 1;
+  DEVICE_CATEGORY_REMOTE = 2;
+  DEVICE_CATEGORY_SILA = 3;
+}
